@@ -1,0 +1,82 @@
+{
+  "name": "@frost/p256",
+  "version": "0.2.2",
+  "type": "module",
+  "description": "FROST(P-256, SHA-256) - A Schnorr signature scheme over P-256 that supports FROST threshold signatures",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Leonardo Custodio",
+      "email": "leonardo.custodio@parity.io",
+      "url": "https://github.com/leonardocustodio"
+    }
+  ],
+  "homepage": "https://github.com/leonardocustodio/frost",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leonardocustodio/frost",
+    "directory": "frost-typescript/packages/p256"
+  },
+  "bugs": {
+    "url": "https://github.com/leonardocustodio/frost/issues"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "browser": "dist/index.iife.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint 'src/**/*.ts' 'tests/**/*.ts'",
+    "lint:fix": "eslint 'src/**/*.ts' 'tests/**/*.ts' --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "docs": "typedoc",
+    "prepublishOnly": "npm run clean && npm run build && npm test"
+  },
+  "keywords": [
+    "frost",
+    "p256",
+    "secp256r1",
+    "nist-p256",
+    "threshold-signatures",
+    "schnorr",
+    "cryptography",
+    "sha256",
+    "mpc",
+    "signature"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@frost/core": "workspace:*",
+    "@frost/rerandomized": "workspace:*",
+    "@noble/curves": "^1.8.2",
+    "@noble/hashes": "^1.7.3"
+  },
+  "devDependencies": {
+    "@frost/eslint": "workspace:*",
+    "@frost/tsconfig": "workspace:*",
+    "@types/node": "^25.0.10",
+    "eslint": "^9.39.2",
+    "tsdown": "^0.20.1",
+    "typedoc": "^0.28.5",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}
