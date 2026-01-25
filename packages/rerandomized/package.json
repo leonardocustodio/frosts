@@ -21,15 +21,15 @@
     "url": "https://github.com/leonardocustodio/frost/issues"
   },
   "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.mts",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "browser": "dist/index.iife.js",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
       "require": "./dist/index.cjs",
-      "default": "./dist/index.mjs"
+      "default": "./dist/index.js"
     }
   },
   "files": [

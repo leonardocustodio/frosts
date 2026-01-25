@@ -256,7 +256,7 @@ export function sign<C extends Ciphersuite>(
 
   const bindingFactor = bindingFactorList.get(processedKeyPackage.identifier);
   if (bindingFactor === undefined) {
-    throw new UnknownIdentifierError(processedKeyPackage.identifier);
+    throw new UnknownIdentifierError(processedKeyPackage.identifier as Identifier<C>);
   }
 
   // Apply any ciphersuite-specific pre-commitment processing
@@ -278,7 +278,7 @@ export function sign<C extends Ciphersuite>(
   // Compute Lagrange coefficient
   const lambdaI = deriveInterpolatingValue(
     ciphersuite,
-    processedKeyPackage.identifier,
+    processedKeyPackage.identifier as Identifier<C>,
     finalSigningPackage,
   );
 
@@ -301,14 +301,14 @@ export function sign<C extends Ciphersuite>(
     ) ??
     computeSignatureShare(
       ciphersuite,
-      finalSignerNonces,
+      finalSignerNonces as SigningNonces<C>,
       bindingFactor,
       lambdaI,
-      processedKeyPackage,
+      processedKeyPackage as KeyPackage<C>,
       challenge,
     );
 
-  return signatureShare;
+  return signatureShare as SignatureShare<C>;
 }
 
 /**

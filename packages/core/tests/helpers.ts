@@ -3,14 +3,10 @@
  * Ported from frost-core/src/tests/helpers.rs
  */
 
-import type { Ciphersuite } from "../src/index.js";
+import type { Ciphersuite, CryptoRng } from "../src/index.js";
 
-/**
- * Random number generator interface matching crypto RNG requirements.
- */
-export interface CryptoRng {
-  randomBytes(length: number): Uint8Array;
-}
+// Re-export CryptoRng for test files
+export type { CryptoRng };
 
 /**
  * Helper function for randomly generating an element.
@@ -37,14 +33,32 @@ export function createTestRng(seed: Uint8Array): CryptoRng {
   const seedArray = new Uint8Array(seed);
 
   return {
-    randomBytes(length: number): Uint8Array {
-      const result = new Uint8Array(length);
-      for (let i = 0; i < length; i++) {
+    fill(buffer: Uint8Array): void {
+      for (let i = 0; i < buffer.length; i++) {
         // Simple deterministic byte generation based on seed and counter
-        result[i] = (seedArray[i % seedArray.length] + counter + i) % 256;
+        buffer[i] = (seedArray[i % seedArray.length] + counter + i) % 256;
       }
       counter++;
-      return result;
+    },
+    nextU32(): number {
+      const result = (seedArray[counter % seedArray.length] << 24) |
+                     (seedArray[(counter + 1) % seedArray.length] << 16) |
+                     (seedArray[(counter + 2) % seedArray.length] << 8) |
+                     seedArray[(counter + 3) % seedArray.length];
+      counter++;
+      return result >>> 0;
+    },
+    nextU64(): bigint {
+      const lo = BigInt((seedArray[counter % seedArray.length] << 24) |
+                        (seedArray[(counter + 1) % seedArray.length] << 16) |
+                        (seedArray[(counter + 2) % seedArray.length] << 8) |
+                        seedArray[(counter + 3) % seedArray.length] >>> 0);
+      const hi = BigInt((seedArray[(counter + 4) % seedArray.length] << 24) |
+                        (seedArray[(counter + 5) % seedArray.length] << 16) |
+                        (seedArray[(counter + 6) % seedArray.length] << 8) |
+                        seedArray[(counter + 7) % seedArray.length] >>> 0);
+      counter += 2;
+      return (hi << 32n) | lo;
     },
   };
 }
@@ -54,15 +68,33 @@ export function createTestRng(seed: Uint8Array): CryptoRng {
  */
 export function createSecureRng(): CryptoRng {
   return {
-    randomBytes(length: number): Uint8Array {
-      const result = new Uint8Array(length);
+    fill(buffer: Uint8Array): void {
       if (typeof globalThis.crypto !== "undefined" && globalThis.crypto.getRandomValues !== undefined) {
-        globalThis.crypto.getRandomValues(result);
+        globalThis.crypto.getRandomValues(buffer);
       } else {
         // Node.js environment - use crypto.getRandomValues which is available in modern Node
         throw new Error("No secure random source available - Web Crypto API required");
       }
-      return result;
+    },
+    nextU32(): number {
+      const buffer = new Uint8Array(4);
+      if (typeof globalThis.crypto !== "undefined" && globalThis.crypto.getRandomValues !== undefined) {
+        globalThis.crypto.getRandomValues(buffer);
+      } else {
+        throw new Error("No secure random source available - Web Crypto API required");
+      }
+      return (buffer[0] << 24) | (buffer[1] << 16) | (buffer[2] << 8) | buffer[3];
+    },
+    nextU64(): bigint {
+      const buffer = new Uint8Array(8);
+      if (typeof globalThis.crypto !== "undefined" && globalThis.crypto.getRandomValues !== undefined) {
+        globalThis.crypto.getRandomValues(buffer);
+      } else {
+        throw new Error("No secure random source available - Web Crypto API required");
+      }
+      const lo = BigInt((buffer[0] << 24) | (buffer[1] << 16) | (buffer[2] << 8) | buffer[3] >>> 0);
+      const hi = BigInt((buffer[4] << 24) | (buffer[5] << 16) | (buffer[6] << 8) | buffer[7] >>> 0);
+      return (hi << 32n) | lo;
     },
   };
 }

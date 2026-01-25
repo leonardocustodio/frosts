@@ -15,6 +15,7 @@ import type { SigningCommitments } from "./round1";
 interface IdentifierLike<C extends Ciphersuite> {
   toScalar(): C["Scalar"];
   clone(): IdentifierLike<C>;
+  serialize(): Uint8Array;
 }
 
 /**

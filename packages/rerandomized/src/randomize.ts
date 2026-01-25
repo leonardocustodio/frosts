@@ -7,7 +7,7 @@
  * @module randomize
  */
 
-import type { Ciphersuite, Element } from "@frost/core";
+import type { Ciphersuite } from "@frost/core";
 import { KeyPackage, PublicKeyPackage, SigningShare, VerifyingShare } from "@frost/core";
 import type { RandomizedParams } from "./params.js";
 

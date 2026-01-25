@@ -312,7 +312,7 @@ export function checkShareGenerationFailsWithInvalidSigners<C extends Ciphersuit
   _ciphersuite: C,
   _minSigners: number,
   _maxSigners: number,
-  _expectedError: FrostError,
+  _expectedError: FrostError<C>,
   _rng: CryptoRng,
 ): void {
   // Implementation will be added when types are available

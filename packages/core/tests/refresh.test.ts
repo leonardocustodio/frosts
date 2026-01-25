@@ -187,7 +187,7 @@ export function checkRefreshSharesWithDealer<C extends Ciphersuite>(
 export function checkRefreshSharesWithDealerFailsWithInvalidSigners<C extends Ciphersuite>(
   _ciphersuite: C,
   _identifiers: Identifier<C>[],
-  _expectedError: FrostError,
+  _expectedError: FrostError<C>,
   _rng: CryptoRng,
 ): void {
   // Implementation will be added when types are available
