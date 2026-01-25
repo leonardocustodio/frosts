@@ -967,7 +967,9 @@ export class PublicKeyPackage<C extends Ciphersuite> {
   ): Promise<PublicKeyPackage<C>> {
     // Import dynamically to avoid circular dependency
     const { Identifier: Id } = (await import("./identifier")) as {
-      Identifier: { deserialize: <T extends Ciphersuite>(cs: T, bytes: Uint8Array) => Identifier<T> };
+      Identifier: {
+        deserialize: <T extends Ciphersuite>(cs: T, bytes: Uint8Array) => Identifier<T>;
+      };
     };
 
     const verifyingShares = new Map<string, VerifyingShare<C>>();
@@ -1261,3 +1263,17 @@ function bytesToHex(bytes: Uint8Array): string {
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 }
+
+// DKG type aliases for convenience (re-exported from dkg.ts namespaces)
+import type { round1, round2 } from "./keys/dkg";
+
+/** Type alias for DKG Round 1 Package */
+export type Round1Package<C extends Ciphersuite> = round1.Package<C>;
+/** Type alias for DKG Round 2 Package */
+export type Round2Package<C extends Ciphersuite> = round2.Package<C>;
+/** Type alias for DKG Round 1 Secret Package */
+export type Round1SecretPackage<C extends Ciphersuite> = round1.SecretPackage<C>;
+/** Type alias for DKG Round 2 Secret Package */
+export type Round2SecretPackage<C extends Ciphersuite> = round2.SecretPackage<C>;
+/** Type alias for DKG Secret Package (Round 1) - legacy alias */
+export type SecretPackage<C extends Ciphersuite> = round1.SecretPackage<C>;

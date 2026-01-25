@@ -13,25 +13,21 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import type { CryptoRng } from "./helpers.js";
 import { createSecureRng } from "./helpers.js";
-import { checkPart3DifferentParticipants } from "./ciphersuite-generic.test.js";
 
 // Types will be imported from actual implementation once available
 import type {
   Ciphersuite,
   Identifier,
-  KeyPackage,
-  SecretShare,
-  PublicKeyPackage,
   Signature,
   VerifyingKey,
   Error as FrostError,
 } from "../src/index.js";
 
 describe("Share Refresh", () => {
-  let rng: CryptoRng;
+  let _rng: CryptoRng;
 
   beforeEach(() => {
-    rng = createSecureRng();
+    _rng = createSecureRng();
   });
 
   describe("Refresh with Trusted Dealer", () => {

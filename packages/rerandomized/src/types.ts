@@ -27,7 +27,7 @@ export interface RandomizedCiphersuite extends Ciphersuite {
    * @param m - The input bytes to hash
    * @returns The randomizer scalar, or null if hashing fails
    */
-  hashRandomizer(m: Uint8Array): Scalar<this> | null;
+  hashRandomizer(m: Uint8Array): this["Scalar"] | null;
 }
 
 /**
@@ -36,6 +36,8 @@ export interface RandomizedCiphersuite extends Ciphersuite {
  * @param ciphersuite - The ciphersuite to check
  * @returns True if the ciphersuite supports rerandomization
  */
-export function isRandomizedCiphersuite(ciphersuite: Ciphersuite): ciphersuite is RandomizedCiphersuite {
+export function isRandomizedCiphersuite(
+  ciphersuite: Ciphersuite,
+): ciphersuite is RandomizedCiphersuite {
   return typeof (ciphersuite as RandomizedCiphersuite).hashRandomizer === "function";
 }

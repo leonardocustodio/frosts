@@ -121,11 +121,7 @@ export interface Field<S = unknown, Ser extends Uint8Array = Uint8Array> {
  * @typeParam E - The element type for this group
  * @typeParam Ser - The serialization type (fixed-length byte array, little-endian)
  */
-export interface Group<
-  F extends Field = Field,
-  E = unknown,
-  Ser extends Uint8Array = Uint8Array,
-> {
+export interface Group<F extends Field = Field, E = unknown, Ser extends Uint8Array = Uint8Array> {
   /**
    * The field instance for this group.
    */

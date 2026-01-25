@@ -41,22 +41,27 @@ export function createTestRng(seed: Uint8Array): CryptoRng {
       counter++;
     },
     nextU32(): number {
-      const result = (seedArray[counter % seedArray.length] << 24) |
-                     (seedArray[(counter + 1) % seedArray.length] << 16) |
-                     (seedArray[(counter + 2) % seedArray.length] << 8) |
-                     seedArray[(counter + 3) % seedArray.length];
+      const result =
+        (seedArray[counter % seedArray.length] << 24) |
+        (seedArray[(counter + 1) % seedArray.length] << 16) |
+        (seedArray[(counter + 2) % seedArray.length] << 8) |
+        seedArray[(counter + 3) % seedArray.length];
       counter++;
       return result >>> 0;
     },
     nextU64(): bigint {
-      const lo = BigInt((seedArray[counter % seedArray.length] << 24) |
-                        (seedArray[(counter + 1) % seedArray.length] << 16) |
-                        (seedArray[(counter + 2) % seedArray.length] << 8) |
-                        seedArray[(counter + 3) % seedArray.length] >>> 0);
-      const hi = BigInt((seedArray[(counter + 4) % seedArray.length] << 24) |
-                        (seedArray[(counter + 5) % seedArray.length] << 16) |
-                        (seedArray[(counter + 6) % seedArray.length] << 8) |
-                        seedArray[(counter + 7) % seedArray.length] >>> 0);
+      const lo = BigInt(
+        (seedArray[counter % seedArray.length] << 24) |
+          (seedArray[(counter + 1) % seedArray.length] << 16) |
+          (seedArray[(counter + 2) % seedArray.length] << 8) |
+          (seedArray[(counter + 3) % seedArray.length] >>> 0),
+      );
+      const hi = BigInt(
+        (seedArray[(counter + 4) % seedArray.length] << 24) |
+          (seedArray[(counter + 5) % seedArray.length] << 16) |
+          (seedArray[(counter + 6) % seedArray.length] << 8) |
+          (seedArray[(counter + 7) % seedArray.length] >>> 0),
+      );
       counter += 2;
       return (hi << 32n) | lo;
     },
@@ -69,7 +74,10 @@ export function createTestRng(seed: Uint8Array): CryptoRng {
 export function createSecureRng(): CryptoRng {
   return {
     fill(buffer: Uint8Array): void {
-      if (typeof globalThis.crypto !== "undefined" && globalThis.crypto.getRandomValues !== undefined) {
+      if (
+        typeof globalThis.crypto !== "undefined" &&
+        globalThis.crypto.getRandomValues !== undefined
+      ) {
         globalThis.crypto.getRandomValues(buffer);
       } else {
         // Node.js environment - use crypto.getRandomValues which is available in modern Node
@@ -78,7 +86,10 @@ export function createSecureRng(): CryptoRng {
     },
     nextU32(): number {
       const buffer = new Uint8Array(4);
-      if (typeof globalThis.crypto !== "undefined" && globalThis.crypto.getRandomValues !== undefined) {
+      if (
+        typeof globalThis.crypto !== "undefined" &&
+        globalThis.crypto.getRandomValues !== undefined
+      ) {
         globalThis.crypto.getRandomValues(buffer);
       } else {
         throw new Error("No secure random source available - Web Crypto API required");
@@ -87,13 +98,20 @@ export function createSecureRng(): CryptoRng {
     },
     nextU64(): bigint {
       const buffer = new Uint8Array(8);
-      if (typeof globalThis.crypto !== "undefined" && globalThis.crypto.getRandomValues !== undefined) {
+      if (
+        typeof globalThis.crypto !== "undefined" &&
+        globalThis.crypto.getRandomValues !== undefined
+      ) {
         globalThis.crypto.getRandomValues(buffer);
       } else {
         throw new Error("No secure random source available - Web Crypto API required");
       }
-      const lo = BigInt((buffer[0] << 24) | (buffer[1] << 16) | (buffer[2] << 8) | buffer[3] >>> 0);
-      const hi = BigInt((buffer[4] << 24) | (buffer[5] << 16) | (buffer[6] << 8) | buffer[7] >>> 0);
+      const lo = BigInt(
+        (buffer[0] << 24) | (buffer[1] << 16) | (buffer[2] << 8) | (buffer[3] >>> 0),
+      );
+      const hi = BigInt(
+        (buffer[4] << 24) | (buffer[5] << 16) | (buffer[6] << 8) | (buffer[7] >>> 0),
+      );
       return (hi << 32n) | lo;
     },
   };

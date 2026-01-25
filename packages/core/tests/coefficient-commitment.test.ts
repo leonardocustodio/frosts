@@ -8,13 +8,13 @@ import type { CryptoRng } from "./helpers.js";
 import { createSecureRng, generateElement, hexToBytes } from "./helpers.js";
 
 // Types will be imported from actual implementation once available
-import type { Ciphersuite, Element, CoefficientCommitment } from "../src/index.js";
+import type { Ciphersuite } from "../src/index.js";
 
 describe("CoefficientCommitment", () => {
-  let rng: CryptoRng;
+  let _rng: CryptoRng;
 
   beforeEach(() => {
-    rng = createSecureRng();
+    _rng = createSecureRng();
   });
 
   describe("Serialization", () => {
@@ -103,7 +103,7 @@ export function checkSerializationOfCoefficientCommitment<C extends Ciphersuite>
   const element = generateElement(ciphersuite, rng);
 
   // Get expected serialization
-  const expected = ciphersuite.group.serialize(element);
+  const _expected = ciphersuite.group.serialize(element);
 
   // Create commitment and serialize
   // const commitment = new ciphersuite.CoefficientCommitment(element);
@@ -127,7 +127,7 @@ export function checkCreateCoefficientCommitment<C extends Ciphersuite>(
   // const expected = new ciphersuite.CoefficientCommitment(element);
 
   // Serialize and deserialize
-  const serializedElement = ciphersuite.group.serialize(element);
+  const _serializedElement = ciphersuite.group.serialize(element);
   // const commitment = ciphersuite.CoefficientCommitment.deserialize(serializedElement);
 
   // Verify they match
@@ -143,7 +143,7 @@ export function checkCreateCoefficientCommitmentError<C extends Ciphersuite>(
 ): void {
   // Get invalid element bytes
   const invalidHex = commitmentHelpers.elements.invalid_element;
-  const serialized = hexToBytes(invalidHex);
+  const _serialized = hexToBytes(invalidHex);
 
   // Attempt to deserialize
   // const result = ciphersuite.CoefficientCommitment.deserialize(serialized);
@@ -160,7 +160,7 @@ export function checkGetValueOfCoefficientCommitment<C extends Ciphersuite>(
   rng: CryptoRng,
 ): void {
   // Generate a random element
-  const element = generateElement(ciphersuite, rng);
+  const _element = generateElement(ciphersuite, rng);
 
   // Create commitment
   // const commitment = new ciphersuite.CoefficientCommitment(element);

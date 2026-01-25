@@ -13,17 +13,16 @@ import { createSecureRng } from "./helpers.js";
 import type {
   Ciphersuite,
   Identifier,
-  SigningKey,
   VerifyingKey,
   Signature,
   Error as FrostError,
 } from "../src/index.js";
 
 describe("Ciphersuite Generic Tests", () => {
-  let rng: CryptoRng;
+  let _rng: CryptoRng;
 
   beforeEach(() => {
-    rng = createSecureRng();
+    _rng = createSecureRng();
   });
 
   describe("Zero Key Validation", () => {

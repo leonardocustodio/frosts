@@ -10,7 +10,13 @@
 import type { Ciphersuite } from "./ciphersuite";
 import type { KeyPackage, VerifyingShare } from "./keys";
 import type { Identifier } from "./identifier";
-import type { Challenge, BindingFactor, SigningPackage, GroupCommitment, BindingFactorList } from "./types";
+import type {
+  Challenge,
+  BindingFactor,
+  SigningPackage,
+  GroupCommitment,
+  BindingFactorList,
+} from "./types";
 import type { SigningNonces, GroupCommitmentShare } from "./round1";
 
 /**

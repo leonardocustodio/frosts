@@ -8,7 +8,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import type { Ciphersuite, Scalar, SigningPackage } from "@frost/core";
+import type { SigningPackage } from "@frost/core";
 import type { Identifier } from "@frost/core";
 import type { SigningCommitments, SigningNonces } from "@frost/core";
 import type { KeyPackage, PublicKeyPackage, SecretShare } from "@frost/core";
@@ -379,6 +379,3 @@ describe("Rerandomized FROST", () => {
     });
   });
 });
-
-// Re-export the config interface
-export type { RerandomizedTestConfig };

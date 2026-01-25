@@ -1,3 +1,3 @@
-import library from "@frost/eslint";
+import createConfig from "@frost/eslint";
 
-export default [...library];
+export default createConfig("./tsconfig.json");

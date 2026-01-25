@@ -12,7 +12,7 @@ import type { Ciphersuite, Identifier, Scalar } from "@frost/core";
 import {
   FrostError,
   SerializableScalar,
-  SigningCommitments,
+  type SigningCommitments,
   encodeGroupCommitments,
   bytesToHex,
 } from "@frost/core";

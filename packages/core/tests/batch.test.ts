@@ -8,18 +8,18 @@ import type { CryptoRng } from "./helpers.js";
 import { createSecureRng } from "./helpers.js";
 
 // These types will be imported from the actual implementation once available
-import type { Ciphersuite, SigningKey, VerifyingKey, Signature } from "../src/index.js";
+import type { Ciphersuite, VerifyingKey, Signature } from "../src/index.js";
 
 // Placeholder for batch verification types
-interface BatchItem<C extends Ciphersuite> {
+interface _BatchItem<C extends Ciphersuite> {
   verifyingKey: VerifyingKey<C>;
   signature: Signature<C>;
   message: Uint8Array;
   verifySingle(): { ok: boolean; error?: Error };
 }
 
-interface BatchVerifier<C extends Ciphersuite> {
-  queue(item: BatchItem<C>): void;
+interface _BatchVerifier<C extends Ciphersuite> {
+  queue(item: _BatchItem<C>): void;
   verify(rng: CryptoRng): { ok: boolean; error?: Error };
 }
 
@@ -30,10 +30,10 @@ interface BatchVerifier<C extends Ciphersuite> {
  * This is more efficient than verifying each signature individually.
  */
 describe("Batch Verification", () => {
-  let rng: CryptoRng;
+  let _rng: CryptoRng;
 
   beforeEach(() => {
-    rng = createSecureRng();
+    _rng = createSecureRng();
   });
 
   it.skip("should verify a batch of valid signatures", () => {

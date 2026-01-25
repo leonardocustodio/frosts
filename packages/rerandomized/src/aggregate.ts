@@ -8,7 +8,7 @@
  */
 
 import type { Ciphersuite, Identifier, SigningPackage } from "@frost/core";
-import { SignatureShare, PublicKeyPackage, Signature } from "@frost/core";
+import { type SignatureShare, type PublicKeyPackage, Signature } from "@frost/core";
 import type { RandomizedParams } from "./params.js";
 import { randomizePublicKeyPackage } from "./randomize.js";
 
@@ -56,7 +56,7 @@ export function aggregate<C extends Ciphersuite>(
   randomizedParams: RandomizedParams<C>,
 ): Signature<C> {
   // Randomize the public key package
-  const randomizedPublicKeyPackage = randomizePublicKeyPackage(
+  const randomizedPublicKeyPackage: PublicKeyPackage<C> = randomizePublicKeyPackage(
     ciphersuite,
     pubkeys,
     randomizedParams,
@@ -71,7 +71,12 @@ export function aggregate<C extends Ciphersuite>(
   // 2. Challenge c = H2(R || verifying_key || message)
   // 3. z = sum of signature shares
   // 4. Return Signature(R, z)
-  return aggregateInternal(ciphersuite, signingPackage, signatureShares, randomizedPublicKeyPackage);
+  return aggregateInternal(
+    ciphersuite,
+    signingPackage,
+    signatureShares,
+    randomizedPublicKeyPackage,
+  );
 }
 
 /**
@@ -94,7 +99,7 @@ function aggregateInternal<C extends Ciphersuite>(
   // Compute binding factors
   const bindingFactorList = ciphersuite.computeBindingFactorList(
     signingPackage,
-    pubkeys.verifyingKey,
+    pubkeys.verifyingKey as C["VerifyingKey"],
     new Uint8Array(0),
   );
 
@@ -102,11 +107,11 @@ function aggregateInternal<C extends Ciphersuite>(
   const groupCommitment = ciphersuite.computeGroupCommitment(signingPackage, bindingFactorList);
 
   // Aggregate the signature shares
-  let z = ciphersuite.scalarZero();
+  let z: C["Scalar"] = ciphersuite.scalarZero() as C["Scalar"];
   for (const [_identifier, share] of signatureShares) {
-    z = ciphersuite.scalarAdd(z, share.toScalar());
+    z = ciphersuite.scalarAdd(z, share.toScalar() as C["Scalar"]) as C["Scalar"];
   }
 
   // Create and return the signature
-  return new Signature(groupCommitment.toElement(), z);
+  return new Signature(groupCommitment.toElement() as C["Element"], z);
 }

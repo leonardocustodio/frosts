@@ -52,13 +52,17 @@ export class NodeCryptoRandomSource implements RandomSource {
 
   private async init(): Promise<void> {
     // Dynamic import to avoid issues in browser environments
-    const cryptoModule = await import("node:crypto");
+    const cryptoModule = (await import("node:crypto")) as {
+      randomFillSync: (buffer: Uint8Array) => void;
+    };
     this.crypto = cryptoModule;
   }
 
   fill(array: Uint8Array): void {
     if (this.crypto === null) {
-      throw new Error("NodeCryptoRandomSource not initialized. Use NodeCryptoRandomSource.create() instead.");
+      throw new Error(
+        "NodeCryptoRandomSource not initialized. Use NodeCryptoRandomSource.create() instead.",
+      );
     }
     this.crypto.randomFillSync(array);
   }

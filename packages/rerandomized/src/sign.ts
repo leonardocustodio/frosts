@@ -10,10 +10,10 @@
 import type { Identifier, SigningPackage } from "@frost/core";
 import {
   sign as frostSign,
-  SigningNonces,
-  KeyPackage,
-  SignatureShare,
-  SigningCommitments,
+  type SigningNonces,
+  type KeyPackage,
+  type SignatureShare,
+  type SigningCommitments,
   VerifyingKey,
 } from "@frost/core";
 import type { RandomizedCiphersuite } from "./types.js";
