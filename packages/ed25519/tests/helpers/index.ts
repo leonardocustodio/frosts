@@ -8,6 +8,7 @@
 
 export * from "./samples.js";
 
+import { ed25519 } from "@noble/curves/ed25519";
 import type { CryptoRng } from "@frost/core";
 
 // Re-export CryptoRng for convenience
@@ -152,17 +153,158 @@ export function arraysEqual(a: Uint8Array, b: Uint8Array): boolean {
   return true;
 }
 
+// ============================================================================
+// Test Vector Interfaces
+// ============================================================================
+
 /**
- * Load test vectors from JSON.
- * This is a helper for loading test vector files.
+ * Interface for test vectors configuration.
+ */
+export interface TestVectorsConfig {
+  MAX_PARTICIPANTS: string;
+  NUM_PARTICIPANTS: string;
+  MIN_PARTICIPANTS: string;
+  name: string;
+  group: string;
+  hash: string;
+}
+
+/**
+ * Interface for participant share in test vectors.
+ */
+export interface ParticipantShare {
+  identifier: number;
+  participant_share: string;
+}
+
+/**
+ * Interface for round one output in test vectors.
+ */
+export interface RoundOneOutput {
+  identifier: number;
+  hiding_nonce_randomness: string;
+  binding_nonce_randomness: string;
+  hiding_nonce: string;
+  binding_nonce: string;
+  hiding_nonce_commitment: string;
+  binding_nonce_commitment: string;
+  binding_factor_input?: string;
+  binding_factor?: string;
+}
+
+/**
+ * Interface for round two output in test vectors.
+ */
+export interface RoundTwoOutput {
+  identifier: number;
+  sig_share: string;
+}
+
+/**
+ * Interface for test vectors inputs.
+ */
+export interface TestVectorsInputs {
+  participant_list: number[];
+  group_secret_key: string;
+  verifying_key_key: string;
+  message: string;
+  share_polynomial_coefficients: string[];
+  participant_shares: ParticipantShare[];
+}
+
+/**
+ * Interface for complete test vectors.
+ */
+export interface TestVectors {
+  config: TestVectorsConfig;
+  inputs: TestVectorsInputs;
+  round_one_outputs: {
+    outputs: RoundOneOutput[];
+  };
+  round_two_outputs: {
+    outputs: RoundTwoOutput[];
+  };
+  final_output: {
+    sig: string;
+  };
+}
+
+/**
+ * Interface for DKG test vectors.
+ */
+export interface DkgTestVectors {
+  config: TestVectorsConfig;
+  inputs: {
+    participant_list: number[];
+    message: string;
+  };
+  round_one_outputs: {
+    outputs: Array<{
+      identifier: number;
+      hiding_nonce: string;
+      binding_nonce: string;
+      hiding_nonce_commitment: string;
+      binding_nonce_commitment: string;
+      [key: string]: unknown;
+    }>;
+  };
+  round_two_outputs: {
+    outputs: RoundTwoOutput[];
+  };
+  final_output: {
+    sig: string;
+  };
+}
+
+/**
+ * Interface for repair share test vectors.
+ */
+export interface RepairShareTestVectors {
+  repair_share: string;
+  helper_1: {
+    identifier: string;
+    signing_share: string;
+  };
+  helper_2: {
+    identifier: string;
+    signing_share: string;
+  };
+  helper_3: {
+    identifier: string;
+    signing_share: string;
+  };
+  participant: {
+    identifier: string;
+    signing_share: string;
+  };
+}
+
+/**
+ * Interface for elements test vectors.
+ */
+export interface ElementsTestVectors {
+  elements: {
+    invalid_element: string;
+  };
+}
+
+/**
+ * Load test vectors from JSON file.
+ * This function loads the test vector JSON files from the helpers directory.
  *
- * @param name - Name of the vector file (without extension)
+ * @param name - Name of the vector file (without extension).
+ *               Valid names: "vectors", "vectors_dkg", "vectors-big-identifier",
+ *                           "repair-share", "elements", "samples"
  * @returns Parsed JSON data
  */
 export async function loadTestVectors(name: string): Promise<unknown> {
-  // In a real implementation, this would load from the vectors files
-  // For now, we'll import them directly in the test files
-  throw new Error(`Test vectors "${name}" not yet implemented`);
+  // Use dynamic import to load JSON files
+  const url = new URL(`./${name}.json`, import.meta.url);
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to load test vectors "${name}": ${response.statusText}`);
+  }
+  return response.json();
 }
 
 /**
@@ -222,6 +364,10 @@ export const VECTORS = {
           "9b116f12589591a7e23fe8048059ab10ab48e67739e7a2fb3890f61a7999478c",
         binding_nonce_commitment:
           "c39b66b7dfccb122da24f13587f9a08c4347cae70046ca15169adf90ba65854d",
+        binding_factor_input:
+          "15d21ccd7ee42959562fc8aa63224c8851fb3ec85a3faf66040d380fb9738673504df914fa965023fb75c25ded4bb260f417de6d32e5c442c6ba313791cc9a4948d6273e8d3511f93348ea7a708a9b862bc73ba2a79cfdfe07729a193751cbc93df7739fd1223d8697dfc21b1679435bafda1f92815944f28d2faf21ded33ae94a16100090ae7d83555c9b2d961e3d5d1b62828e8cb58a88a73cda404f8f725a0100000000000000000000000000000000000000000000000000000000000000",
+        binding_factor:
+          "ff960a65374e216a0918729b153466016664fa980d409bc3f308daa7acb30d0d",
       },
       {
         identifier: 3,
@@ -237,6 +383,10 @@ export const VECTORS = {
           "e679a2a971748ccfaabead4dbe8ac1def61275c186c79d471e1e45091ad1e687",
         binding_nonce_commitment:
           "b2a942478453fabb6bd3181c56ba657413447b4136e1daea2484d396d1a516b3",
+        binding_factor_input:
+          "15d21ccd7ee42959562fc8aa63224c8851fb3ec85a3faf66040d380fb9738673504df914fa965023fb75c25ded4bb260f417de6d32e5c442c6ba313791cc9a4948d6273e8d3511f93348ea7a708a9b862bc73ba2a79cfdfe07729a193751cbc93df7739fd1223d8697dfc21b1679435bafda1f92815944f28d2faf21ded33ae94a16100090ae7d83555c9b2d961e3d5d1b62828e8cb58a88a73cda404f8f725a0300000000000000000000000000000000000000000000000000000000000000",
+        binding_factor:
+          "279d48ec56f16d234c09ea62f3d02ab776ee38e03f66b20f939f1316e13df10f",
       },
     ],
   },
@@ -275,28 +425,27 @@ export const SCALAR_LENGTH = 32;
 export const ELEMENT_LENGTH = 32;
 
 /**
- * Verify a FROST signature using the ed25519 library.
- * Ported from helpers::verify_signature in the Rust tests.
+ * Verify a FROST Ed25519-SHA512 signature using @noble/curves/ed25519.
+ * Ported from frost-ed25519/tests/helpers/mod.rs verify_signature().
  *
  * This function is used in interoperability tests to verify that
  * FROST signatures can be verified by standard Ed25519 libraries.
  *
  * @param msg - The message that was signed
- * @param groupSignature - The FROST group signature
- * @param groupPubkey - The FROST group public key (verifying key)
+ * @param groupSignature - The FROST group signature (object with serialize method)
+ * @param groupPubkey - The FROST group public key (object with serialize method)
+ * @returns true if the signature is valid
+ * @throws Error if signature or public key format is invalid
  */
-export async function verifySignature(
+export function verifySignature(
   msg: Uint8Array,
   groupSignature: { serialize: () => Uint8Array },
   groupPubkey: { serialize: () => Uint8Array },
-): Promise<boolean> {
-  // This will use @noble/ed25519 or similar for verification
-  // For now, we return a placeholder
-  // TODO: Implement with actual ed25519 library
+): boolean {
   const sigBytes = groupSignature.serialize();
   const pubkeyBytes = groupPubkey.serialize();
 
-  // Verify signature length (Ed25519 signatures are 64 bytes)
+  // Verify signature length (Ed25519 signatures are 64 bytes: R || s)
   if (sigBytes.length !== 64) {
     throw new Error(`Invalid signature length: ${sigBytes.length}, expected 64`);
   }
@@ -306,8 +455,32 @@ export async function verifySignature(
     throw new Error(`Invalid public key length: ${pubkeyBytes.length}, expected 32`);
   }
 
-  // TODO: Import @noble/ed25519 and verify:
-  // import * as ed from "@noble/ed25519";
-  // return ed.verify(sigBytes, msg, pubkeyBytes);
-  return true;
+  // Use @noble/curves ed25519 verification
+  return ed25519.verify(sigBytes, msg, pubkeyBytes);
+}
+
+/**
+ * Verify a FROST Ed25519-SHA512 signature from raw bytes.
+ * Alternative signature for verifySignature that accepts raw byte arrays.
+ *
+ * @param msg - The message that was signed
+ * @param signature - The 64-byte serialized signature (R || s)
+ * @param publicKey - The 32-byte compressed public key
+ * @returns true if the signature is valid
+ * @throws Error if signature or public key format is invalid
+ */
+export function verifySignatureBytes(
+  msg: Uint8Array,
+  signature: Uint8Array,
+  publicKey: Uint8Array,
+): boolean {
+  if (signature.length !== 64) {
+    throw new Error(`Invalid signature length: expected 64 bytes, got ${signature.length}`);
+  }
+  if (publicKey.length !== 32) {
+    throw new Error(`Invalid public key length: expected 32 bytes, got ${publicKey.length}`);
+  }
+
+  // Use @noble/curves ed25519 verification
+  return ed25519.verify(signature, msg, publicKey);
 }
