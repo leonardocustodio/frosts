@@ -602,6 +602,123 @@ export const Secp256K1Sha256TR: Secp256K1Sha256TRImpl = {
   Group: Secp256K1Group,
   Field: Secp256K1ScalarField,
 
+  // Reference to group for interface compatibility
+  get group(): Group {
+    return Secp256K1Group;
+  },
+
+  // ---------------------------------------------------------------------------
+  // Field operations (flattened from Secp256K1ScalarField)
+  // ---------------------------------------------------------------------------
+
+  scalarZero(): bigint {
+    return Secp256K1ScalarField.zero();
+  },
+
+  scalarOne(): bigint {
+    return Secp256K1ScalarField.one();
+  },
+
+  scalarInvert(scalar: bigint): bigint {
+    return Secp256K1ScalarField.invert(scalar);
+  },
+
+  scalarRandom(rng: RandomSource): bigint {
+    return Secp256K1ScalarField.random(rng);
+  },
+
+  serializeScalar(scalar: bigint): Uint8Array {
+    return Secp256K1ScalarField.serialize(scalar);
+  },
+
+  deserializeScalar(bytes: Uint8Array): bigint {
+    return Secp256K1ScalarField.deserialize(bytes);
+  },
+
+  scalarAdd(a: bigint, b: bigint): bigint {
+    return Secp256K1ScalarField.add(a, b);
+  },
+
+  scalarSub(a: bigint, b: bigint): bigint {
+    return Secp256K1ScalarField.sub(a, b);
+  },
+
+  scalarMul(a: bigint, b: bigint): bigint {
+    return Secp256K1ScalarField.mul(a, b);
+  },
+
+  scalarsEqual(a: bigint, b: bigint): boolean {
+    return a === b;
+  },
+
+  scalarNegate(scalar: bigint): bigint {
+    return Secp256K1ScalarField.negate(scalar);
+  },
+
+  // ---------------------------------------------------------------------------
+  // Group operations (flattened from Secp256K1Group)
+  // ---------------------------------------------------------------------------
+
+  elementSize(): number {
+    return ELEMENT_SIZE;
+  },
+
+  scalarSize(): number {
+    return SCALAR_SIZE;
+  },
+
+  cofactor(): bigint {
+    return Secp256K1Group.cofactor();
+  },
+
+  identity(): Uint8Array {
+    return Secp256K1Group.identity();
+  },
+
+  generator(): Uint8Array {
+    return Secp256K1Group.generator();
+  },
+
+  serializeElement(element: Uint8Array): Uint8Array {
+    return Secp256K1Group.serialize(element);
+  },
+
+  deserializeElement(bytes: Uint8Array): Uint8Array {
+    return Secp256K1Group.deserialize(bytes);
+  },
+
+  elementAdd(a: Uint8Array, b: Uint8Array): Uint8Array {
+    return Secp256K1Group.add(a, b);
+  },
+
+  elementSub(a: Uint8Array, b: Uint8Array): Uint8Array {
+    return Secp256K1Group.sub(a, b);
+  },
+
+  elementMul(element: Uint8Array, scalar: bigint): Uint8Array {
+    return Secp256K1Group.scalarMul(element, scalar);
+  },
+
+  scalarBaseMult(scalar: bigint): Uint8Array {
+    return Secp256K1Group.basePointMul(scalar);
+  },
+
+  elementsEqual(a: Uint8Array, b: Uint8Array): boolean {
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  },
+
+  isIdentity(element: Uint8Array): boolean {
+    return Secp256K1Group.isIdentity(element);
+  },
+
+  // ---------------------------------------------------------------------------
+  // Hash functions
+  // ---------------------------------------------------------------------------
+
   /**
    * H1 for FROST(secp256k1, SHA-256) Taproot - binding factor.
    */

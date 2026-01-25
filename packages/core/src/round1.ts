@@ -334,6 +334,86 @@ export class SigningNonces<C extends Ciphersuite> {
   toString(): string {
     return "SigningNonces { hiding: <redacted>, binding: <redacted> }";
   }
+
+  /**
+   * Check equality with another SigningNonces.
+   *
+   * @param other - The other SigningNonces to compare with
+   * @returns true if the nonces are equal
+   */
+  equals(other: SigningNonces<C>): boolean {
+    const hidingBytes = this.hiding.serialize();
+    const otherHidingBytes = other.hiding.serialize();
+    const bindingBytes = this.binding.serialize();
+    const otherBindingBytes = other.binding.serialize();
+
+    if (hidingBytes.length !== otherHidingBytes.length) return false;
+    if (bindingBytes.length !== otherBindingBytes.length) return false;
+
+    for (let i = 0; i < hidingBytes.length; i++) {
+      if (hidingBytes[i] !== otherHidingBytes[i]) return false;
+    }
+    for (let i = 0; i < bindingBytes.length; i++) {
+      if (bindingBytes[i] !== otherBindingBytes[i]) return false;
+    }
+    return true;
+  }
+
+  /**
+   * Clone this SigningNonces.
+   *
+   * # Security
+   *
+   * SigningNonces MUST NOT be repeated in different FROST signings.
+   * Be careful when using this method.
+   *
+   * @returns A new SigningNonces with the same values
+   */
+  clone(): SigningNonces<C> {
+    const hidingScalar = this.ciphersuite.deserializeScalar(this.hiding.serialize());
+    const bindingScalar = this.ciphersuite.deserializeScalar(this.binding.serialize());
+    const hiding = Nonce.fromScalar(this.ciphersuite, hidingScalar);
+    const binding = Nonce.fromScalar(this.ciphersuite, bindingScalar);
+    return SigningNonces.fromNonces(this.ciphersuite, hiding, binding);
+  }
+
+  /**
+   * Serialize the SigningNonces to bytes.
+   *
+   * @returns The serialized bytes (hiding nonce || binding nonce)
+   */
+  serialize(): Uint8Array {
+    const hidingBytes = this.hiding.serialize();
+    const bindingBytes = this.binding.serialize();
+    const result = new Uint8Array(hidingBytes.length + bindingBytes.length);
+    result.set(hidingBytes, 0);
+    result.set(bindingBytes, hidingBytes.length);
+    return result;
+  }
+
+  /**
+   * Deserialize SigningNonces from bytes.
+   *
+   * @param ciphersuite - The ciphersuite to use
+   * @param bytes - The serialized bytes
+   * @returns The deserialized SigningNonces
+   */
+  static deserialize<C extends Ciphersuite>(
+    ciphersuite: C,
+    bytes: Uint8Array,
+  ): SigningNonces<C> {
+    const scalarSize = ciphersuite.scalarSize();
+    if (bytes.length !== scalarSize * 2) {
+      throw new Error(
+        `Invalid SigningNonces length: expected ${scalarSize * 2}, got ${bytes.length}`,
+      );
+    }
+    const hidingBytes = bytes.slice(0, scalarSize);
+    const bindingBytes = bytes.slice(scalarSize);
+    const hiding = Nonce.deserialize(ciphersuite, hidingBytes);
+    const binding = Nonce.deserialize(ciphersuite, bindingBytes);
+    return SigningNonces.fromNonces(ciphersuite, hiding, binding);
+  }
 }
 
 /**

@@ -324,3 +324,225 @@ export function round2PackageData(): Round2PackageData {
     signingShare: scalar1(),
   };
 }
+
+// ---------------------------------------------------------------------------
+// Sample Object Factory Functions
+// These create actual FROST objects for testing (matching Rust samples.rs)
+// ---------------------------------------------------------------------------
+
+import {
+  Secp256K1Sha256,
+  SigningCommitments,
+  NonceCommitment,
+  SigningNonces,
+  Nonce,
+  SignatureShare,
+  Signature,
+  Identifier,
+  keys,
+} from "../../src/index.js";
+
+const {
+  SigningShare,
+  VerifyingShare,
+  SecretShare,
+  KeyPackage,
+  PublicKeyPackage,
+  VerifiableSecretSharingCommitment,
+  dkg,
+} = keys;
+
+/**
+ * Create a sample SigningNonces object.
+ * Matches Rust: samples::signing_nonces()
+ */
+export function signingNonces(): SigningNonces<typeof Secp256K1Sha256> {
+  const hidingNonce = Nonce.deserialize(Secp256K1Sha256, scalar1());
+  const bindingNonce = Nonce.deserialize(Secp256K1Sha256, scalar1());
+  return SigningNonces.fromNonces(Secp256K1Sha256, hidingNonce, bindingNonce);
+}
+
+/**
+ * Create a sample SigningCommitments object.
+ * Matches Rust: samples::signing_commitments()
+ */
+export function signingCommitments(): SigningCommitments<typeof Secp256K1Sha256> {
+  const hidingCommitment = NonceCommitment.deserialize(Secp256K1Sha256, element1());
+  const bindingCommitment = NonceCommitment.deserialize(Secp256K1Sha256, element2());
+  return new SigningCommitments(Secp256K1Sha256, hidingCommitment, bindingCommitment);
+}
+
+/**
+ * Create a sample SigningPackage object.
+ * Matches Rust: samples::signing_package()
+ */
+export function signingPackage(): import("@frosts/core").SigningPackage<typeof Secp256K1Sha256> {
+  const identifier = Identifier.derive(Secp256K1Sha256, 42);
+  const commitments = new Map<
+    Identifier<typeof Secp256K1Sha256>,
+    SigningCommitments<typeof Secp256K1Sha256>
+  >();
+  commitments.set(identifier, signingCommitments());
+  const message = new TextEncoder().encode("hello world");
+
+  // Import SigningPackage from core
+  const { SigningPackage } = require("@frosts/core");
+  return SigningPackage.create(Secp256K1Sha256, commitments, message);
+}
+
+/**
+ * Create a sample SignatureShare object.
+ * Matches Rust: samples::signature_share()
+ */
+export function signatureShare(): SignatureShare<typeof Secp256K1Sha256> {
+  return SignatureShare.deserialize(Secp256K1Sha256, scalar1());
+}
+
+/**
+ * Create a sample SecretShare object.
+ * Matches Rust: samples::secret_share()
+ */
+export function secretShare(): SecretShare<typeof Secp256K1Sha256> {
+  const identifier = Identifier.derive(Secp256K1Sha256, 42);
+  const signingShareObj = SigningShare.deserialize(Secp256K1Sha256, scalar1());
+  const vssCommitment = VerifiableSecretSharingCommitment.deserialize(
+    Secp256K1Sha256,
+    [element1()]
+  );
+  return new SecretShare(Secp256K1Sha256, identifier, signingShareObj, vssCommitment);
+}
+
+/**
+ * Create a sample KeyPackage object.
+ * Matches Rust: samples::key_package()
+ */
+export function keyPackage(): KeyPackage<typeof Secp256K1Sha256> {
+  const identifier = Identifier.derive(Secp256K1Sha256, 42);
+  const signingShareObj = SigningShare.deserialize(Secp256K1Sha256, scalar1());
+  const verifyingShareObj = VerifyingShare.deserialize(Secp256K1Sha256, element1());
+  const { VerifyingKey } = require("@frosts/core");
+  const verifyingKeyObj = VerifyingKey.deserialize(Secp256K1Sha256, element1());
+  return new KeyPackage(
+    Secp256K1Sha256,
+    identifier,
+    signingShareObj,
+    verifyingShareObj,
+    verifyingKeyObj,
+    2
+  );
+}
+
+/**
+ * Create a sample PublicKeyPackage object (legacy without minSigners).
+ * Matches Rust: samples::public_key_package()
+ */
+export function publicKeyPackage(): PublicKeyPackage<typeof Secp256K1Sha256> {
+  const identifier = Identifier.derive(Secp256K1Sha256, 42);
+  const verifyingShareObj = VerifyingShare.deserialize(Secp256K1Sha256, element1());
+  const { VerifyingKey } = require("@frosts/core");
+  const verifyingKeyObj = VerifyingKey.deserialize(Secp256K1Sha256, element1());
+  const verifyingShares = new Map<string, VerifyingShare<typeof Secp256K1Sha256>>();
+  verifyingShares.set(bytesToHex(identifier.serialize()), verifyingShareObj);
+  return PublicKeyPackage.newInternal(Secp256K1Sha256, verifyingShares, verifyingKeyObj, undefined);
+}
+
+/**
+ * Create a sample PublicKeyPackage object with minSigners.
+ * Matches Rust: samples::public_key_package_new()
+ */
+export function publicKeyPackageNew(): PublicKeyPackage<typeof Secp256K1Sha256> {
+  const identifier = Identifier.derive(Secp256K1Sha256, 42);
+  const verifyingShareObj = VerifyingShare.deserialize(Secp256K1Sha256, element1());
+  const { VerifyingKey } = require("@frosts/core");
+  const verifyingKeyObj = VerifyingKey.deserialize(Secp256K1Sha256, element1());
+  const verifyingShares = new Map<string, VerifyingShare<typeof Secp256K1Sha256>>();
+  verifyingShares.set(bytesToHex(identifier.serialize()), verifyingShareObj);
+  return PublicKeyPackage.new(Secp256K1Sha256, verifyingShares, verifyingKeyObj, 2);
+}
+
+/**
+ * Create a sample round1::SecretPackage object.
+ * Matches Rust: samples::round1_secret_package()
+ */
+export function round1SecretPackage(): dkg.round1.SecretPackage<typeof Secp256K1Sha256> {
+  const identifier = Identifier.derive(Secp256K1Sha256, 42);
+  const scalarBytes1 = scalar1();
+  const scalarBytes2 = scalar1();
+  const coeff1 = Secp256K1Sha256.deserializeScalar(scalarBytes1);
+  const coeff2 = Secp256K1Sha256.deserializeScalar(scalarBytes2);
+  const coefficients = [coeff1, coeff2];
+  const vssCommitment = VerifiableSecretSharingCommitment.deserialize(
+    Secp256K1Sha256,
+    [element1()]
+  );
+  return new dkg.round1.SecretPackage(
+    Secp256K1Sha256,
+    identifier,
+    coefficients,
+    vssCommitment,
+    2,
+    3
+  );
+}
+
+/**
+ * Create a sample round1::Package object.
+ * Matches Rust: samples::round1_package()
+ */
+export function round1Package(): dkg.round1.Package<typeof Secp256K1Sha256> {
+  const vssCommitment = VerifiableSecretSharingCommitment.deserialize(
+    Secp256K1Sha256,
+    [element1()]
+  );
+  // Proof of knowledge is a DkgSignature with R (element) and z (scalar)
+  const R = Secp256K1Sha256.deserializeElement(element1());
+  const z = Secp256K1Sha256.deserializeScalar(scalar1());
+  const proofOfKnowledgeSignature = { R, z };
+  return new dkg.round1.Package(Secp256K1Sha256, vssCommitment, proofOfKnowledgeSignature);
+}
+
+/**
+ * Create a sample round2::SecretPackage object.
+ * Matches Rust: samples::round2_secret_package()
+ */
+export function round2SecretPackage(): dkg.round2.SecretPackage<typeof Secp256K1Sha256> {
+  const identifier = Identifier.derive(Secp256K1Sha256, 42);
+  const vssCommitment = VerifiableSecretSharingCommitment.deserialize(
+    Secp256K1Sha256,
+    [element1()]
+  );
+  const secretShareScalar = Secp256K1Sha256.deserializeScalar(scalar1());
+  return new dkg.round2.SecretPackage(
+    Secp256K1Sha256,
+    identifier,
+    vssCommitment,
+    secretShareScalar,
+    2,
+    3
+  );
+}
+
+/**
+ * Create a sample round2::Package object.
+ * Matches Rust: samples::round2_package()
+ */
+export function round2Package(): dkg.round2.Package<typeof Secp256K1Sha256> {
+  const signingShareObj = SigningShare.deserialize(Secp256K1Sha256, scalar1());
+  return new dkg.round2.Package(Secp256K1Sha256, signingShareObj);
+}
+
+// Type exports for the sample objects
+export type {
+  SigningNonces,
+  SigningCommitments,
+  SignatureShare,
+} from "@frosts/core";
+
+export type {
+  SecretShare,
+  KeyPackage,
+  PublicKeyPackage,
+  SigningShare,
+  VerifyingShare,
+  VerifiableSecretSharingCommitment,
+} from "../../src/keys/index.js";
