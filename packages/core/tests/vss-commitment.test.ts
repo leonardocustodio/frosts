@@ -5,21 +5,16 @@
 
 import { describe, it, expect, beforeEach } from "vitest";
 import type { CryptoRng } from "./helpers.js";
-import { createSecureRng, generateElement, hexToBytes } from "./helpers.js";
+import { createSecureRng, generateElement } from "./helpers.js";
 
 // Types will be imported from actual implementation once available
-import type {
-  Ciphersuite,
-  Element,
-  CoefficientCommitment,
-  VerifiableSecretSharingCommitment,
-} from "../src/index.js";
+import type { Ciphersuite } from "../src/index.js";
 
 describe("VerifiableSecretSharingCommitment", () => {
-  let rng: CryptoRng;
+  let _rng: CryptoRng;
 
   beforeEach(() => {
-    rng = createSecureRng();
+    _rng = createSecureRng();
   });
 
   describe("Serialization", () => {
@@ -215,7 +210,7 @@ export function checkSerializeVssCommitment<C extends Ciphersuite>(
   // ];
 
   // Create expected serialization
-  const expected = [
+  const _expected = [
     ciphersuite.group.serialize(input1),
     ciphersuite.group.serialize(input2),
     ciphersuite.group.serialize(input3),
@@ -234,8 +229,8 @@ export function checkSerializeVssCommitment<C extends Ciphersuite>(
  * Test serialize_whole VerifiableSecretSharingCommitment.
  */
 export function checkSerializeWholeVssCommitment<C extends Ciphersuite>(
-  ciphersuite: C,
-  rng: CryptoRng,
+  _ciphersuite: C,
+  _rng: CryptoRng,
 ): void {
   // Implementation similar to above but with serializeWhole
 }
@@ -244,8 +239,8 @@ export function checkSerializeWholeVssCommitment<C extends Ciphersuite>(
  * Test deserialize VerifiableSecretSharingCommitment.
  */
 export function checkDeserializeVssCommitment<C extends Ciphersuite>(
-  ciphersuite: C,
-  rng: CryptoRng,
+  _ciphersuite: C,
+  _rng: CryptoRng,
 ): void {
   // Implementation will be added when types are available
 }
@@ -254,8 +249,8 @@ export function checkDeserializeVssCommitment<C extends Ciphersuite>(
  * Test deserialize_whole VerifiableSecretSharingCommitment.
  */
 export function checkDeserializeWholeVssCommitment<C extends Ciphersuite>(
-  ciphersuite: C,
-  rng: CryptoRng,
+  _ciphersuite: C,
+  _rng: CryptoRng,
 ): void {
   // Implementation will be added when types are available
 }
@@ -264,9 +259,9 @@ export function checkDeserializeWholeVssCommitment<C extends Ciphersuite>(
  * Test deserialize VerifiableSecretSharingCommitment error.
  */
 export function checkDeserializeVssCommitmentError<C extends Ciphersuite>(
-  ciphersuite: C,
-  rng: CryptoRng,
-  commitmentHelpers: { elements: { invalid_element: string } },
+  _ciphersuite: C,
+  _rng: CryptoRng,
+  _commitmentHelpers: { elements: { invalid_element: string } },
 ): void {
   // Implementation will be added when types are available
 }
@@ -275,9 +270,9 @@ export function checkDeserializeVssCommitmentError<C extends Ciphersuite>(
  * Test deserialize_whole VerifiableSecretSharingCommitment error.
  */
 export function checkDeserializeWholeVssCommitmentError<C extends Ciphersuite>(
-  ciphersuite: C,
-  rng: CryptoRng,
-  commitmentHelpers: { elements: { invalid_element: string } },
+  _ciphersuite: C,
+  _rng: CryptoRng,
+  _commitmentHelpers: { elements: { invalid_element: string } },
 ): void {
   // Implementation will be added when types are available
 }

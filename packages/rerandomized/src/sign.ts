@@ -66,28 +66,36 @@ export function signWithRandomizerSeed<C extends RandomizedCiphersuite>(
   randomizerSeed: Uint8Array,
 ): SignatureShare<C> {
   // Get the verifying key element from the key package and create a VerifyingKey
-  const verifyingKeyElement = keyPackage.verifyingKey;
-  const verifyingKey = VerifyingKey.create(ciphersuite, verifyingKeyElement);
+  const verifyingKeyElement = (keyPackage).verifyingKey as C["Element"];
+  const verifyingKey: VerifyingKey<C> = VerifyingKey.create(
+    ciphersuite,
+    verifyingKeyElement,
+  ) as VerifyingKey<C>;
 
   // Extract signing commitments from the signing package
   // The signingPackage.signingCommitments is Map<unknown, SigningCommitments<C>>
   // We need to convert it to Map<Identifier<C>, SigningCommitments<C>>
-  const signingCommitments = signingPackage.signingCommitments as Map<
+  const signingCommitments = (signingPackage).signingCommitments as Map<
     Identifier<C>,
     SigningCommitments<C>
   >;
 
   // Regenerate the randomized params from the seed and commitments
-  const randomizedParams = RandomizedParams.regenerateFromSeedAndCommitments(
-    ciphersuite,
-    verifyingKey,
-    randomizerSeed,
-    signingCommitments,
-  );
+  const randomizedParams: RandomizedParams<C> =
+    RandomizedParams.regenerateFromSeedAndCommitments(
+      ciphersuite,
+      verifyingKey,
+      randomizerSeed,
+      signingCommitments,
+    );
 
   // Randomize the key package
-  const randomizedKeyPackage = randomizeKeyPackage(ciphersuite, keyPackage, randomizedParams);
+  const randomizedKeyPackage: KeyPackage<C> = randomizeKeyPackage(
+    ciphersuite,
+    keyPackage,
+    randomizedParams,
+  );
 
   // Perform the signing with the randomized key package
-  return frostSign(ciphersuite, signingPackage, signerNonces, randomizedKeyPackage);
+  return frostSign(ciphersuite, signingPackage, signerNonces, randomizedKeyPackage) as SignatureShare<C>;
 }

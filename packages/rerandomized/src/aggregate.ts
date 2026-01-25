@@ -7,6 +7,10 @@
  * @module aggregate
  */
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import type { Ciphersuite, Identifier, SigningPackage } from "@frost/core";
 import { type SignatureShare, type PublicKeyPackage, Signature } from "@frost/core";
 import type { RandomizedParams } from "./params.js";
@@ -56,7 +60,7 @@ export function aggregate<C extends Ciphersuite>(
   randomizedParams: RandomizedParams<C>,
 ): Signature<C> {
   // Randomize the public key package
-  const randomizedPublicKeyPackage: PublicKeyPackage<C> = randomizePublicKeyPackage(
+  const randomizedPublicKeyPackage = randomizePublicKeyPackage(
     ciphersuite,
     pubkeys,
     randomizedParams,
@@ -99,7 +103,7 @@ function aggregateInternal<C extends Ciphersuite>(
   // Compute binding factors
   const bindingFactorList = ciphersuite.computeBindingFactorList(
     signingPackage,
-    pubkeys.verifyingKey as C["VerifyingKey"],
+    pubkeys.verifyingKey,
     new Uint8Array(0),
   );
 
@@ -107,11 +111,11 @@ function aggregateInternal<C extends Ciphersuite>(
   const groupCommitment = ciphersuite.computeGroupCommitment(signingPackage, bindingFactorList);
 
   // Aggregate the signature shares
-  let z: C["Scalar"] = ciphersuite.scalarZero() as C["Scalar"];
+  let z = ciphersuite.scalarZero();
   for (const [_identifier, share] of signatureShares) {
-    z = ciphersuite.scalarAdd(z, share.toScalar() as C["Scalar"]) as C["Scalar"];
+    z = ciphersuite.scalarAdd(z, share.toScalar());
   }
 
   // Create and return the signature
-  return new Signature(groupCommitment.toElement() as C["Element"], z);
+  return new Signature(groupCommitment.toElement(), z);
 }

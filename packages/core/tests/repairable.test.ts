@@ -12,24 +12,13 @@ import type { CryptoRng } from "./helpers.js";
 import { createSecureRng, hexToBytes } from "./helpers.js";
 
 // Types will be imported from actual implementation once available
-import type {
-  Ciphersuite,
-  Identifier,
-  SecretShare,
-  KeyPackage,
-  PublicKeyPackage,
-  Scalar,
-  Error as FrostError,
-} from "../src/index.js";
-
-// Repairable types
-import type { Delta, Sigma } from "../src/index.js";
+import type { Ciphersuite, Scalar } from "../src/index.js";
 
 describe("Repairable Threshold Scheme", () => {
-  let rng: CryptoRng;
+  let _rng: CryptoRng;
 
   beforeEach(() => {
-    rng = createSecureRng();
+    _rng = createSecureRng();
   });
 
   describe("Full Share Recovery", () => {
@@ -190,7 +179,7 @@ export function checkRepairShareStep1<C extends Ciphersuite>(
  */
 export function checkRepairShareStep2<C extends Ciphersuite>(
   _ciphersuite: C,
-  repairShareHelpers: {
+  _repairShareHelpers: {
     scalar_generation: {
       random_scalar_1: string;
       random_scalar_2: string;
@@ -215,7 +204,7 @@ export function checkRepairShareStep2<C extends Ciphersuite>(
 export function checkRepairShareStep3<C extends Ciphersuite>(
   _ciphersuite: C,
   _rng: CryptoRng,
-  repairShareHelpers: {
+  _repairShareHelpers: {
     sigma_generation: {
       sigma_1: string;
       sigma_2: string;
@@ -272,11 +261,11 @@ export function checkRepairShareStep1FailsWithInvalidMinSigners<C extends Cipher
 /**
  * Helper function to generate scalar from hex string.
  */
-function generateScalarFromByteString<C extends Ciphersuite>(
+function _generateScalarFromByteString<C extends Ciphersuite>(
   _ciphersuite: C,
   hexString: string,
 ): Scalar<C> | null {
-  const bytes = hexToBytes(hexString);
+  const _bytes = hexToBytes(hexString);
   // Return deserialized scalar
   // return ciphersuite.group.field.deserialize(bytes);
   return null;

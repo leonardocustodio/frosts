@@ -7,6 +7,12 @@
  * @module params
  */
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+
 import type { Ciphersuite, Element, Identifier } from "@frost/core";
 import { VerifyingKey, type SigningCommitments, bytesToHex } from "@frost/core";
 import type { RandomizedCiphersuite } from "./types.js";
@@ -42,12 +48,12 @@ export class RandomizedParams<C extends Ciphersuite> {
   private constructor(
     ciphersuite: C,
     randomizer: Randomizer<C>,
-    randomizerElement: C["Element"],
+    randomizerElement: Element<C>,
     randomizedVerifyingKey: VerifyingKey<C>,
   ) {
     this.ciphersuite = ciphersuite;
     this._randomizer = randomizer;
-    this._randomizerElement = randomizerElement as Element<C>;
+    this._randomizerElement = randomizerElement;
     this._randomizedVerifyingKey = randomizedVerifyingKey;
   }
 
@@ -65,8 +71,8 @@ export class RandomizedParams<C extends Ciphersuite> {
    *
    * @returns The randomizer element
    */
-  get randomizerElement(): C["Element"] {
-    return this._randomizerElement as C["Element"];
+  get randomizerElement(): Element<C> {
+    return this._randomizerElement;
   }
 
   /**
@@ -75,7 +81,7 @@ export class RandomizedParams<C extends Ciphersuite> {
    * @returns The randomized verifying key
    */
   get randomizedVerifyingKey(): VerifyingKey<C> {
-    return this._randomizedVerifyingKey as VerifyingKey<C>;
+    return this._randomizedVerifyingKey;
   }
 
   /**
@@ -172,20 +178,15 @@ export class RandomizedParams<C extends Ciphersuite> {
     randomizer: Randomizer<C>,
   ): RandomizedParams<C> {
     // randomizerElement = generator * randomizer
-    const randomizerElement = ciphersuite.scalarBaseMult(
-      randomizer.toScalar() as C["Scalar"],
-    ) as C["Element"];
+    const randomizerElement = ciphersuite.scalarBaseMult(randomizer.toScalar());
 
     // randomizedVerifyingKey = verifyingKey + randomizerElement
-    const verifyingKeyElement = groupVerifyingKey.toElement() as C["Element"];
+    const verifyingKeyElement = groupVerifyingKey.toElement();
     const randomizedVerifyingKeyElement = ciphersuite.elementAdd(
       verifyingKeyElement,
       randomizerElement,
-    ) as C["Element"];
-    const randomizedVerifyingKey = VerifyingKey.create(
-      ciphersuite,
-      randomizedVerifyingKeyElement,
-    ) as VerifyingKey<C>;
+    );
+    const randomizedVerifyingKey = VerifyingKey.create(ciphersuite, randomizedVerifyingKeyElement);
 
     return new RandomizedParams(ciphersuite, randomizer, randomizerElement, randomizedVerifyingKey);
   }
@@ -198,15 +199,13 @@ export class RandomizedParams<C extends Ciphersuite> {
   toString(): string {
     let randomizerElementHex: string;
     try {
-      const bytes = this.ciphersuite.serializeElement(
-        this._randomizerElement as C["Element"],
-      ) as Uint8Array;
+      const bytes = this.ciphersuite.serializeElement(this._randomizerElement);
       randomizerElementHex = bytesToHex(bytes);
     } catch {
       randomizerElementHex = "<invalid>";
     }
 
-    return `RandomizedParams { randomizer: ${this._randomizer.toString()}, randomizerElement: ${randomizerElementHex}, randomizedVerifyingKey: ${(this._randomizedVerifyingKey as VerifyingKey<C>).toString()} }`;
+    return `RandomizedParams { randomizer: ${this._randomizer.toString()}, randomizerElement: ${randomizerElementHex}, randomizedVerifyingKey: ${this._randomizedVerifyingKey.toString()} }`;
   }
 
   /**
@@ -216,14 +215,10 @@ export class RandomizedParams<C extends Ciphersuite> {
    * @returns True if the params are equal
    */
   equals(other: RandomizedParams<C>): boolean {
-    const thisRandomizerElement = this._randomizerElement as C["Element"];
-    const otherRandomizerElement = other._randomizerElement as C["Element"];
     return (
-      (this._randomizer as Randomizer<C>).equals(other._randomizer as Randomizer<C>) &&
-      (this.ciphersuite.elementsEqual(thisRandomizerElement, otherRandomizerElement) as boolean) &&
-      (this._randomizedVerifyingKey as VerifyingKey<C>).equals(
-        other._randomizedVerifyingKey as VerifyingKey<C>,
-      )
+      this._randomizer.equals(other._randomizer) &&
+      this.ciphersuite.elementsEqual(this._randomizerElement, other._randomizerElement) &&
+      this._randomizedVerifyingKey.equals(other._randomizedVerifyingKey)
     );
   }
 
@@ -235,9 +230,9 @@ export class RandomizedParams<C extends Ciphersuite> {
   clone(): RandomizedParams<C> {
     return new RandomizedParams(
       this.ciphersuite,
-      (this._randomizer as Randomizer<C>).clone() as Randomizer<C>,
-      this._randomizerElement as C["Element"],
-      (this._randomizedVerifyingKey as VerifyingKey<C>).clone() as VerifyingKey<C>,
+      this._randomizer.clone(),
+      this._randomizerElement,
+      this._randomizedVerifyingKey.clone(),
     );
   }
 }

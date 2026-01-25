@@ -4,7 +4,6 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { hexToBytes, bytesToHex } from "./helpers.js";
 
 // Types will be imported from actual implementation once available
 import type {
@@ -12,15 +11,11 @@ import type {
   Identifier,
   SigningKey,
   VerifyingKey,
-  SigningShare,
   SigningNonces,
   SigningCommitments,
   SignatureShare,
-  Signature,
   BindingFactor,
   KeyPackage,
-  Nonce,
-  NonceCommitment,
   Scalar,
 } from "../src/index.js";
 
@@ -86,7 +81,7 @@ export interface TestVectorsJson {
  */
 export function parseTestVectors<C extends Ciphersuite>(
   _ciphersuite: C,
-  jsonVectors: TestVectorsJson,
+  _jsonVectors: TestVectorsJson,
 ): TestVectors<C> | null {
   // This will be implemented when the actual types are available
   // For now, return null as a placeholder
@@ -178,7 +173,7 @@ describe("Test Vectors", () => {
  */
 export function checkSignWithTestVectors<C extends Ciphersuite>(
   _ciphersuite: C,
-  jsonVectors: TestVectorsJson,
+  _jsonVectors: TestVectorsJson,
 ): void {
   // Parse test vectors
   // const testVectors = parseTestVectors(ciphersuite, jsonVectors);

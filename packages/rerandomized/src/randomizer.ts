@@ -8,7 +8,7 @@
  * @module randomizer
  */
 
-import type { Ciphersuite, Identifier, Scalar } from "@frost/core";
+import type { Ciphersuite, Identifier } from "@frost/core";
 import {
   FrostError,
   SerializableScalar,
@@ -48,8 +48,8 @@ export class Randomizer<C extends Ciphersuite> {
    * @returns The scalar value
    * @internal
    */
-  toScalar(): Scalar<C> {
-    return this.scalar.value;
+  toScalar(): C["Scalar"] {
+    return (this.scalar).value as C["Scalar"];
   }
 
   /**
@@ -63,8 +63,11 @@ export class Randomizer<C extends Ciphersuite> {
    * @param scalar - The scalar value (must be randomly generated)
    * @returns A new Randomizer
    */
-  static fromScalar<C extends Ciphersuite>(ciphersuite: C, scalar: Scalar<C>): Randomizer<C> {
-    return new Randomizer(ciphersuite, new SerializableScalar(ciphersuite, scalar));
+  static fromScalar<C extends Ciphersuite>(ciphersuite: C, scalar: C["Scalar"]): Randomizer<C> {
+    return new Randomizer(
+      ciphersuite,
+      new SerializableScalar(ciphersuite, scalar) as SerializableScalar<C>,
+    );
   }
 
   /**
@@ -88,17 +91,17 @@ export class Randomizer<C extends Ciphersuite> {
     ciphersuite: C,
     rng: { fill(array: Uint8Array): void },
     signingCommitments: Map<Identifier<C>, SigningCommitments<C>>,
-  ): [Randomizer<C>, Uint8Array] {
+  ): [Randomizer<C>, Uint8Array<ArrayBufferLike>] {
     // Generate a dummy scalar to get its encoded size
-    const zero = ciphersuite.scalarZero();
-    const ns = ciphersuite.serializeScalar(zero).length;
+    const zero = ciphersuite.scalarZero() as C["Scalar"];
+    const ns = ((ciphersuite.serializeScalar(zero) as Uint8Array) ?? new Uint8Array(0)).length;
 
     // Generate random seed
-    const randomizerSeed = new Uint8Array(ns);
+    const randomizerSeed: Uint8Array<ArrayBufferLike> = new Uint8Array(ns);
     rng.fill(randomizerSeed);
 
     // Regenerate the randomizer from the seed
-    const randomizer = Randomizer.regenerateFromSeedAndCommitments(
+    const randomizer: Randomizer<C> = Randomizer.regenerateFromSeedAndCommitments(
       ciphersuite,
       randomizerSeed,
       signingCommitments,
@@ -134,20 +137,26 @@ export class Randomizer<C extends Ciphersuite> {
     signingCommitments: Map<Identifier<C>, SigningCommitments<C>>,
   ): Randomizer<C> {
     // Encode the group commitments
-    const encodedCommitments = encodeGroupCommitments(ciphersuite, signingCommitments);
+    const encodedCommitments: Uint8Array = encodeGroupCommitments(
+      ciphersuite,
+      signingCommitments,
+    ) as Uint8Array;
 
     // Concatenate seed and encoded commitments
-    const input = new Uint8Array(randomizerSeed.length + encodedCommitments.length);
-    input.set(randomizerSeed, 0);
+    const input = new Uint8Array(randomizerSeed.length + (encodedCommitments?.length ?? 0));
+    input.set(new Uint8Array(randomizerSeed), 0);
     input.set(encodedCommitments, randomizerSeed.length);
 
     // Hash into randomizer
-    const randomizer = ciphersuite.hashRandomizer(input);
+    const randomizer: C["Scalar"] | null = ciphersuite.hashRandomizer(input);
     if (randomizer === null) {
-      throw FrostError.serializationError();
+      throw (FrostError).serializationError() as Error;
     }
 
-    return new Randomizer(ciphersuite, new SerializableScalar(ciphersuite, randomizer));
+    return new Randomizer(
+      ciphersuite,
+      new SerializableScalar(ciphersuite, randomizer) as SerializableScalar<C>,
+    );
   }
 
   /**
@@ -156,7 +165,7 @@ export class Randomizer<C extends Ciphersuite> {
    * @returns The serialized randomizer bytes
    */
   serialize(): Uint8Array {
-    return this.scalar.serialize();
+    return (this.scalar).serialize() as Uint8Array;
   }
 
   /**
@@ -168,7 +177,10 @@ export class Randomizer<C extends Ciphersuite> {
    * @throws {FrostError} If deserialization fails or attempts to deserialize zero
    */
   static deserialize<C extends Ciphersuite>(ciphersuite: C, buf: Uint8Array): Randomizer<C> {
-    const scalar = SerializableScalar.deserialize(ciphersuite, buf);
+    const scalar: SerializableScalar<C> = SerializableScalar.deserialize(
+      ciphersuite,
+      buf,
+    ) as SerializableScalar<C>;
     return new Randomizer(ciphersuite, scalar);
   }
 
@@ -178,7 +190,7 @@ export class Randomizer<C extends Ciphersuite> {
    * @returns Debug string with hex-encoded value
    */
   toString(): string {
-    return `Randomizer(${bytesToHex(this.scalar.serialize())})`;
+    return `Randomizer(${bytesToHex((this.scalar).serialize() as Uint8Array)})`;
   }
 
   /**
@@ -188,7 +200,7 @@ export class Randomizer<C extends Ciphersuite> {
    * @returns True if the randomizers are equal
    */
   equals(other: Randomizer<C>): boolean {
-    return this.scalar.equals(other.scalar);
+    return (this.scalar).equals(other.scalar);
   }
 
   /**
@@ -197,6 +209,9 @@ export class Randomizer<C extends Ciphersuite> {
    * @returns A new Randomizer with the same value
    */
   clone(): Randomizer<C> {
-    return new Randomizer(this.ciphersuite, this.scalar.clone());
+    return new Randomizer(
+      this.ciphersuite,
+      (this.scalar).clone() as SerializableScalar<C>,
+    );
   }
 }

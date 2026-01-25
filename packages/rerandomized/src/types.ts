@@ -7,7 +7,7 @@
  * @module types
  */
 
-import type { Ciphersuite, Scalar } from "@frost/core";
+import type { Ciphersuite } from "@frost/core";
 
 /**
  * A Ciphersuite that supports rerandomization.

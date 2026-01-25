@@ -11,17 +11,13 @@ import type {
   Ciphersuite,
   Identifier,
   SigningKey,
-  SigningShare,
-  VerifyingShare,
-  VerifyingKey,
   KeyPackage,
   PublicKeyPackage,
-  Signature,
   Scalar,
 } from "../src/index.js";
 
 // DKG-specific types
-import type { Round1Package, Round2Package, SecretPackage } from "../src/index.js";
+import type { Round1Package, Round2Package } from "../src/index.js";
 
 /**
  * DKG test vectors structure for a ciphersuite.
@@ -64,14 +60,14 @@ export interface DKGTestVectorsJson {
 /**
  * Helper function to convert JSON scalar to scalar bytes.
  */
-function jsonToScalarBytes(value: string): Uint8Array {
+function _jsonToScalarBytes(value: string): Uint8Array {
   return hexToBytes(value);
 }
 
 /**
  * Helper function to convert JSON element to element bytes.
  */
-function jsonToElementBytes(value: string): Uint8Array {
+function _jsonToElementBytes(value: string): Uint8Array {
   return hexToBytes(value);
 }
 
@@ -102,7 +98,7 @@ export function parseTestVectorsDkg<C extends Ciphersuite>(
 /**
  * Build a Round1Package from JSON data.
  */
-function buildRound1Package<C extends Ciphersuite>(
+function _buildRound1Package<C extends Ciphersuite>(
   _ciphersuite: C,
   _jsonData: {
     vss_commitments: string[];
@@ -120,7 +116,7 @@ function buildRound1Package<C extends Ciphersuite>(
 /**
  * Build a Round2Package from JSON data.
  */
-function buildRound2Package<C extends Ciphersuite>(
+function _buildRound2Package<C extends Ciphersuite>(
   _ciphersuite: C,
   _participantData: { signing_shares: { [targetId: string]: string } },
   _senderId: string,
@@ -135,7 +131,7 @@ function buildRound2Package<C extends Ciphersuite>(
 /**
  * Build a PublicKeyPackage from JSON data.
  */
-function buildPublicKeyPackage<C extends Ciphersuite>(
+function _buildPublicKeyPackage<C extends Ciphersuite>(
   _ciphersuite: C,
   _jsonVectors: DKGTestVectorsJson,
 ): PublicKeyPackage<C> | null {
