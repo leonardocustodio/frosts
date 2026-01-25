@@ -82,13 +82,22 @@ type Ed448Point = Uint8Array;
 /**
  * The order of the Ed448 curve (subgroup order).
  * This is the number of points in the prime-order subgroup.
+ * This value matches noble-curves ed448.CURVE.n
  *
- * q = 2^446 - 13818066809895115352007386748515426880336692926039124900827223412983559366852254106953
+ * n = 2^446 - 13818066809895115352007386748515426880336692926039124900827223412983559366852254106953
  */
 const CURVE_ORDER =
   BigInt(
-    "181709681073901722637330951972001133588695961144550024066731088774018019936699373822799989826221895039134860185795106935037862922546650026712086013",
+    "181709681073901722637330951972001133588410340171829515070372549795146003961539585716195755291692375963310293709091662304773755859649779",
   );
+
+/**
+ * The multiplicative inverse of the cofactor (4) modulo the curve order.
+ * Used for torsion-free checking: a point P is torsion-free iff P == (4*P) * COFACTOR_INVERSE
+ *
+ * Since n mod 4 = 3, we have 4^-1 = (n+1)/4 mod n
+ */
+const COFACTOR_INVERSE = (CURVE_ORDER + 1n) / 4n;
 
 /** Zero scalar (additive identity) - 57 zero bytes */
 const ZERO_SCALAR = new Uint8Array(SCALAR_SIZE);
@@ -379,7 +388,38 @@ function serializePoint(point: Ed448Point): Uint8Array {
 }
 
 /**
- * Deserialize a point from bytes
+ * Check if a point is torsion-free (in the prime-order subgroup).
+ *
+ * For Ed448 with cofactor 4, a point P is torsion-free if and only if:
+ * P == (4 * P) * (4^-1 mod n)
+ *
+ * This works because if P has a torsion component T (where T has order dividing 4):
+ * - P = P_prime + T (where P_prime is in the prime subgroup)
+ * - 4 * P = 4 * P_prime + 4 * T = 4 * P_prime (since 4*T = identity)
+ * - (4 * P) * (4^-1) = P_prime
+ * So if P has any torsion component, the recovered point won't equal P.
+ *
+ * This matches the is_torsion_free() check in the Rust ed448_goldilocks crate.
+ */
+function isTorsionFree(point: InstanceType<typeof ed448.ExtendedPoint>): boolean {
+  // Multiply by cofactor (4) to clear any torsion component
+  const clearedPoint = point.multiply(4n);
+
+  // Multiply by cofactor inverse to recover a prime-subgroup point
+  const recoveredPoint = clearedPoint.multiply(COFACTOR_INVERSE);
+
+  // If original point equals recovered point, it was torsion-free
+  return point.equals(recoveredPoint);
+}
+
+/**
+ * Deserialize a point from bytes.
+ *
+ * This matches the Rust implementation's deserialize logic:
+ * 1. Decompress the point
+ * 2. Reject identity element
+ * 3. Check if point is torsion-free (in prime-order subgroup)
+ * 4. Verify canonical encoding by recompressing
  */
 function deserializePoint(bytes: Uint8Array): Ed448Point {
   if (bytes.length !== ELEMENT_SIZE) {
@@ -394,14 +434,14 @@ function deserializePoint(bytes: Uint8Array): Ed448Point {
       throw GroupError.invalidIdentityElement();
     }
 
-    // Check that point is on the prime-order subgroup (torsion-free)
-    // For Ed448, the cofactor is 4, so we need to verify the point is in the
-    // correct subgroup
-    // Verify by checking point * cofactor is not zero (it shouldn't be for valid subgroup points)
-    // Actually, for a prime-order subgroup point, multiplying by the group order should give identity
-    // But the simplest check is to verify the point deserializes correctly, which noble does
+    // Check that point is in the prime-order subgroup (torsion-free)
+    // This matches Rust's: if point.is_torsion_free() { ... } else { Err(InvalidNonPrimeOrderElement) }
+    if (!isTorsionFree(point)) {
+      throw GroupError.invalidNonPrimeOrderElement();
+    }
 
     // Verify canonical encoding by re-encoding and comparing
+    // decompress() does not check for canonicality, so we check by recompressing
     const reencoded = point.toRawBytes();
     if (!constantTimeEquals(bytes, reencoded)) {
       throw GroupError.malformedElement();
@@ -409,8 +449,14 @@ function deserializePoint(bytes: Uint8Array): Ed448Point {
 
     return reencoded;
   } catch (e) {
-    if (e instanceof Error && e.message.includes("identity")) {
-      throw e;
+    // Re-throw our specific errors
+    if (e instanceof Error) {
+      if (e.message.includes("identity")) {
+        throw GroupError.invalidIdentityElement();
+      }
+      if (e.message.includes("prime order") || e.message.includes("non-prime")) {
+        throw GroupError.invalidNonPrimeOrderElement();
+      }
     }
     throw GroupError.malformedElement();
   }

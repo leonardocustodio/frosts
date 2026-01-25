@@ -89,6 +89,15 @@ type Ed25519Point = Uint8Array;
 const CURVE_ORDER =
   7237005577332262213973186563042994240857116359379907606001950938285454250989n;
 
+/**
+ * The multiplicative inverse of the cofactor (8) modulo the curve order.
+ * Used for torsion-free checking: a point P is torsion-free iff P == (8*P) * COFACTOR_INVERSE
+ *
+ * Computed as 8^-1 mod l using extended Euclidean algorithm.
+ */
+const COFACTOR_INVERSE =
+  2713877091499598330239944961141122840321418634767465352250731601857045344121n;
+
 /** Zero scalar (additive identity) - 32 zero bytes */
 const ZERO_SCALAR = new Uint8Array(SCALAR_SIZE);
 
@@ -271,19 +280,20 @@ function isIdentityPoint(point: Ed25519Point): boolean {
 }
 
 /**
- * Check if a point is torsion-free (in the prime-order subgroup)
- * A point is torsion-free if multiplying by the cofactor gives a valid non-identity point.
+ * Check if a point is torsion-free (in the prime-order subgroup).
+ *
+ * A point P is torsion-free iff P == (8*P) * (8^-1 mod l)
+ * This matches the is_torsion_free() check in the Rust curve25519_dalek crate.
  */
 function isTorsionFree(point: EdwardsPoint): boolean {
-  // Multiply by cofactor (8) and check it's not identity
-  // For points in the prime-order subgroup, this should give a valid point
-  // For points with small-order components, this gives identity
-  try {
-    const multiplied = point.multiply(8n);
-    return multiplied.equals(ExtendedPoint.ZERO) === false;
-  } catch {
-    return false;
-  }
+  // Multiply by cofactor (8) to clear any torsion component
+  const clearedPoint = point.multiply(8n);
+
+  // Multiply by cofactor inverse to recover a prime-subgroup point
+  const recoveredPoint = clearedPoint.multiply(COFACTOR_INVERSE);
+
+  // If original point equals recovered point, it was torsion-free
+  return point.equals(recoveredPoint);
 }
 
 /**

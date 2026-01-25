@@ -433,6 +433,10 @@ export const Secp256K1ScalarField: Field = {
     return mod(-scalar);
   },
 
+  eq(a: bigint, b: bigint): boolean {
+    return a === b;
+  },
+
   invert(scalar: bigint): bigint {
     if (scalar === 0n) {
       throw FieldError.invalidZeroScalar();
@@ -495,6 +499,11 @@ export const Secp256K1Group: Group = {
   ELEMENT_LENGTH: ELEMENT_SIZE,
   Field: Secp256K1ScalarField,
 
+  // Lowercase getter for core compatibility
+  get field() {
+    return Secp256K1ScalarField;
+  },
+
   cofactor(): bigint {
     return 1n;
   },
@@ -535,28 +544,81 @@ export const Secp256K1Group: Group = {
   },
 
   add(a: Uint8Array, b: Uint8Array): Uint8Array {
+    // Handle identity: 0 + P = P, P + 0 = P
+    const aIsIdentity = this.isIdentity(a);
+    const bIsIdentity = this.isIdentity(b);
+
+    if (aIsIdentity && bIsIdentity) {
+      return this.identity();
+    }
+    if (aIsIdentity) {
+      return new Uint8Array(b);
+    }
+    if (bIsIdentity) {
+      return new Uint8Array(a);
+    }
+
     const pointA = secp256k1.ProjectivePoint.fromHex(a);
     const pointB = secp256k1.ProjectivePoint.fromHex(b);
-    return pointA.add(pointB).toRawBytes(true);
+    const result = pointA.add(pointB);
+    // Check if result is identity
+    if (result.equals(secp256k1.ProjectivePoint.ZERO)) {
+      return this.identity();
+    }
+    return result.toRawBytes(true);
   },
 
   sub(a: Uint8Array, b: Uint8Array): Uint8Array {
+    // Handle identity: 0 - P = -P, P - 0 = P
+    const aIsIdentity = this.isIdentity(a);
+    const bIsIdentity = this.isIdentity(b);
+
+    if (aIsIdentity && bIsIdentity) {
+      return this.identity();
+    }
+    if (aIsIdentity) {
+      const pointB = secp256k1.ProjectivePoint.fromHex(b);
+      return pointB.negate().toRawBytes(true);
+    }
+    if (bIsIdentity) {
+      return new Uint8Array(a);
+    }
+
     const pointA = secp256k1.ProjectivePoint.fromHex(a);
     const pointB = secp256k1.ProjectivePoint.fromHex(b);
-    return pointA.subtract(pointB).toRawBytes(true);
+    const result = pointA.subtract(pointB);
+    // Check if result is identity
+    if (result.equals(secp256k1.ProjectivePoint.ZERO)) {
+      return this.identity();
+    }
+    return result.toRawBytes(true);
   },
 
   negate(element: Uint8Array): Uint8Array {
+    // -0 = 0
+    if (this.isIdentity(element)) {
+      return this.identity();
+    }
     const point = secp256k1.ProjectivePoint.fromHex(element);
     return point.negate().toRawBytes(true);
   },
 
   scalarMul(element: Uint8Array, scalar: bigint): Uint8Array {
+    // P * 0 = 0
     if (scalar === 0n) {
       return this.identity();
     }
+    // 0 * s = 0
+    if (this.isIdentity(element)) {
+      return this.identity();
+    }
     const point = secp256k1.ProjectivePoint.fromHex(element);
-    return point.multiply(scalar).toRawBytes(true);
+    const result = point.multiply(scalar);
+    // Check if result is identity
+    if (result.equals(secp256k1.ProjectivePoint.ZERO)) {
+      return this.identity();
+    }
+    return result.toRawBytes(true);
   },
 
   basePointMul(scalar: bigint): Uint8Array {

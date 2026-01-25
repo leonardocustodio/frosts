@@ -247,9 +247,30 @@ function deserializeScalar(bytes: Uint8Array): Secp256K1Scalar {
 const ProjectivePoint = secp256k1.ProjectivePoint;
 
 /**
+ * The identity point encoding (33 zero bytes).
+ * noble-curves secp256k1 doesn't support serializing/deserializing identity,
+ * so we use this special representation.
+ */
+const IDENTITY_BYTES = new Uint8Array(ELEMENT_SIZE);
+
+/**
+ * Check if bytes represent our special identity encoding (all zeros)
+ */
+function isIdentityBytes(point: Secp256K1Point): boolean {
+  if (point.length !== ELEMENT_SIZE) return false;
+  for (let i = 0; i < point.length; i++) {
+    if (point[i] !== 0) return false;
+  }
+  return true;
+}
+
+/**
  * Check if a point is the identity element
  */
 function isIdentityPoint(point: Secp256K1Point): boolean {
+  // First check our special identity encoding
+  if (isIdentityBytes(point)) return true;
+  // Then try to decode and check if it's ZERO (shouldn't happen with noble-curves but be safe)
   try {
     const decoded = ProjectivePoint.fromHex(point);
     return decoded.equals(ProjectivePoint.ZERO);
@@ -259,13 +280,32 @@ function isIdentityPoint(point: Secp256K1Point): boolean {
 }
 
 /**
- * Add two points on the curve
+ * Add two points on the curve.
+ * Handles identity specially since noble-curves secp256k1 can't serialize/deserialize identity.
  */
 function pointAdd(a: Secp256K1Point, b: Secp256K1Point): Secp256K1Point {
+  // Handle identity: 0 + P = P, P + 0 = P
+  const aIsIdentity = isIdentityBytes(a);
+  const bIsIdentity = isIdentityBytes(b);
+
+  if (aIsIdentity && bIsIdentity) {
+    return new Uint8Array(IDENTITY_BYTES);
+  }
+  if (aIsIdentity) {
+    return new Uint8Array(b);
+  }
+  if (bIsIdentity) {
+    return new Uint8Array(a);
+  }
+
   try {
     const aPoint = ProjectivePoint.fromHex(a);
     const bPoint = ProjectivePoint.fromHex(b);
     const result = aPoint.add(bPoint);
+    // Check if result is identity (P + (-P) = 0)
+    if (result.equals(ProjectivePoint.ZERO)) {
+      return new Uint8Array(IDENTITY_BYTES);
+    }
     return result.toRawBytes(true); // compressed
   } catch (_e) {
     throw GroupError.malformedElement();
@@ -273,13 +313,38 @@ function pointAdd(a: Secp256K1Point, b: Secp256K1Point): Secp256K1Point {
 }
 
 /**
- * Subtract two points on the curve
+ * Subtract two points on the curve.
+ * Handles identity specially since noble-curves secp256k1 can't serialize/deserialize identity.
  */
 function pointSub(a: Secp256K1Point, b: Secp256K1Point): Secp256K1Point {
+  // Handle identity: 0 - P = -P, P - 0 = P
+  const aIsIdentity = isIdentityBytes(a);
+  const bIsIdentity = isIdentityBytes(b);
+
+  if (aIsIdentity && bIsIdentity) {
+    return new Uint8Array(IDENTITY_BYTES);
+  }
+  if (aIsIdentity) {
+    // 0 - P = -P
+    try {
+      const bPoint = ProjectivePoint.fromHex(b);
+      return bPoint.negate().toRawBytes(true);
+    } catch (_e) {
+      throw GroupError.malformedElement();
+    }
+  }
+  if (bIsIdentity) {
+    return new Uint8Array(a);
+  }
+
   try {
     const aPoint = ProjectivePoint.fromHex(a);
     const bPoint = ProjectivePoint.fromHex(b);
     const result = aPoint.subtract(bPoint);
+    // Check if result is identity (P - P = 0)
+    if (result.equals(ProjectivePoint.ZERO)) {
+      return new Uint8Array(IDENTITY_BYTES);
+    }
     return result.toRawBytes(true); // compressed
   } catch (_e) {
     throw GroupError.malformedElement();
@@ -287,9 +352,15 @@ function pointSub(a: Secp256K1Point, b: Secp256K1Point): Secp256K1Point {
 }
 
 /**
- * Negate a point on the curve
+ * Negate a point on the curve.
+ * Handles identity specially: -0 = 0
  */
 function pointNegate(a: Secp256K1Point): Secp256K1Point {
+  // -0 = 0
+  if (isIdentityBytes(a)) {
+    return new Uint8Array(IDENTITY_BYTES);
+  }
+
   try {
     const aPoint = ProjectivePoint.fromHex(a);
     const result = aPoint.negate();
@@ -300,16 +371,29 @@ function pointNegate(a: Secp256K1Point): Secp256K1Point {
 }
 
 /**
- * Scalar multiplication: point * scalar
+ * Scalar multiplication: point * scalar.
+ * Handles identity and zero scalar specially.
  */
 function pointMul(point: Secp256K1Point, scalar: Secp256K1Scalar): Secp256K1Point {
+  const s = bytesToBigInt(scalar);
+
+  // P * 0 = 0
+  if (s === 0n) {
+    return new Uint8Array(IDENTITY_BYTES);
+  }
+
+  // 0 * s = 0 (identity times anything is identity)
+  if (isIdentityBytes(point)) {
+    return new Uint8Array(IDENTITY_BYTES);
+  }
+
   try {
     const p = ProjectivePoint.fromHex(point);
-    const s = bytesToBigInt(scalar);
-    if (s === 0n) {
-      return ProjectivePoint.ZERO.toRawBytes(true);
-    }
     const result = p.multiply(s);
+    // Check if result is identity (can happen with certain scalars)
+    if (result.equals(ProjectivePoint.ZERO)) {
+      return new Uint8Array(IDENTITY_BYTES);
+    }
     return result.toRawBytes(true); // compressed
   } catch (_e) {
     throw GroupError.malformedElement();
@@ -317,13 +401,14 @@ function pointMul(point: Secp256K1Point, scalar: Secp256K1Scalar): Secp256K1Poin
 }
 
 /**
- * Scalar base multiplication: generator * scalar
+ * Scalar base multiplication: generator * scalar.
+ * Handles zero scalar specially.
  */
 function scalarBaseMulPoint(scalar: Secp256K1Scalar): Secp256K1Point {
   try {
     const s = bytesToBigInt(scalar);
     if (s === 0n) {
-      return ProjectivePoint.ZERO.toRawBytes(true);
+      return new Uint8Array(IDENTITY_BYTES);
     }
     const result = ProjectivePoint.BASE.multiply(s);
     return result.toRawBytes(true); // compressed
