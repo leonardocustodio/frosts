@@ -1,8 +1,8 @@
 {
-  "name": "@frost/core",
+  "name": "@frost/secp256k1-tr",
   "version": "0.2.2",
   "type": "module",
-  "description": "Core types and traits for FROST (Flexible Round-Optimized Schnorr Threshold) signatures",
+  "description": "FROST(secp256k1, SHA-256) Taproot - A BIP-340 compatible Schnorr signature scheme over secp256k1 that supports FROST threshold signatures",
   "license": "MIT",
   "contributors": [
     {
@@ -15,21 +15,21 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/leonardocustodio/frost",
-    "directory": "frost-typescript/packages/core"
+    "directory": "frost-typescript/packages/secp256k1-tr"
   },
   "bugs": {
     "url": "https://github.com/leonardocustodio/frost/issues"
   },
   "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.mts",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "browser": "dist/index.iife.js",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
       "require": "./dist/index.cjs",
-      "default": "./dist/index.mjs"
+      "default": "./dist/index.js"
     }
   },
   "files": [
@@ -50,24 +50,32 @@
   },
   "keywords": [
     "frost",
+    "secp256k1",
+    "taproot",
+    "bip-340",
+    "bip-341",
     "threshold-signatures",
     "schnorr",
     "cryptography",
+    "sha256",
     "mpc",
-    "dkg",
-    "signature"
+    "signature",
+    "bitcoin"
   ],
   "engines": {
     "node": ">=18.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@frost/core": "workspace:*",
+    "@frost/rerandomized": "workspace:*",
+    "@noble/curves": "^1.8.2",
+    "@noble/hashes": "^1.7.3"
+  },
   "devDependencies": {
     "@frost/eslint": "workspace:*",
     "@frost/tsconfig": "workspace:*",
-    "@eslint/js": "^9.39.2",
     "@types/node": "^25.0.10",
     "eslint": "^9.39.2",
-    "prettier": "^3.8.1",
     "tsdown": "^0.20.1",
     "typedoc": "^0.28.5",
     "typescript": "^5.9.3",

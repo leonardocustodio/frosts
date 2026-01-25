@@ -7,12 +7,7 @@
  * @module randomize
  */
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-
-import type { Ciphersuite, Identifier } from "@frost/core";
+import type { Ciphersuite } from "@frost/core";
 import { KeyPackage, PublicKeyPackage, SigningShare, VerifyingShare } from "@frost/core";
 import type { RandomizedParams } from "./params.js";
 
@@ -64,7 +59,7 @@ export function randomizeKeyPackage<C extends Ciphersuite>(
   // Create the randomized key package
   return new KeyPackage(
     ciphersuite,
-    keyPackage.identifier as Identifier<C>,
+    keyPackage.identifier,
     randomizedSigningShare,
     randomizedVerifyingShare,
     randomizedParams.randomizedVerifyingKey.toElement(),
