@@ -127,6 +127,25 @@ export class SignatureShare<C extends Ciphersuite> {
   toString(): string {
     return `SignatureShare(${bytesToHex(this.serialize())})`;
   }
+
+  /**
+   * Check equality with another SignatureShare.
+   *
+   * @param other - The other SignatureShare to compare
+   * @returns true if the shares are equal
+   */
+  equals(other: SignatureShare<C>): boolean {
+    return this.ciphersuite.scalarsEqual(this.share, other.share);
+  }
+
+  /**
+   * Clone this SignatureShare.
+   *
+   * @returns A new SignatureShare with the same value
+   */
+  clone(): SignatureShare<C> {
+    return new SignatureShare(this.ciphersuite, this.share);
+  }
 }
 
 /**

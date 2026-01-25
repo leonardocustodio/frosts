@@ -448,6 +448,15 @@ export class SigningCommitments<C extends Ciphersuite> {
   toString(): string {
     return `SigningCommitments { hiding: ${this.hiding.toString()}, binding: ${this.binding.toString()} }`;
   }
+
+  /**
+   * Clone this SigningCommitments.
+   *
+   * @returns A new SigningCommitments with the same values
+   */
+  clone(): SigningCommitments<C> {
+    return new SigningCommitments(this.ciphersuite, this.hiding, this.binding);
+  }
 }
 
 /**

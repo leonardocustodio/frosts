@@ -4,88 +4,88 @@
  */
 
 import { describe, it, expect, beforeEach } from "vitest";
-import type { CryptoRng } from "./helpers.js";
+import { Ristretto255Sha512, CoefficientCommitment } from "@frosts/ristretto255";
+import type { CryptoRng, Ciphersuite } from "../src/index.js";
 import { createSecureRng, generateElement, hexToBytes } from "./helpers.js";
 
-// Types will be imported from actual implementation once available
-import type { Ciphersuite } from "../src/index.js";
+/**
+ * Invalid element for testing deserialization errors.
+ * This is a known invalid ristretto255 point encoding.
+ */
+const INVALID_ELEMENT = "abcdef7de8baf62d57fe0452581b147b152f776e830c346d1119cee0bc954a59";
 
 describe("CoefficientCommitment", () => {
-  let _rng: CryptoRng;
+  let rng: CryptoRng;
+  const ciphersuite = Ristretto255Sha512;
 
   beforeEach(() => {
-    _rng = createSecureRng();
+    rng = createSecureRng();
   });
 
   describe("Serialization", () => {
-    it.skip("should serialize a CoefficientCommitment correctly", () => {
+    it("should serialize a CoefficientCommitment correctly", () => {
       // Test logic from Rust:
       // 1. Generate a random element
       // 2. Serialize the element directly
       // 3. Create a CoefficientCommitment from the element
       // 4. Serialize the CoefficientCommitment
       // 5. Verify both serializations match
-      //
-      // const element = generateElement(ciphersuite, rng);
-      // const expected = ciphersuite.group.serialize(element);
-      // const commitment = new CoefficientCommitment(element);
-      // const data = commitment.serialize();
-      // expect(data).toEqual(expected);
 
-      expect(true).toBe(true); // Placeholder
+      const element = generateElement(ciphersuite, rng);
+      const expected = ciphersuite.serializeElement(element);
+      const commitment = new CoefficientCommitment(ciphersuite, element);
+      const data = commitment.serialize();
+
+      expect(data).toEqual(expected);
     });
   });
 
   describe("Creation", () => {
-    it.skip("should create a CoefficientCommitment from serialized element", () => {
+    it("should create a CoefficientCommitment from serialized element", () => {
       // Test logic from Rust:
       // 1. Generate a random element
       // 2. Create expected CoefficientCommitment directly
       // 3. Serialize the element
       // 4. Deserialize to create CoefficientCommitment
       // 5. Verify they are equal
-      //
-      // const element = generateElement(ciphersuite, rng);
-      // const expected = new CoefficientCommitment(element);
-      // const serializedElement = ciphersuite.group.serialize(element);
-      // const commitment = CoefficientCommitment.deserialize(serializedElement);
-      // expect(commitment.ok).toBe(true);
-      // expect(commitment.value).toEqual(expected);
 
-      expect(true).toBe(true); // Placeholder
+      const element = generateElement(ciphersuite, rng);
+      const expected = new CoefficientCommitment(ciphersuite, element);
+      const serializedElement = ciphersuite.serializeElement(element);
+      const commitment = CoefficientCommitment.deserialize(ciphersuite, serializedElement);
+
+      expect(commitment.equals(expected)).toBe(true);
     });
   });
 
   describe("Error Handling", () => {
-    it.skip("should fail to deserialize an invalid element", () => {
+    it("should fail to deserialize an invalid element", () => {
       // Test logic from Rust:
-      // Use the invalid_element from test helpers JSON
+      // Use the invalid_element from test helpers
       // Attempt to deserialize it
-      // Verify it returns an error
-      //
-      // const invalidHex = commitmentHelpers.elements.invalid_element;
-      // const serialized = hexToBytes(invalidHex);
-      // const result = CoefficientCommitment.deserialize(serialized);
-      // expect(result.ok).toBe(false);
+      // Verify it throws an error
 
-      expect(true).toBe(true); // Placeholder
+      const serialized = hexToBytes(INVALID_ELEMENT);
+
+      expect(() => {
+        CoefficientCommitment.deserialize(ciphersuite, serialized);
+      }).toThrow();
     });
   });
 
   describe("Value Retrieval", () => {
-    it.skip("should retrieve the element value from CoefficientCommitment", () => {
+    it("should retrieve the element value from CoefficientCommitment", () => {
       // Test logic from Rust:
       // 1. Generate a random element
       // 2. Create a CoefficientCommitment
       // 3. Get the value back
       // 4. Verify it matches the original element
-      //
-      // const element = generateElement(ciphersuite, rng);
-      // const commitment = new CoefficientCommitment(element);
-      // const value = commitment.value();
-      // expect(value).toEqual(element);
 
-      expect(true).toBe(true); // Placeholder
+      const element = generateElement(ciphersuite, rng);
+      const commitment = new CoefficientCommitment(ciphersuite, element);
+      const value = commitment.value();
+
+      expect(ciphersuite.elementsEqual(value, element)).toBe(true);
     });
   });
 });
@@ -99,18 +99,12 @@ export function checkSerializationOfCoefficientCommitment<C extends Ciphersuite>
   ciphersuite: C,
   rng: CryptoRng,
 ): void {
-  // Generate a random element
   const element = generateElement(ciphersuite, rng);
+  const expected = ciphersuite.serializeElement(element);
+  const commitment = new CoefficientCommitment(ciphersuite, element);
+  const data = commitment.serialize();
 
-  // Get expected serialization
-  const _expected = ciphersuite.group.serialize(element);
-
-  // Create commitment and serialize
-  // const commitment = new ciphersuite.CoefficientCommitment(element);
-  // const data = commitment.serialize();
-
-  // Verify they match
-  // expect(expected).toEqual(data);
+  expect(expected).toEqual(data);
 }
 
 /**
@@ -120,36 +114,27 @@ export function checkCreateCoefficientCommitment<C extends Ciphersuite>(
   ciphersuite: C,
   rng: CryptoRng,
 ): void {
-  // Generate a random element
   const element = generateElement(ciphersuite, rng);
+  const expected = new CoefficientCommitment(ciphersuite, element);
+  const serializedElement = ciphersuite.serializeElement(element);
+  const commitment = CoefficientCommitment.deserialize(ciphersuite, serializedElement);
 
-  // Create expected commitment directly
-  // const expected = new ciphersuite.CoefficientCommitment(element);
-
-  // Serialize and deserialize
-  const _serializedElement = ciphersuite.group.serialize(element);
-  // const commitment = ciphersuite.CoefficientCommitment.deserialize(serializedElement);
-
-  // Verify they match
-  // expect(commitment).toEqual(expected);
+  expect(commitment.equals(expected)).toBe(true);
 }
 
 /**
  * Test error handling for CoefficientCommitment creation.
  */
 export function checkCreateCoefficientCommitmentError<C extends Ciphersuite>(
-  _ciphersuite: C,
+  ciphersuite: C,
   commitmentHelpers: { elements: { invalid_element: string } },
 ): void {
-  // Get invalid element bytes
   const invalidHex = commitmentHelpers.elements.invalid_element;
-  const _serialized = hexToBytes(invalidHex);
+  const serialized = hexToBytes(invalidHex);
 
-  // Attempt to deserialize
-  // const result = ciphersuite.CoefficientCommitment.deserialize(serialized);
-
-  // Should fail
-  // expect(result.ok).toBe(false);
+  expect(() => {
+    CoefficientCommitment.deserialize(ciphersuite, serialized);
+  }).toThrow();
 }
 
 /**
@@ -159,15 +144,9 @@ export function checkGetValueOfCoefficientCommitment<C extends Ciphersuite>(
   ciphersuite: C,
   rng: CryptoRng,
 ): void {
-  // Generate a random element
-  const _element = generateElement(ciphersuite, rng);
+  const element = generateElement(ciphersuite, rng);
+  const commitment = new CoefficientCommitment(ciphersuite, element);
+  const value = commitment.value();
 
-  // Create commitment
-  // const commitment = new ciphersuite.CoefficientCommitment(element);
-
-  // Get value
-  // const value = commitment.value();
-
-  // Verify it matches
-  // expect(value).toEqual(element);
+  expect(ciphersuite.elementsEqual(value, element)).toBe(true);
 }

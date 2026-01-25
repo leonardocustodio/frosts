@@ -99,6 +99,22 @@ export namespace round1 {
         this.ciphersuite.scalarsEqual(this.proofOfKnowledge.z, other.proofOfKnowledge.z)
       );
     }
+
+    /**
+     * Clone this Package.
+     *
+     * @returns A new Package with the same values
+     */
+    clone(): Package<C> {
+      return new Package(this.ciphersuite, this.commitment, this.proofOfKnowledge);
+    }
+
+    /**
+     * Returns a string representation of this Package.
+     */
+    toString(): string {
+      return `round1::Package { commitment: <${this.commitment.coefficients().length} coefficients>, proofOfKnowledge: <...> }`;
+    }
   }
 
   /**
@@ -183,6 +199,29 @@ export namespace round1 {
       }
       return true;
     }
+
+    /**
+     * Clone this SecretPackage.
+     *
+     * @returns A new SecretPackage with the same values
+     */
+    clone(): SecretPackage<C> {
+      return new SecretPackage(
+        this.ciphersuite,
+        this.identifier,
+        [...this.coefficientValues],
+        this.commitment,
+        this.minSigners,
+        this.maxSigners,
+      );
+    }
+
+    /**
+     * Returns a string representation of this SecretPackage (redacted for security).
+     */
+    toString(): string {
+      return `round1::SecretPackage { identifier: ${this.identifier.toString()}, minSigners: ${this.minSigners}, maxSigners: ${this.maxSigners}, coefficients: <redacted> }`;
+    }
   }
 }
 
@@ -223,6 +262,22 @@ export namespace round2 {
      */
     equals(other: Package<C>): boolean {
       return this.signingShare.equals(other.signingShare);
+    }
+
+    /**
+     * Clone this Package.
+     *
+     * @returns A new Package with the same values
+     */
+    clone(): Package<C> {
+      return new Package(this.ciphersuite, this.signingShare.clone());
+    }
+
+    /**
+     * Returns a string representation of this Package (redacted for security).
+     */
+    toString(): string {
+      return "round2::Package { signingShare: <redacted> }";
     }
   }
 
@@ -296,6 +351,29 @@ export namespace round2 {
         this.minSigners === other.minSigners &&
         this.maxSigners === other.maxSigners
       );
+    }
+
+    /**
+     * Clone this SecretPackage.
+     *
+     * @returns A new SecretPackage with the same values
+     */
+    clone(): SecretPackage<C> {
+      return new SecretPackage(
+        this.ciphersuite,
+        this.identifier,
+        this.commitment,
+        this.secretShareValue,
+        this.minSigners,
+        this.maxSigners,
+      );
+    }
+
+    /**
+     * Returns a string representation of this SecretPackage (redacted for security).
+     */
+    toString(): string {
+      return `round2::SecretPackage { identifier: ${this.identifier.toString()}, minSigners: ${this.minSigners}, maxSigners: ${this.maxSigners}, secretShare: <redacted> }`;
     }
   }
 }

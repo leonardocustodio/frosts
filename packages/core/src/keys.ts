@@ -240,6 +240,24 @@ export class SigningShare<C extends Ciphersuite> {
   }
 
   /**
+   * Clone this SigningShare.
+   *
+   * @returns A new SigningShare with the same value
+   */
+  clone(): SigningShare<C> {
+    return new SigningShare(this.ciphersuite, this.scalar);
+  }
+
+  /**
+   * Convert to string representation.
+   *
+   * @returns Debug string (redacted for security)
+   */
+  toString(): string {
+    return "SigningShare(<redacted>)";
+  }
+
+  /**
    * Convert to a VerifyingShare.
    *
    * @returns The corresponding VerifyingShare
@@ -330,6 +348,27 @@ export class VerifyingShare<C extends Ciphersuite> {
   equals(other: VerifyingShare<C>): boolean {
     return this.ciphersuite.elementsEqual(this.element, other.element);
   }
+
+  /**
+   * Clone this VerifyingShare.
+   *
+   * @returns A new VerifyingShare with the same value
+   */
+  clone(): VerifyingShare<C> {
+    return new VerifyingShare(this.ciphersuite, this.element);
+  }
+
+  /**
+   * Convert to string representation.
+   *
+   * @returns Debug string with hex element
+   */
+  toString(): string {
+    const hex = Array.from(this.serialize())
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    return `VerifyingShare(${hex})`;
+  }
 }
 
 /**
@@ -396,6 +435,27 @@ export class CoefficientCommitment<C extends Ciphersuite> {
    */
   equals(other: CoefficientCommitment<C>): boolean {
     return this.ciphersuite.elementsEqual(this.element, other.element);
+  }
+
+  /**
+   * Clone this CoefficientCommitment.
+   *
+   * @returns A new CoefficientCommitment with the same value
+   */
+  clone(): CoefficientCommitment<C> {
+    return new CoefficientCommitment(this.ciphersuite, this.element);
+  }
+
+  /**
+   * Convert to string representation.
+   *
+   * @returns Debug string with hex element
+   */
+  toString(): string {
+    const hex = Array.from(this.serialize())
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    return `CoefficientCommitment(${hex})`;
   }
 }
 
@@ -552,6 +612,27 @@ export class VerifiableSecretSharingCommitment<C extends Ciphersuite> {
     }
     return true;
   }
+
+  /**
+   * Clone this VerifiableSecretSharingCommitment.
+   *
+   * @returns A new VerifiableSecretSharingCommitment with the same values
+   */
+  clone(): VerifiableSecretSharingCommitment<C> {
+    return new VerifiableSecretSharingCommitment(
+      this.ciphersuite,
+      this.commitmentCoefficients.map((c) => c.clone()),
+    );
+  }
+
+  /**
+   * Convert to string representation.
+   *
+   * @returns Debug string
+   */
+  toString(): string {
+    return `VerifiableSecretSharingCommitment(${this.commitmentCoefficients.length} coefficients)`;
+  }
 }
 
 /**
@@ -654,6 +735,29 @@ export class SecretShare<C extends Ciphersuite> {
       this.signingShare.equals(other.signingShare) &&
       this.commitment.equals(other.commitment)
     );
+  }
+
+  /**
+   * Clone this SecretShare.
+   *
+   * @returns A new SecretShare with the same values
+   */
+  clone(): SecretShare<C> {
+    return new SecretShare(
+      this.ciphersuite,
+      this.identifier.clone(),
+      this.signingShare.clone(),
+      this.commitment.clone(),
+    );
+  }
+
+  /**
+   * Convert to string representation.
+   *
+   * @returns Debug string
+   */
+  toString(): string {
+    return `SecretShare(identifier: ${this.identifier.toString()})`;
   }
 }
 
@@ -911,6 +1015,31 @@ export class KeyPackage<C extends Ciphersuite> {
       this.minSigners === other.minSigners
     );
   }
+
+  /**
+   * Clone this KeyPackage.
+   *
+   * @returns A new KeyPackage with the same values
+   */
+  clone(): KeyPackage<C> {
+    return new KeyPackage(
+      this.ciphersuite,
+      this.identifier.clone(),
+      this.signingShare.clone(),
+      this.verifyingShare.clone(),
+      this.verifyingKey,
+      this.minSigners,
+    );
+  }
+
+  /**
+   * Convert to string representation.
+   *
+   * @returns Debug string
+   */
+  toString(): string {
+    return `KeyPackage(identifier: ${this.identifier.toString()}, minSigners: ${this.minSigners})`;
+  }
 }
 
 /**
@@ -1043,6 +1172,36 @@ export class PublicKeyPackage<C extends Ciphersuite> {
       }
     }
     return true;
+  }
+
+  /**
+   * Clone this PublicKeyPackage.
+   *
+   * @returns A new PublicKeyPackage with the same values
+   */
+  clone(): PublicKeyPackage<C> {
+    const clonedShares = new Map<string, VerifyingShare<C>>();
+    for (const [key, share] of this.verifyingShares) {
+      clonedShares.set(key, share.clone());
+    }
+    return new PublicKeyPackage(
+      this.ciphersuite,
+      clonedShares,
+      this.verifyingKey,
+      this.minSigners,
+    );
+  }
+
+  /**
+   * Convert to string representation.
+   *
+   * @returns Debug string
+   */
+  toString(): string {
+    const vkHex = Array.from(this.ciphersuite.serializeElement(this.verifyingKey))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    return `PublicKeyPackage(verifyingKey: ${vkHex.slice(0, 16)}..., ${this.verifyingShares.size} shares)`;
   }
 }
 
