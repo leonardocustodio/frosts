@@ -20,7 +20,7 @@ import {
 import type { KeyPackage, PublicKeyPackage } from "./index.js";
 
 // Re-use the ciphersuite type
-type S = Ed25519Sha512Impl;
+type E = Ed25519Sha512Impl;
 
 /**
  * DKG Round 1 structures.
@@ -34,13 +34,13 @@ export namespace round1 {
    *
    * This package MUST NOT be sent to other participants!
    */
-  export type SecretPackage = coreRound1.SecretPackage<S>;
+  export type SecretPackage = coreRound1.SecretPackage<E>;
 
   /**
    * The package that must be broadcast by each participant to all other participants
    * between the first and second parts of the DKG protocol (round 1).
    */
-  export type Package = coreRound1.Package<S>;
+  export type Package = coreRound1.Package<E>;
 }
 
 /**
@@ -55,7 +55,7 @@ export namespace round2 {
    *
    * This package MUST NOT be sent to other participants!
    */
-  export type SecretPackage = coreRound2.SecretPackage<S>;
+  export type SecretPackage = coreRound2.SecretPackage<E>;
 
   /**
    * A package that must be sent by each participant to some other participants
@@ -66,7 +66,7 @@ export namespace round2 {
    *
    * The package must be sent on an *confidential* and *authenticated* channel.
    */
-  export type Package = coreRound2.Package<S>;
+  export type Package = coreRound2.Package<E>;
 }
 
 /**
@@ -86,8 +86,8 @@ export namespace round2 {
  * @throws {FrostError} If parameters are invalid
  */
 export function part1(
-  ciphersuite: S,
-  identifier: Identifier<S>,
+  ciphersuite: E,
+  identifier: Identifier<E>,
   maxSigners: number,
   minSigners: number,
   rng: RandomSource,
@@ -119,7 +119,7 @@ export function part1(
  * @throws {FrostError} If validation fails
  */
 export function part2(
-  ciphersuite: S,
+  ciphersuite: E,
   secretPackage: round1.SecretPackage,
   round1Packages: Map<string, round1.Package>,
 ): [round2.SecretPackage, Map<string, round2.Package>] {
@@ -153,7 +153,7 @@ export function part2(
  * @throws {FrostError} If validation fails
  */
 export function part3(
-  ciphersuite: S,
+  ciphersuite: E,
   round2SecretPackage: round2.SecretPackage,
   round1Packages: Map<string, round1.Package>,
   round2Packages: Map<string, round2.Package>,
