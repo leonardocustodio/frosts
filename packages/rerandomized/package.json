@@ -4,21 +4,15 @@
   "type": "module",
   "description": "Re-randomized FROST signatures for threshold cryptography with re-randomizable keys",
   "license": "MIT",
-  "contributors": [
-    {
-      "name": "Leonardo Custodio",
-      "email": "leonardo.custodio@parity.io",
-      "url": "https://github.com/leonardocustodio"
-    }
-  ],
-  "homepage": "https://github.com/leonardocustodio/frost",
+  "author": "Leonardo Custodio <leonardo.custodio@parity.io> (https://github.com/leonardocustodio)",
+  "homepage": "https://github.com/leonardocustodio/frosts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/leonardocustodio/frost",
-    "directory": "frost-typescript/packages/rerandomized"
+    "url": "https://github.com/leonardocustodio/frosts",
+    "directory": "packages/rerandomized"
   },
   "bugs": {
-    "url": "https://github.com/leonardocustodio/frost/issues"
+    "url": "https://github.com/leonardocustodio/frosts/issues"
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",

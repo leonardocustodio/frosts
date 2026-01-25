@@ -513,6 +513,7 @@ export interface Ciphersuite {
   /**
    * Optional. Verify a signing share.
    * Called by aggregate() if cheater detection is enabled.
+   * @param groupVerifyingKey - Optional group verifying key for ciphersuites that need it (e.g., BIP-340)
    */
   verifyShare?<C extends Ciphersuite>(
     groupCommitment: GroupCommitment<C>,
@@ -522,6 +523,7 @@ export interface Ciphersuite {
     verifyingShare: VerifyingShareLike<C>,
     lambdaI: this["Scalar"],
     challenge: Challenge<C>,
+    groupVerifyingKey?: this["Element"],
   ): void;
 
   // Computation helpers
@@ -733,6 +735,17 @@ export class BindingFactorList<C extends Ciphersuite> {
       stringMap.set(bytesToHex(serializeFn(id)), factor);
     }
     return new BindingFactorList(ciphersuite, stringMap);
+  }
+
+  /**
+   * Create from a map with string keys (hex-encoded identifiers).
+   * @internal
+   */
+  static fromMap<C extends Ciphersuite>(
+    ciphersuite: C,
+    factors: Map<string, BindingFactor<C>>,
+  ): BindingFactorList<C> {
+    return new BindingFactorList(ciphersuite, factors);
   }
 
   /**

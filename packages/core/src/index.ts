@@ -76,6 +76,9 @@ export * from "./keys.js";
 // Batch verification
 export * from "./batch.js";
 
+// Signature aggregation
+export * from "./aggregate.js";
+
 // Generic test functions for ciphersuite packages
 // These are parameterized test functions that can be called with a specific ciphersuite
 export * as tests from "./tests/index.js";

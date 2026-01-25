@@ -51,3 +51,17 @@ export {
   checkDeserializeWholeVssCommitmentInvalidLength,
   checkComputePublicKeyPackage,
 } from "./vss-commitment.js";
+
+// Re-export ciphersuite-generic test functions
+export {
+  checkZeroKeyFails,
+  checkShareGeneration,
+  checkShareGenerationFailsWithInvalidSigners,
+  checkSignWithDealer,
+  checkSign,
+  checkSignWithDealerFailsWithInvalidSigners,
+  checkErrorCulprit,
+  checkIdentifierDerivation,
+  checkSignWithDkg,
+  checkDkgPart1FailsWithInvalidSigners,
+} from "./ciphersuite-generic.js";

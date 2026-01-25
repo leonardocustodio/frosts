@@ -4,21 +4,15 @@
   "type": "module",
   "description": "FROST(Ed448, SHAKE256) - A Schnorr signature scheme over Ed448 that supports FROST threshold signatures",
   "license": "MIT",
-  "contributors": [
-    {
-      "name": "Leonardo Custodio",
-      "email": "leonardo.custodio@parity.io",
-      "url": "https://github.com/leonardocustodio"
-    }
-  ],
-  "homepage": "https://github.com/leonardocustodio/frost",
+  "author": "Leonardo Custodio <leonardo.custodio@parity.io> (https://github.com/leonardocustodio)",
+  "homepage": "https://github.com/leonardocustodio/frosts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/leonardocustodio/frost",
-    "directory": "frost-typescript/packages/ed448"
+    "url": "https://github.com/leonardocustodio/frosts",
+    "directory": "packages/ed448"
   },
   "bugs": {
-    "url": "https://github.com/leonardocustodio/frost/issues"
+    "url": "https://github.com/leonardocustodio/frosts/issues"
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",

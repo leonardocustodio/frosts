@@ -52,3 +52,7 @@ playwright-report/
 
 # Misc
 *.pem
+
+.claude
+.claude-flow
+.swarm

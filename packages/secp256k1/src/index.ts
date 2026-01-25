@@ -1059,12 +1059,23 @@ class Secp256K1Sha256Impl implements RandomizedCiphersuite {
    */
   challenge(
     R: Secp256K1Point,
-    verifyingKey: VerifyingKey<Secp256K1Sha256Impl>,
+    verifyingKey: unknown,
     message: Uint8Array,
   ): CoreChallenge<this> {
     // Build the preimage: R || verifying_key || message
     const rBytes = this.serializeElement(R);
-    const pkBytes = verifyingKey.serialize();
+    // Handle both VerifyingKey objects and raw elements
+    let pkBytes: Uint8Array;
+    if (
+      typeof verifyingKey === "object" &&
+      verifyingKey !== null &&
+      "serialize" in verifyingKey &&
+      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+    ) {
+      pkBytes = (verifyingKey as VerifyingKey<Secp256K1Sha256Impl>).serialize();
+    } else {
+      pkBytes = this.group.serialize(verifyingKey as Secp256K1Point);
+    }
 
     const preimage = new Uint8Array(rBytes.length + pkBytes.length + message.length);
     preimage.set(rBytes, 0);
@@ -1087,8 +1098,19 @@ class Secp256K1Sha256Impl implements RandomizedCiphersuite {
     verifyingKey: unknown,
     additionalPrefix: Uint8Array,
   ): BindingFactorList<C> {
-    // Serialize verifying key
-    const vkBytes = (verifyingKey as VerifyingKey<Secp256K1Sha256Impl>).serialize();
+    // Handle both VerifyingKey objects and raw elements (secp256k1 points)
+    let vkBytes: Uint8Array;
+    if (
+      typeof verifyingKey === "object" &&
+      verifyingKey !== null &&
+      "serialize" in verifyingKey &&
+      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+    ) {
+      vkBytes = (verifyingKey as VerifyingKey<Secp256K1Sha256Impl>).serialize();
+    } else {
+      // It's a raw element, serialize it directly
+      vkBytes = this.group.serialize(verifyingKey as Secp256K1Point);
+    }
 
     // Compute message hash H4(message)
     const msgHash = this.H4(signingPackage.message);

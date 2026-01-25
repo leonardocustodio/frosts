@@ -3,20 +3,14 @@
   "version": "0.2.2",
   "private": true,
   "description": "TypeScript implementation of FROST (Flexible Round-Optimized Schnorr Threshold) signatures for threshold cryptography",
-  "contributors": [
-    {
-      "name": "Leonardo Custodio",
-      "email": "leonardo.custodio@parity.io",
-      "url": "https://github.com/leonardocustodio"
-    }
-  ],
-  "homepage": "https://github.com/leonardocustodio/frost",
+  "author": "Leonardo Custodio <leonardo.custodio@parity.io> (https://github.com/leonardocustodio)",
+  "homepage": "https://github.com/leonardocustodio/frosts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leonardocustodio/frost.git"
+    "url": "git+https://github.com/leonardocustodio/frosts.git"
   },
   "bugs": {
-    "url": "https://github.com/leonardocustodio/frost/issues"
+    "url": "https://github.com/leonardocustodio/frosts/issues"
   },
   "keywords": [
     "frost",

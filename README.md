@@ -20,7 +20,6 @@ FROST (Flexible Round-Optimized Schnorr Threshold) is a threshold signature sche
 - **Distributed Key Generation:** Built-in DKG protocol for decentralized key setup
 - **Multiple Curves:** Support for Ed25519, Ed448, P-256, secp256k1, Ristretto255, and Taproot
 
-
 ## 📚 Resources
 
 - [RFC 9591: Two-Round Threshold Schnorr Signatures with FROST](https://datatracker.ietf.org/doc/rfc9591/) - The official IETF specification
@@ -48,17 +47,19 @@ This TypeScript implementation is a port of the excellent work by the [Zcash Fou
 
 ## 🤝 Contributing
 
-Contributions are welcome! The **best way to contribute** to this library is to provide a **security audit** - as a cryptographic library, independent review is invaluable for production readiness.
+Contributions are welcome! See [SECURITY-REVIEW.md](./SECURITY-REVIEW.md) for how to contribute a security audit.
 
-### Other Ways to Contribute
+Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
-- 🐛 **Bug Reports:** Found an issue? Please open a GitHub issue with reproduction steps
-- 📝 **Documentation:** Help improve docs, examples, and tutorials
-- 🧪 **Testing:** Add test cases, especially edge cases and test vectors
-- 🔧 **Code:** Submit PRs for bug fixes or new features
-- 🌍 **Translations:** Help translate documentation
+## 🔐 Security Disclosure
 
-For major changes, please open an issue first to discuss what you would like to change.
+If you discover a security vulnerability, please report it privately via email to **security@snowpine.io**. Do **not** create public issues for security vulnerabilities.
+
+| Contact | Fingerprint |
+|---------|-------------|
+| security@snowpine.io | C018 7736 F305 EF8C 425C 25DB F859 D6F9 A6DE B25A |
+
+Import the key with: `gpg --recv-keys "C018 7736 F305 EF8C 425C 25DB F859 D6F9 A6DE B25A"`
 
 ## 📄 License
 

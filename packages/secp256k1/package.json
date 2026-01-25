@@ -4,21 +4,15 @@
   "type": "module",
   "description": "FROST(secp256k1, SHA-256) - A Schnorr signature scheme over secp256k1 that supports FROST threshold signatures",
   "license": "MIT",
-  "contributors": [
-    {
-      "name": "Leonardo Custodio",
-      "email": "leonardo.custodio@parity.io",
-      "url": "https://github.com/leonardocustodio"
-    }
-  ],
-  "homepage": "https://github.com/leonardocustodio/frost",
+  "author": "Leonardo Custodio <leonardo.custodio@parity.io> (https://github.com/leonardocustodio)",
+  "homepage": "https://github.com/leonardocustodio/frosts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/leonardocustodio/frost",
-    "directory": "frost-typescript/packages/secp256k1"
+    "url": "https://github.com/leonardocustodio/frosts",
+    "directory": "packages/secp256k1"
   },
   "bugs": {
-    "url": "https://github.com/leonardocustodio/frost/issues"
+    "url": "https://github.com/leonardocustodio/frosts/issues"
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",

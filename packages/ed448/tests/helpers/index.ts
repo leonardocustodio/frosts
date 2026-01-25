@@ -181,7 +181,7 @@ export const VECTORS = {
     NUM_PARTICIPANTS: "2",
     MIN_PARTICIPANTS: "2",
     name: "FROST(Ed448, SHAKE256)",
-    group: "ed448",
+    group: "Ed448",
     hash: "SHAKE256",
   },
   inputs: {

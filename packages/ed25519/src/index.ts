@@ -859,12 +859,24 @@ class Ed25519Sha512Impl implements RandomizedCiphersuite {
    */
   challenge(
     R: Ed25519Point,
-    verifyingKey: VerifyingKey<Ed25519Sha512Impl>,
+    verifyingKey: unknown,
     message: Uint8Array,
   ): CoreChallenge<this> {
     // Build the preimage: R || verifying_key || message
     const rBytes = this.serializeElement(R);
-    const pkBytes = verifyingKey.serialize();
+    // Handle both VerifyingKey objects and raw elements (Ed25519 points)
+    let pkBytes: Uint8Array;
+    if (
+      typeof verifyingKey === "object" &&
+      verifyingKey !== null &&
+      "serialize" in verifyingKey &&
+      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+    ) {
+      pkBytes = (verifyingKey as VerifyingKey<Ed25519Sha512Impl>).serialize();
+    } else {
+      // It's a raw element, serialize it directly
+      pkBytes = this.group.serialize(verifyingKey as Ed25519Element);
+    }
 
     const preimage = new Uint8Array(rBytes.length + pkBytes.length + message.length);
     preimage.set(rBytes, 0);
@@ -888,7 +900,19 @@ class Ed25519Sha512Impl implements RandomizedCiphersuite {
     additionalPrefix: Uint8Array,
   ): BindingFactorList<C> {
     // Serialize verifying key
-    const vkBytes = (verifyingKey as VerifyingKey<Ed25519Sha512Impl>).serialize();
+    // Handle both VerifyingKey objects and raw elements (Ed25519 points)
+    let vkBytes: Uint8Array;
+    if (
+      typeof verifyingKey === "object" &&
+      verifyingKey !== null &&
+      "serialize" in verifyingKey &&
+      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+    ) {
+      vkBytes = (verifyingKey as VerifyingKey<Ed25519Sha512Impl>).serialize();
+    } else {
+      // It's a raw element, serialize it directly
+      vkBytes = this.group.serialize(verifyingKey as Ed25519Element);
+    }
 
     // Compute message hash H4(message)
     const msgHash = this.H4(signingPackage.message);
