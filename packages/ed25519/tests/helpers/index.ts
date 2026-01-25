@@ -9,7 +9,7 @@
 export * from "./samples.js";
 
 import { ed25519 } from "@noble/curves/ed25519";
-import type { CryptoRng } from "@frost/core";
+import type { CryptoRng } from "@frosts/core";
 
 // Re-export CryptoRng for convenience
 export type { CryptoRng };

@@ -9,7 +9,7 @@
  */
 
 import type { Ed25519Sha512Impl } from "../index.js";
-import type { RandomSource, IdentifierList as CoreIdentifierList } from "@frost/core";
+import type { RandomSource, IdentifierList as CoreIdentifierList } from "@frosts/core";
 import {
   type KeyPackage as CoreKeyPackage,
   type PublicKeyPackage as CorePublicKeyPackage,
@@ -21,7 +21,7 @@ import {
   splitFromScalar as coreSplitFromScalar,
   reconstruct as coreReconstruct,
   SigningKey as CoreSigningKey,
-} from "@frost/core";
+} from "@frosts/core";
 
 // Re-use the ciphersuite type
 type E = Ed25519Sha512Impl;

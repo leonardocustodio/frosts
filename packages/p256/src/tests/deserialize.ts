@@ -14,8 +14,8 @@
  */
 
 import { describe, it, expect } from "vitest";
-// TODO: Import error types from @frost/core once types are properly exported
-// import { GroupError, GroupErrorType, FieldError, FieldErrorType, Error as FrostError } from "@frost/core";
+// TODO: Import error types from @frosts/core once types are properly exported
+// import { GroupError, GroupErrorType, FieldError, FieldErrorType, Error as FrostError } from "@frosts/core";
 
 // TODO: Import P256Sha256 ciphersuite and types once implemented
 // import { P256Sha256, Identifier } from "../index.js";

@@ -11,7 +11,7 @@ export default defineConfig({
   minify: false,
   target: "es2022",
   outDir: "dist",
-  external: ["@frost/core", "@frost/rerandomized"],
+  external: ["@frosts/core", "@frosts/rerandomized"],
   platform: "neutral",
   globalName: "FrostSecp256k1",
 });

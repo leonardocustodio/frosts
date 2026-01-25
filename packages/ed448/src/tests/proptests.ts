@@ -12,8 +12,8 @@
  */
 
 import { describe, it, expect } from "vitest";
-// TODO: Import test helpers from @frost/core once types are properly exported
-// import { createTestRng } from "@frost/core/tests/index.js";
+// TODO: Import test helpers from @frosts/core once types are properly exported
+// import { createTestRng } from "@frosts/core/tests/index.js";
 
 // TODO: Import Ed448Shake256 ciphersuite once implemented
 // import { Ed448Shake256 } from "../index.js";

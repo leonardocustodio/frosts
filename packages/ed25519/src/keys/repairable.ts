@@ -24,14 +24,14 @@
  */
 
 import type { Ed25519Sha512Impl } from "../index.js";
-import type { Identifier, RandomSource } from "@frost/core";
+import type { Identifier, RandomSource } from "@frosts/core";
 import {
   type Delta as CoreDelta,
   type Sigma as CoreSigma,
   repairShareStep1 as coreRepairShareStep1,
   repairShareStep2 as coreRepairShareStep2,
   repairShareStep3 as coreRepairShareStep3,
-} from "@frost/core";
+} from "@frosts/core";
 import type { KeyPackage, PublicKeyPackage } from "./index.js";
 
 // Re-use the ciphersuite type

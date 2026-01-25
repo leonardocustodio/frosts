@@ -1,6 +1,6 @@
 # frost-rerandomized Translation Plan
 
-This document outlines the exact 1:1 translation plan from `frost-rust/frost-rerandomized` to `@frost/rerandomized`.
+This document outlines the exact 1:1 translation plan from `frost-rust/frost-rerandomized` to `@frosts/rerandomized`.
 
 ## Overview
 
@@ -62,8 +62,8 @@ export { randomizeKeyPackage, randomizePublicKeyPackage } from "./randomize";
 export { signWithRandomizerSeed } from "./sign";
 export { aggregate, aggregateRandomized } from "./aggregate";
 
-// Re-exports from @frost/core
-export * from "@frost/core";
+// Re-exports from @frosts/core
+export * from "@frosts/core";
 ```
 
 ## Verification Results
@@ -91,4 +91,4 @@ export * from "@frost/core";
 
 - The deprecated `sign()` function (using Randomizer directly) was NOT translated as per Rust deprecation guidance
 - The primary API is `signWithRandomizerSeed()` which uses seed-based regeneration
-- `aggregate` is exported both as `aggregate` and `aggregateRandomized` to avoid conflicts with @frost/core's aggregate
+- `aggregate` is exported both as `aggregate` and `aggregateRandomized` to avoid conflicts with @frosts/core's aggregate

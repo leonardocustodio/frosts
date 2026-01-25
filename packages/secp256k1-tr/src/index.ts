@@ -14,7 +14,7 @@
  * - Tweak trait for applying Taproot tweaks
  *
  * @packageDocumentation
- * @module @frost/secp256k1-tr
+ * @module @frosts/secp256k1-tr
  */
 
 import { sha256 } from "@noble/hashes/sha256";
@@ -43,7 +43,7 @@ import type {
   VerifyingShare as CoreVerifyingShare,
   VerifiableSecretSharingCommitment as CoreVerifiableSecretSharingCommitment,
   IdentifierList as CoreIdentifierList,
-} from "@frost/core";
+} from "@frosts/core";
 
 import {
   FieldError,
@@ -59,9 +59,9 @@ import {
   part1 as corePart1,
   part2 as corePart2,
   part3 as corePart3,
-} from "@frost/core";
+} from "@frosts/core";
 
-import type { RandomizedCiphersuite } from "@frost/rerandomized";
+import type { RandomizedCiphersuite } from "@frosts/rerandomized";
 
 // Re-export core types and errors
 export {
@@ -72,9 +72,9 @@ export {
   FieldError,
   GroupError,
   FrostError,
-} from "@frost/core";
+} from "@frosts/core";
 
-export type { RandomizedCiphersuite } from "@frost/rerandomized";
+export type { RandomizedCiphersuite } from "@frosts/rerandomized";
 
 // ---------------------------------------------------------------------------
 // Constants

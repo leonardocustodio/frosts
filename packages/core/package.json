@@ -1,5 +1,5 @@
 {
-  "name": "@frost/core",
+  "name": "@frosts/core",
   "version": "0.2.2",
   "type": "module",
   "description": "Core types and traits for FROST (Flexible Round-Optimized Schnorr Threshold) signatures",
@@ -62,8 +62,9 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@frost/eslint": "workspace:*",
-    "@frost/tsconfig": "workspace:*",
+    "@frosts/eslint": "workspace:*",
+    "@frosts/ristretto255": "workspace:*",
+    "@frosts/tsconfig": "workspace:*",
     "@eslint/js": "^9.39.2",
     "@types/node": "^25.0.10",
     "eslint": "^9.39.2",

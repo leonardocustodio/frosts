@@ -9,11 +9,11 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { createSecureRng, type CryptoRng } from "./helpers/index.js";
 
-// Import from @frost/rerandomized when available
+// Import from @frosts/rerandomized when available
 // import {
 //   checkRandomizedSignWithDealer,
 //   RerandomizedTestConfig,
-// } from "@frost/rerandomized/tests/rerandomized.test";
+// } from "@frosts/rerandomized/tests/rerandomized.test";
 
 // Import Secp256K1Sha256 ciphersuite when available
 // import { Secp256K1Sha256 } from "../src/index.js";

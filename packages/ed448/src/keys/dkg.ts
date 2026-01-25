@@ -9,14 +9,14 @@
  */
 
 import type { Ed448Shake256Impl } from "../index.js";
-import type { Identifier, RandomSource } from "@frost/core";
+import type { Identifier, RandomSource } from "@frosts/core";
 import {
   type round1 as coreRound1,
   type round2 as coreRound2,
   part1 as corePart1,
   part2 as corePart2,
   part3 as corePart3,
-} from "@frost/core";
+} from "@frosts/core";
 import type { KeyPackage, PublicKeyPackage } from "./index.js";
 
 // Re-use the ciphersuite type

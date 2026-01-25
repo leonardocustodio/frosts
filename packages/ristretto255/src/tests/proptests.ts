@@ -12,8 +12,8 @@
  */
 
 import { describe, it, expect } from "vitest";
-// TODO: Import test helpers from @frost/core once types are properly exported
-// import { createTestRng } from "@frost/core/tests/index.js";
+// TODO: Import test helpers from @frosts/core once types are properly exported
+// import { createTestRng } from "@frosts/core/tests/index.js";
 
 // TODO: Import Ristretto255Sha512 ciphersuite once implemented
 // import { Ristretto255Sha512 } from "../index.js";

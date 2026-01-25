@@ -25,8 +25,8 @@ import {
 //   keys,
 // } from "../src/index.js";
 
-// Import from @frost/core tests when available
-// import { checkSignWithDkg, checkSignWithDealer } from "@frost/core/tests";
+// Import from @frosts/core tests when available
+// import { checkSignWithDkg, checkSignWithDealer } from "@frosts/core/tests";
 
 describe("FROST secp256k1-SHA256-TR Interoperability Tests", () => {
   let _rng: CryptoRng;

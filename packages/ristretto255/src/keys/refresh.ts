@@ -26,14 +26,14 @@
  */
 
 import type { Ristretto255Sha512Impl } from "../index.js";
-import type { Identifier, RandomSource } from "@frost/core";
+import type { Identifier, RandomSource } from "@frosts/core";
 import {
   computeRefreshingShares as coreComputeRefreshingShares,
   refreshShare as coreRefreshShare,
   refreshDkgPart1 as coreRefreshDkgPart1,
   refreshDkgPart2 as coreRefreshDkgPart2,
   refreshDkgShares as coreRefreshDkgShares,
-} from "@frost/core";
+} from "@frosts/core";
 import type { KeyPackage, PublicKeyPackage, SecretShare } from "./index.js";
 import type { round1, round2 } from "./dkg.js";
 

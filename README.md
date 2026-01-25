@@ -18,14 +18,14 @@ FROST is a threshold signature scheme that allows a group of participants to col
 
 | Package | Description |
 |---------|-------------|
-| `@frost/core` | Core types and traits for FROST |
-| `@frost/rerandomized` | Re-randomized FROST variant |
-| `@frost/ed25519` | FROST with Ed25519 |
-| `@frost/ristretto255` | FROST with Ristretto255 |
-| `@frost/secp256k1` | FROST with secp256k1 |
-| `@frost/secp256k1-tr` | FROST with secp256k1 + Taproot |
-| `@frost/p256` | FROST with P-256 |
-| `@frost/ed448` | FROST with Ed448 |
+| `@frosts/core` | Core types and traits for FROST |
+| `@frosts/rerandomized` | Re-randomized FROST variant |
+| `@frosts/ed25519` | FROST with Ed25519 |
+| `@frosts/ristretto255` | FROST with Ristretto255 |
+| `@frosts/secp256k1` | FROST with secp256k1 |
+| `@frosts/secp256k1-tr` | FROST with secp256k1 + Taproot |
+| `@frosts/p256` | FROST with P-256 |
+| `@frosts/ed448` | FROST with Ed448 |
 
 ## Documentation
 

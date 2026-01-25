@@ -5,7 +5,7 @@
  * group with SHA-256 as the hash function, following RFC 9591 Section 6.5.
  *
  * @packageDocumentation
- * @module @frost/secp256k1
+ * @module @frosts/secp256k1
  */
 
 import { sha256 } from "@noble/hashes/sha256";
@@ -20,7 +20,7 @@ import type {
   Challenge as CoreChallenge,
   BindingFactorList,
   GroupCommitment,
-} from "@frost/core";
+} from "@frosts/core";
 
 import {
   Challenge,
@@ -34,13 +34,13 @@ import {
   FrostError,
   FieldError,
   GroupError,
-} from "@frost/core";
+} from "@frosts/core";
 
-import type { RandomizedCiphersuite } from "@frost/rerandomized";
+import type { RandomizedCiphersuite } from "@frosts/rerandomized";
 
 // Re-export core types and errors for convenience
-export type { Ciphersuite, Field, Group } from "@frost/core";
-export { FieldError, GroupError } from "@frost/core";
+export type { Ciphersuite, Field, Group } from "@frosts/core";
+export { FieldError, GroupError } from "@frosts/core";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -1178,7 +1178,7 @@ export enum CheaterDetection {
 }
 
 // ---------------------------------------------------------------------------
-// Re-exports from @frost/core for keys module
+// Re-exports from @frosts/core for keys module
 // ---------------------------------------------------------------------------
 
 // Keys module exports
@@ -1195,9 +1195,9 @@ export {
   splitFromScalar as split,
   computeLagrangeCoefficient,
   identifierToString,
-} from "@frost/core";
+} from "@frosts/core";
 
-export type { IdentifierList } from "@frost/core";
+export type { IdentifierList } from "@frosts/core";
 
 // Round 1 exports
 export {
@@ -1208,10 +1208,10 @@ export {
   GroupCommitmentShare,
   commit,
   preprocess,
-} from "@frost/core";
+} from "@frosts/core";
 
 // Round 2 exports
-export { SignatureShare, sign, computeSignatureShare } from "@frost/core";
+export { SignatureShare, sign, computeSignatureShare } from "@frosts/core";
 
 // Re-export Identifier and key types
 export { Identifier, SigningKey, VerifyingKey, Signature };
@@ -1232,7 +1232,7 @@ import {
   type SigningCommitments as CoreSigningCommitments,
   type NonceCommitment as CoreNonceCommitment,
   commit as coreCommit,
-} from "@frost/core";
+} from "@frosts/core";
 
 /** Comprised of FROST(secp256k1, SHA-256) hiding and binding nonces */
 export type Secp256K1SigningNonces = CoreSigningNonces<Secp256K1Sha256Impl>;
@@ -1270,7 +1270,7 @@ import {
   type SigningShare as CoreSigningShare,
   type KeyPackage as CoreKeyPackage,
   type RandomSource,
-} from "@frost/core";
+} from "@frosts/core";
 
 /** A FROST(secp256k1, SHA-256) participant's signature share */
 export type Secp256K1SignatureShare = CoreSignatureShare<Secp256K1Sha256Impl>;

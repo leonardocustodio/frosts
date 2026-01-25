@@ -1,8 +1,8 @@
-# @frost/p256
+# @frosts/p256
 
 FROST(P-256, SHA-256) - A Schnorr signature scheme over the NIST P-256 curve that supports FROST threshold signatures.
 
-This package is a re-export of the ciphersuite-generic [@frost/core](https://www.npmjs.com/package/@frost/core) package, parametrized with the P-256 curve. For more details, refer to [The ZF FROST Book](https://frost.zfnd.org/).
+This package is a re-export of the ciphersuite-generic [@frosts/core](https://www.npmjs.com/package/@frosts/core) package, parametrized with the P-256 curve. For more details, refer to [The ZF FROST Book](https://frost.zfnd.org/).
 
 ## Features
 
@@ -26,13 +26,13 @@ This package is a re-export of the ciphersuite-generic [@frost/core](https://www
 ## Installation
 
 ```bash
-bun add @frost/p256
+bun add @frosts/p256
 ```
 
 Or with npm:
 
 ```bash
-npm install @frost/p256
+npm install @frosts/p256
 ```
 
 ## Usage
@@ -42,7 +42,7 @@ npm install @frost/p256
 Creating a key with a trusted dealer and splitting into shares:
 
 ```typescript
-import * as frost from '@frost/p256';
+import * as frost from '@frosts/p256';
 
 const maxSigners = 5;
 const minSigners = 3;

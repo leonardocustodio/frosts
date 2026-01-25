@@ -1,5 +1,5 @@
 {
-  "name": "frost",
+  "name": "frosts",
   "version": "0.2.2",
   "private": true,
   "description": "TypeScript implementation of FROST (Flexible Round-Optimized Schnorr Threshold) signatures for threshold cryptography",

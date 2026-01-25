@@ -17,7 +17,7 @@ import {
   type CryptoRng,
 } from "./helpers/index.js";
 
-// Import from @frost/core when available
+// Import from @frosts/core when available
 // import {
 //   checkZeroKeyFails,
 //   checkSignWithDealer,
@@ -38,7 +38,7 @@ import {
 //   checkRefreshSharesWithDealerFailsWithInvalidSigners,
 //   checkRefreshSharesWithDkg,
 //   checkRefreshSharesWithDkgSmallerThreshold,
-// } from "@frost/core/tests";
+// } from "@frosts/core/tests";
 
 // Import P256Sha256 ciphersuite when available
 // import { P256Sha256, Identifier, Error } from "../src/index.js";

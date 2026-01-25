@@ -7,7 +7,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-// TODO: Import test helpers from @frost/core once types are properly exported
+// TODO: Import test helpers from @frosts/core once types are properly exported
 // import {
 //   createSecureRng,
 //   hexToBytes,
@@ -15,7 +15,7 @@ import { describe, it, expect } from "vitest";
 //   checkCreateCoefficientCommitment,
 //   checkCreateCoefficientCommitmentError,
 //   checkGetValueOfCoefficientCommitment,
-// } from "@frost/core/tests/index.js";
+// } from "@frosts/core/tests/index.js";
 
 // TODO: Import P256Sha256 ciphersuite once implemented
 // import { P256Sha256 } from "../index.js";
@@ -98,4 +98,4 @@ describe("P256-SHA256 CoefficientCommitment", () => {
   });
 });
 
-// Test functions from @frost/core are re-exported via index.ts
+// Test functions from @frosts/core are re-exported via index.ts

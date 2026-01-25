@@ -8,7 +8,7 @@
 
 export * from "./samples.js";
 
-import type { CryptoRng } from "@frost/core";
+import type { CryptoRng } from "@frosts/core";
 
 // Re-export CryptoRng for convenience
 export type { CryptoRng };
@@ -153,16 +153,22 @@ export function arraysEqual(a: Uint8Array, b: Uint8Array): boolean {
 }
 
 /**
- * Load test vectors from JSON.
- * This is a helper for loading test vector files.
+ * Load test vectors from JSON file.
+ * This function loads the test vector JSON files from the helpers directory.
  *
- * @param name - Name of the vector file (without extension)
+ * @param name - Name of the vector file (without extension).
+ *               Valid names: "vectors", "vectors_dkg", "vectors-big-identifier",
+ *                           "repair-share", "elements", "samples"
  * @returns Parsed JSON data
  */
 export async function loadTestVectors(name: string): Promise<unknown> {
-  // In a real implementation, this would load from the vectors files
-  // For now, we'll import them directly in the test files
-  throw new Error(`Test vectors "${name}" not yet implemented`);
+  // Use dynamic import to load JSON files
+  const url = new URL(`./${name}.json`, import.meta.url);
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to load test vectors "${name}": ${response.statusText}`);
+  }
+  return response.json();
 }
 
 /**

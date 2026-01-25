@@ -7,8 +7,8 @@
  * @module randomize
  */
 
-import type { Ciphersuite } from "@frost/core";
-import { KeyPackage, PublicKeyPackage, SigningShare, VerifyingShare } from "@frost/core";
+import type { Ciphersuite } from "@frosts/core";
+import { KeyPackage, PublicKeyPackage, SigningShare, VerifyingShare } from "@frosts/core";
 import type { RandomizedParams } from "./params.js";
 
 /**

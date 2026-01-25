@@ -13,8 +13,8 @@
  */
 
 import { describe, it, expect } from "vitest";
-// TODO: Import error types from @frost/core once types are properly exported
-// import { GroupError, GroupErrorType } from "@frost/core";
+// TODO: Import error types from @frosts/core once types are properly exported
+// import { GroupError, GroupErrorType } from "@frosts/core";
 
 // TODO: Import Secp256K1Sha256TR ciphersuite and types once implemented
 // import { Secp256K1Sha256TR } from "../index.js";

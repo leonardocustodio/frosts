@@ -1,8 +1,8 @@
-# @frost/ed25519
+# @frosts/ed25519
 
 FROST(Ed25519, SHA-512) - A Schnorr signature scheme over the Ed25519 curve that supports FROST threshold signatures.
 
-This package is a re-export of the ciphersuite-generic [@frost/core](https://www.npmjs.com/package/@frost/core) package, parametrized with the Ed25519 curve. For more details, refer to [The ZF FROST Book](https://frost.zfnd.org/).
+This package is a re-export of the ciphersuite-generic [@frosts/core](https://www.npmjs.com/package/@frosts/core) package, parametrized with the Ed25519 curve. For more details, refer to [The ZF FROST Book](https://frost.zfnd.org/).
 
 ## Features
 
@@ -26,13 +26,13 @@ This package is a re-export of the ciphersuite-generic [@frost/core](https://www
 ## Installation
 
 ```bash
-bun add @frost/ed25519
+bun add @frosts/ed25519
 ```
 
 Or with npm:
 
 ```bash
-npm install @frost/ed25519
+npm install @frosts/ed25519
 ```
 
 ## Usage
@@ -42,7 +42,7 @@ npm install @frost/ed25519
 Creating a key with a trusted dealer and splitting into shares:
 
 ```typescript
-import * as frost from '@frost/ed25519';
+import * as frost from '@frosts/ed25519';
 
 const maxSigners = 5;
 const minSigners = 3;

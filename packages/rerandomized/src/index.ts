@@ -18,11 +18,11 @@
  * 4. The Coordinator should then call `aggregate()`.
  *
  * @packageDocumentation
- * @module @frost/rerandomized
+ * @module @frosts/rerandomized
  */
 
-// Re-export everything from @frost/core for convenience
-export * from "@frost/core";
+// Re-export everything from @frosts/core for convenience
+export * from "@frosts/core";
 
 // Export types
 export type { RandomizedCiphersuite } from "./types.js";
@@ -40,7 +40,7 @@ export { randomizeKeyPackage, randomizePublicKeyPackage } from "./randomize.js";
 // Export signing function
 export { signWithRandomizerSeed } from "./sign.js";
 
-// Export aggregation function (rename to avoid conflict with @frost/core aggregate)
+// Export aggregation function (rename to avoid conflict with @frosts/core aggregate)
 export { aggregate as aggregateRandomized } from "./aggregate.js";
 
 // Also export with the original name for those who want to use it directly

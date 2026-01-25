@@ -13,8 +13,8 @@
  */
 
 import { describe, it, expect } from "vitest";
-// TODO: Import test helpers from @frost/core once types are properly exported
-// import { GroupError, GroupErrorType } from "@frost/core";
+// TODO: Import test helpers from @frosts/core once types are properly exported
+// import { GroupError, GroupErrorType } from "@frosts/core";
 
 // TODO: Import Ristretto255Sha512 ciphersuite and curve types once implemented
 // import { Ristretto255Sha512 } from "../index.js";

@@ -1,4 +1,4 @@
-# @frost/core
+# @frosts/core
 
 > **Disclaimer:** This project is in early development stages and has **not been audited**. Use for testing purposes only.
 

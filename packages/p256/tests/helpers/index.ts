@@ -8,7 +8,7 @@
 
 export * from "./samples.js";
 
-import type { CryptoRng } from "@frost/core";
+import type { CryptoRng } from "@frosts/core";
 
 // Re-export CryptoRng for convenience
 export type { CryptoRng };
@@ -159,8 +159,8 @@ export function arraysEqual(a: Uint8Array, b: Uint8Array): boolean {
  * @returns Parsed JSON data
  */
 export async function loadTestVectors(name: string): Promise<unknown> {
-  const path = new URL(`./${name}.json`, import.meta.url);
-  const response = await fetch(path);
+  const path = new globalThis.URL(`./${name}.json`, import.meta.url);
+  const response = await globalThis.fetch(path);
   if (!response.ok) {
     throw new Error(`Failed to load test vectors "${name}": ${response.statusText}`);
   }

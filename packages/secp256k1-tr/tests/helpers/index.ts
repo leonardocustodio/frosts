@@ -14,7 +14,8 @@
 
 export * from "./samples.js";
 
-import type { CryptoRng } from "@frost/core";
+import type { CryptoRng } from "@frosts/core";
+import { schnorr } from "@noble/curves/secp256k1";
 
 // Re-export CryptoRng for convenience
 export type { CryptoRng };
@@ -159,63 +160,78 @@ export function arraysEqual(a: Uint8Array, b: Uint8Array): boolean {
 }
 
 /**
- * Verify a BIP-340 Schnorr signature using external library.
+ * Verify a BIP-340 Schnorr signature using @noble/curves/secp256k1.
  * This is used for interoperability testing.
  *
- * In the Rust implementation, this uses the secp256k1 crate.
- * In TypeScript, this would use @noble/secp256k1 or similar.
+ * Ported from frost-secp256k1-tr/tests/helpers/mod.rs verify_signature().
  *
  * @param msg - The message that was signed
  * @param groupSignature - The FROST group signature (64 bytes BIP-340 format)
  * @param groupPubkey - The group public key (SEC1 compressed, 33 bytes)
+ * @throws Error if signature verification fails
  */
 export function verifySignature(
-  _msg: Uint8Array,
-  _groupSignature: Uint8Array,
-  _groupPubkey: Uint8Array,
+  msg: Uint8Array,
+  groupSignature: Uint8Array,
+  groupPubkey: Uint8Array,
 ): void {
-  // Ported from Rust:
-  // pub fn verify_signature(
-  //     msg: &[u8],
-  //     group_signature: &frost_core::Signature<Secp256K1Sha256TR>,
-  //     group_pubkey: &frost_core::VerifyingKey<Secp256K1Sha256TR>,
-  // ) {
-  //     let secp = Secp256k1::new();
-  //     let sig = secp256k1::schnorr::Signature::from_byte_array(
-  //         group_signature.serialize().unwrap().try_into().unwrap(),
-  //     );
-  //     let pubkey = secp256k1::XOnlyPublicKey::from_byte_array(
-  //         group_pubkey.serialize().unwrap()[1..33].try_into().unwrap(),
-  //     )
-  //     .unwrap();
-  //     secp.verify_schnorr(&sig, msg, &pubkey).unwrap();
-  // }
-  //
-  // Implementation requires @noble/secp256k1 or similar library:
-  // import * as secp from "@noble/secp256k1";
-  //
-  // // Extract x-only public key (skip the prefix byte)
-  // const xOnlyPubkey = groupPubkey.slice(1, 33);
-  //
-  // // Verify BIP-340 Schnorr signature
-  // const isValid = secp.schnorr.verify(groupSignature, msg, xOnlyPubkey);
-  // if (!isValid) {
-  //   throw new Error("Signature verification failed");
-  // }
-  throw new Error("verifySignature not yet implemented - requires secp256k1 library");
+  // Verify signature length (BIP-340 Schnorr signatures are 64 bytes)
+  if (groupSignature.length !== SIGNATURE_LENGTH) {
+    throw new Error(`Invalid signature length: ${groupSignature.length}, expected ${SIGNATURE_LENGTH}`);
+  }
+
+  // Verify public key length (SEC1 compressed format is 33 bytes)
+  if (groupPubkey.length !== ELEMENT_LENGTH) {
+    throw new Error(`Invalid public key length: ${groupPubkey.length}, expected ${ELEMENT_LENGTH}`);
+  }
+
+  // Extract x-only public key (skip the prefix byte)
+  // BIP-340 uses x-only public keys (32 bytes)
+  const xOnlyPubkey = groupPubkey.slice(1, 33);
+
+  // Verify BIP-340 Schnorr signature using @noble/curves
+  const isValid = schnorr.verify(groupSignature, msg, xOnlyPubkey);
+  if (!isValid) {
+    throw new Error("Signature verification failed");
+  }
 }
 
 /**
- * Load test vectors from JSON.
- * This is a helper for loading test vector files.
+ * Verify a BIP-340 Schnorr signature (alternate signature).
+ * Same as verifySignature but with objects that have serialize method.
  *
- * @param name - Name of the vector file (without extension)
+ * @param msg - The message that was signed
+ * @param groupSignature - The FROST group signature (object with serialize method)
+ * @param groupPubkey - The group public key (object with serialize method)
+ * @throws Error if signature verification fails
+ */
+export function verifySignatureObj(
+  msg: Uint8Array,
+  groupSignature: { serialize: () => Uint8Array },
+  groupPubkey: { serialize: () => Uint8Array },
+): void {
+  const sigBytes = groupSignature.serialize();
+  const pubkeyBytes = groupPubkey.serialize();
+  verifySignature(msg, sigBytes, pubkeyBytes);
+}
+
+/**
+ * Load test vectors from JSON file.
+ * This function loads the test vector JSON files from the helpers directory.
+ *
+ * @param name - Name of the vector file (without extension).
+ *               Valid names: "vectors", "vectors_dkg", "vectors-big-identifier",
+ *                           "repair-share", "elements", "samples"
  * @returns Parsed JSON data
  */
 export async function loadTestVectors(name: string): Promise<unknown> {
-  // In a real implementation, this would load from the vectors files
-  // For now, we'll import them directly in the test files
-  throw new Error(`Test vectors "${name}" not yet implemented`);
+  // Use dynamic import to load JSON files
+  const url = new URL(`./${name}.json`, import.meta.url);
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to load test vectors "${name}": ${response.statusText}`);
+  }
+  return response.json();
 }
 
 /**

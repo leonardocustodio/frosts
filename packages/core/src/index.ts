@@ -5,7 +5,7 @@
  * threshold signature schemes. It is designed to be ciphersuite-agnostic,
  * allowing different elliptic curve implementations to be plugged in.
  *
- * @module @frost/core
+ * @module @frosts/core
  */
 
 // Core types from types.ts - this is the canonical source for:

@@ -10,9 +10,9 @@
  */
 
 import { describe, it, expect } from "vitest";
-// TODO: Import test helpers from @frost/core once types are properly exported
-// import { GroupError, GroupErrorType } from "@frost/core";
-// import { hexToBytes } from "@frost/core/tests/index.js";
+// TODO: Import test helpers from @frosts/core once types are properly exported
+// import { GroupError, GroupErrorType } from "@frosts/core";
+// import { hexToBytes } from "@frosts/core/tests/index.js";
 
 // TODO: Import Ed448Shake256 ciphersuite and ed448 curve types once implemented
 // import { Ed448Shake256 } from "../index.js";
@@ -26,7 +26,7 @@ const ED448_POINT_SIZE = 57;
 
 /**
  * Convert hex string to Uint8Array.
- * This is a local implementation for tests until @frost/core/tests is properly typed.
+ * This is a local implementation for tests until @frosts/core/tests is properly typed.
  */
 function hexToBytes(hex: string): Uint8Array {
   const bytes = new Uint8Array(hex.length / 2);

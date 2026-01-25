@@ -8,14 +8,14 @@
  * @module randomizer
  */
 
-import type { Ciphersuite, Identifier, Scalar } from "@frost/core";
+import type { Ciphersuite, Identifier, Scalar } from "@frosts/core";
 import {
   FrostError,
   SerializableScalar,
   type SigningCommitments,
   encodeGroupCommitments,
   bytesToHex,
-} from "@frost/core";
+} from "@frosts/core";
 import type { RandomizedCiphersuite } from "./types.js";
 
 /**

@@ -7,8 +7,8 @@
  * @module aggregate
  */
 
-import type { Ciphersuite, Identifier, SigningPackage } from "@frost/core";
-import { type SignatureShare, type PublicKeyPackage, Signature } from "@frost/core";
+import type { Ciphersuite, Identifier, SigningPackage } from "@frosts/core";
+import { type SignatureShare, type PublicKeyPackage, Signature } from "@frosts/core";
 import type { RandomizedParams } from "./params.js";
 import { randomizePublicKeyPackage } from "./randomize.js";
 
@@ -21,7 +21,7 @@ import { randomizePublicKeyPackage } from "./randomize.js";
  * Schnorr signature. The resulting signature will verify against the randomized
  * verifying key (`randomizedParams.randomizedVerifyingKey`).
  *
- * **Note:** This function requires the `aggregate` function from `@frost/core`
+ * **Note:** This function requires the `aggregate` function from `@frosts/core`
  * which aggregates signature shares into a final signature. Currently, this
  * implementation provides the randomization wrapper.
  *

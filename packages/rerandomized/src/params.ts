@@ -7,8 +7,8 @@
  * @module params
  */
 
-import type { Ciphersuite, Element, Identifier } from "@frost/core";
-import { VerifyingKey, type SigningCommitments, bytesToHex } from "@frost/core";
+import type { Ciphersuite, Element, Identifier } from "@frosts/core";
+import { VerifyingKey, type SigningCommitments, bytesToHex } from "@frosts/core";
 import type { RandomizedCiphersuite } from "./types.js";
 import { Randomizer } from "./randomizer.js";
 

@@ -7,13 +7,13 @@
  */
 
 import { describe, it, expect } from "vitest";
-// TODO: Import test helpers from @frost/core once types are properly exported
+// TODO: Import test helpers from @frosts/core once types are properly exported
 // import {
 //   createSecureRng,
 //   testBatchVerify,
 //   testBadBatchVerify,
 //   testEmptyBatchVerify,
-// } from "@frost/core/tests/index.js";
+// } from "@frosts/core/tests/index.js";
 
 // TODO: Import Secp256K1Sha256TR ciphersuite once implemented
 // import { Secp256K1Sha256TR } from "../index.js";
@@ -56,4 +56,4 @@ describe("Secp256K1-SHA256-TR Batch Verification", () => {
   });
 });
 
-// Test functions from @frost/core are re-exported via index.ts
+// Test functions from @frosts/core are re-exported via index.ts

@@ -4,7 +4,7 @@
  *
  * This module exports all test utilities and test helpers specific to
  * the Ed448-SHAKE256 ciphersuite. These tests use the generic test
- * functions from @frost/core and apply them to the Ed448 implementation.
+ * functions from @frosts/core and apply them to the Ed448 implementation.
  *
  * Test modules:
  * - batch: Batch signature verification tests

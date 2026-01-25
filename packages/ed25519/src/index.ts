@@ -5,11 +5,12 @@
  * group with SHA-512 as the hash function, following RFC 9591 Section 6.1.
  *
  * @packageDocumentation
- * @module @frost/ed25519
+ * @module @frosts/ed25519
  */
 
 import { sha512 } from "@noble/hashes/sha512";
 import { ed25519 } from "@noble/curves/ed25519";
+import type { EdwardsPoint } from "@noble/curves/abstract/edwards";
 
 // Access ExtendedPoint from the ed25519 object
 const ExtendedPoint = ed25519.ExtendedPoint;
@@ -23,7 +24,7 @@ import type {
   Challenge as CoreChallenge,
   BindingFactorList,
   GroupCommitment,
-} from "@frost/core";
+} from "@frosts/core";
 
 import {
   Challenge,
@@ -37,13 +38,13 @@ import {
   FrostError,
   FieldError,
   GroupError,
-} from "@frost/core";
+} from "@frosts/core";
 
-import type { RandomizedCiphersuite } from "@frost/rerandomized";
+import type { RandomizedCiphersuite } from "@frosts/rerandomized";
 
 // Re-export core types and errors for convenience
-export type { Ciphersuite, Field, Group } from "@frost/core";
-export { FieldError, GroupError } from "@frost/core";
+export type { Ciphersuite, Field, Group } from "@frosts/core";
+export { FieldError, GroupError } from "@frosts/core";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -273,13 +274,13 @@ function isIdentityPoint(point: Ed25519Point): boolean {
  * Check if a point is torsion-free (in the prime-order subgroup)
  * A point is torsion-free if multiplying by the cofactor gives a valid non-identity point.
  */
-function isTorsionFree(point: ExtendedPoint): boolean {
+function isTorsionFree(point: EdwardsPoint): boolean {
   // Multiply by cofactor (8) and check it's not identity
   // For points in the prime-order subgroup, this should give a valid point
   // For points with small-order components, this gives identity
   try {
     const multiplied = point.multiply(8n);
-    return !multiplied.equals(ExtendedPoint.ZERO);
+    return multiplied.equals(ExtendedPoint.ZERO) === false;
   } catch {
     return false;
   }
@@ -1052,7 +1053,7 @@ export enum CheaterDetection {
 }
 
 // ---------------------------------------------------------------------------
-// Re-exports from @frost/core for keys module
+// Re-exports from @frosts/core for keys module
 // ---------------------------------------------------------------------------
 
 // Keys module exports
@@ -1069,9 +1070,9 @@ export {
   splitFromScalar as split,
   computeLagrangeCoefficient,
   identifierToString,
-} from "@frost/core";
+} from "@frosts/core";
 
-export type { IdentifierList } from "@frost/core";
+export type { IdentifierList } from "@frosts/core";
 
 // Round 1 exports
 export {
@@ -1082,10 +1083,10 @@ export {
   GroupCommitmentShare,
   commit,
   preprocess,
-} from "@frost/core";
+} from "@frosts/core";
 
 // Round 2 exports
-export { SignatureShare, sign, computeSignatureShare } from "@frost/core";
+export { SignatureShare, sign, computeSignatureShare } from "@frosts/core";
 
 // Re-export Identifier and key types
 export { Identifier, SigningKey, VerifyingKey, Signature };
@@ -1106,7 +1107,7 @@ import {
   type SigningCommitments as CoreSigningCommitments,
   type NonceCommitment as CoreNonceCommitment,
   commit as coreCommit,
-} from "@frost/core";
+} from "@frosts/core";
 
 /** Comprised of FROST(Ed25519, SHA-512) hiding and binding nonces */
 export type Ed25519SigningNonces = CoreSigningNonces<Ed25519Sha512Impl>;
@@ -1144,7 +1145,7 @@ import {
   type SigningShare as CoreSigningShare,
   type KeyPackage as CoreKeyPackage,
   type RandomSource,
-} from "@frost/core";
+} from "@frosts/core";
 
 /** A FROST(Ed25519, SHA-512) participant's signature share */
 export type Ed25519SignatureShare = CoreSignatureShare<Ed25519Sha512Impl>;

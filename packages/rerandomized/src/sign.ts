@@ -7,7 +7,7 @@
  * @module sign
  */
 
-import type { Identifier, SigningPackage } from "@frost/core";
+import type { Identifier, SigningPackage } from "@frosts/core";
 import {
   sign as frostSign,
   type SigningNonces,
@@ -15,7 +15,7 @@ import {
   type SignatureShare,
   type SigningCommitments,
   VerifyingKey,
-} from "@frost/core";
+} from "@frosts/core";
 import type { RandomizedCiphersuite } from "./types.js";
 import { RandomizedParams } from "./params.js";
 import { randomizeKeyPackage } from "./randomize.js";

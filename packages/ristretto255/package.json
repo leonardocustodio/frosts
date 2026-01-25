@@ -1,5 +1,5 @@
 {
-  "name": "@frost/ristretto255",
+  "name": "@frosts/ristretto255",
   "version": "0.2.2",
   "type": "module",
   "description": "FROST(ristretto255, SHA-512) - A Schnorr signature scheme over ristretto255 that supports FROST threshold signatures",
@@ -62,14 +62,14 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@frost/core": "workspace:*",
-    "@frost/rerandomized": "workspace:*",
+    "@frosts/core": "workspace:*",
+    "@frosts/rerandomized": "workspace:*",
     "@noble/curves": "^1.8.2",
     "@noble/hashes": "^1.7.3"
   },
   "devDependencies": {
-    "@frost/eslint": "workspace:*",
-    "@frost/tsconfig": "workspace:*",
+    "@frosts/eslint": "workspace:*",
+    "@frosts/tsconfig": "workspace:*",
     "@types/node": "^25.0.10",
     "eslint": "^9.39.2",
     "tsdown": "^0.20.1",

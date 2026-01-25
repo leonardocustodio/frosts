@@ -21,11 +21,11 @@ import {
   type CryptoRng,
 } from "./helpers/index.js";
 
-// Import from @frost/core when available
+// Import from @frosts/core when available
 // import {
 //   checkSignWithDkg,
 //   checkSignWithDealer,
-// } from "@frost/core/tests";
+// } from "@frosts/core/tests";
 
 // Import Ed25519Sha512 ciphersuite when available
 // import { Ed25519Sha512 } from "../src/index.js";

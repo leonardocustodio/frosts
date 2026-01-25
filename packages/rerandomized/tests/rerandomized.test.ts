@@ -8,19 +8,19 @@
  */
 
 import { describe, it, expect } from "vitest";
-import type { SigningPackage } from "@frost/core";
-import type { Identifier } from "@frost/core";
-import type { SigningCommitments, SigningNonces } from "@frost/core";
-import type { KeyPackage, PublicKeyPackage, SecretShare } from "@frost/core";
-import type { SignatureShare, Signature } from "@frost/core";
-import type { VerifyingKey } from "@frost/core";
+import type { SigningPackage } from "@frosts/core";
+import type { Identifier } from "@frosts/core";
+import type { SigningCommitments, SigningNonces } from "@frosts/core";
+import type { KeyPackage, PublicKeyPackage, SecretShare } from "@frosts/core";
+import type { SignatureShare, Signature } from "@frosts/core";
+import type { VerifyingKey } from "@frosts/core";
 
 import type { RandomizedCiphersuite } from "../src/types.js";
 import { Randomizer } from "../src/randomizer.js";
 import { RandomizedParams } from "../src/params.js";
 import { signWithRandomizerSeed } from "../src/sign.js";
 
-// Type for random source compatible with both @frost/core and our needs
+// Type for random source compatible with both @frosts/core and our needs
 interface RandomSource {
   fill(array: Uint8Array): void;
 }
@@ -311,8 +311,8 @@ describe("Rerandomized FROST", () => {
     // Example usage in a ciphersuite test file:
     //
     // ```typescript
-    // import { checkRandomizedSignWithDealer } from '@frost/rerandomized/tests/rerandomized.test';
-    // import { Ristretto255Ciphersuite } from '@frost/ristretto255';
+    // import { checkRandomizedSignWithDealer } from '@frosts/rerandomized/tests/rerandomized.test';
+    // import { Ristretto255Ciphersuite } from '@frosts/ristretto255';
     //
     // describe('Ristretto255 Rerandomized FROST', () => {
     //   it('should complete full signing flow', async () => {

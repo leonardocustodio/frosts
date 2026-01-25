@@ -17,7 +17,7 @@ import {
   type CryptoRng,
 } from "./helpers/index.js";
 
-// Import from @frost/core when available
+// Import from @frosts/core when available
 // import {
 //   checkZeroKeyFails,
 //   checkSignWithDealer,
@@ -38,7 +38,7 @@ import {
 //   checkRefreshSharesWithDealerFailsWithInvalidSigners,
 //   checkRefreshSharesWithDkg,
 //   checkRefreshSharesWithDkgSmallerThreshold,
-// } from "@frost/core/tests";
+// } from "@frosts/core/tests";
 
 // Import Ristretto255Sha512 ciphersuite when available
 // import { Ristretto255Sha512, Identifier, Error } from "../src/index.js";

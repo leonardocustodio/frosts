@@ -7,7 +7,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-// TODO: Import test helpers from @frost/core once types are properly exported
+// TODO: Import test helpers from @frosts/core once types are properly exported
 // import {
 //   createSecureRng,
 //   hexToBytes,
@@ -15,7 +15,7 @@ import { describe, it, expect } from "vitest";
 //   checkCreateCoefficientCommitment,
 //   checkCreateCoefficientCommitmentError,
 //   checkGetValueOfCoefficientCommitment,
-// } from "@frost/core/tests/index.js";
+// } from "@frosts/core/tests/index.js";
 
 // TODO: Import Ristretto255Sha512 ciphersuite once implemented
 // import { Ristretto255Sha512 } from "../index.js";
@@ -95,4 +95,4 @@ describe("Ristretto255-SHA512 CoefficientCommitment", () => {
   });
 });
 
-// Test functions from @frost/core are re-exported via index.ts
+// Test functions from @frosts/core are re-exported via index.ts

@@ -6,12 +6,10 @@
  * for the P256-SHA256 ciphersuite.
  *
  * Note: These are internal tests that validate the ciphersuite-specific
- * implementations. They delegate to @frost/core test helpers where possible.
+ * implementations. They delegate to @frosts/core test helpers where possible.
  */
 
-// Re-export batch verification tests
-export * from "./batch.js";
-
+// Note: batch.ts has no exports, it only contains vitest test cases
 // Re-export property-based tests (proptests)
 export * from "./proptests.js";
 

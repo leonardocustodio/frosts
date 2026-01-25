@@ -1,5 +1,5 @@
 {
-  "name": "@frost/rerandomized",
+  "name": "@frosts/rerandomized",
   "version": "0.2.2",
   "type": "module",
   "description": "Re-randomized FROST signatures for threshold cryptography with re-randomizable keys",
@@ -62,11 +62,11 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@frost/core": "workspace:*"
+    "@frosts/core": "workspace:*"
   },
   "devDependencies": {
-    "@frost/eslint": "workspace:*",
-    "@frost/tsconfig": "workspace:*",
+    "@frosts/eslint": "workspace:*",
+    "@frosts/tsconfig": "workspace:*",
     "@eslint/js": "^9.39.2",
     "@types/node": "^25.0.10",
     "eslint": "^9.39.2",
