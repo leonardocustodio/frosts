@@ -63,7 +63,6 @@
   "dependencies": {},
   "devDependencies": {
     "@frosts/eslint": "workspace:*",
-    "@frosts/ristretto255": "workspace:*",
     "@frosts/tsconfig": "workspace:*",
     "@eslint/js": "^9.39.2",
     "@types/node": "^25.0.10",
