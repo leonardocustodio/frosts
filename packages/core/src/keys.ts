@@ -414,7 +414,7 @@ export class CoefficientCommitment<C extends Ciphersuite> {
  * ensure that they received the correct (and same) value.
  */
 export class VerifiableSecretSharingCommitment<C extends Ciphersuite> {
-  private readonly ciphersuite: C;
+  readonly ciphersuite: C;
   /** The coefficient commitments */
   readonly commitmentCoefficients: CoefficientCommitment<C>[];
 

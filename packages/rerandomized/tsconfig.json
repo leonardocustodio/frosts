@@ -2,8 +2,11 @@
   "extends": "@frost/tsconfig/library.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": ".",
+    "lib": ["ES2022", "DOM"],
+    "skipLibCheck": true,
+    "types": ["vitest/globals"]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "tests"]
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

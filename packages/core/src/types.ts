@@ -751,6 +751,14 @@ export class BindingFactorList<C extends Ciphersuite> {
   getByBytes(bytes: Uint8Array): BindingFactor<C> | undefined {
     return this.factors.get(bytesToHex(bytes));
   }
+
+  /**
+   * Get the BindingFactor for the given identifier, or undefined if not found.
+   * The identifier must have a serialize() method.
+   */
+  get(identifier: IdentifierLike<C>): BindingFactor<C> | undefined {
+    return this.factors.get(bytesToHex(identifier.serialize()));
+  }
 }
 
 /**

@@ -10,7 +10,7 @@
 import type { Ciphersuite } from "./ciphersuite";
 import type { KeyPackage, VerifyingShare } from "./keys";
 import type { Identifier } from "./identifier";
-import type { Challenge, BindingFactor, SigningPackage } from "./types";
+import type { Challenge, BindingFactor, SigningPackage, GroupCommitment, BindingFactorList } from "./types";
 import type { SigningNonces, GroupCommitmentShare } from "./round1";
 
 /**
@@ -408,23 +408,6 @@ function deriveInterpolatingValue<C extends Ciphersuite>(
 ): C["Scalar"] {
   // This is a placeholder - actual implementation would be in a separate module
   return ciphersuite.deriveInterpolatingValue(signerId, signingPackage);
-}
-
-/**
- * The product of all signers' individual commitments, published as part of the
- * final signature.
- * @internal
- */
-interface GroupCommitment<C extends Ciphersuite> {
-  toElement(): C["Element"];
-}
-
-/**
- * A list of binding factors and their associated identifiers.
- * @internal
- */
-interface BindingFactorList<C extends Ciphersuite> {
-  get(identifier: Identifier<C>): BindingFactor<C> | undefined;
 }
 
 // Helper function to convert bytes to hex string
