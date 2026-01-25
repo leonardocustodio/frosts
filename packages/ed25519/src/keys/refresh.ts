@@ -38,7 +38,7 @@ import type { KeyPackage, PublicKeyPackage, SecretShare } from "./index.js";
 import type { round1, round2 } from "./dkg.js";
 
 // Re-use the ciphersuite type
-type S = Ed25519Sha512Impl;
+type E = Ed25519Sha512Impl;
 
 /**
  * Compute refreshing shares for the Trusted Dealer refresh procedure.
@@ -65,9 +65,9 @@ type S = Ed25519Sha512Impl;
  * @throws {FrostError} If parameters are invalid
  */
 export function computeRefreshingShares(
-  ciphersuite: S,
+  ciphersuite: E,
   oldPubKeyPackage: PublicKeyPackage,
-  identifiers: Identifier<S>[],
+  identifiers: Identifier<E>[],
   rng: RandomSource,
 ): [SecretShare[], PublicKeyPackage] {
   return coreComputeRefreshingShares(ciphersuite, oldPubKeyPackage, identifiers, rng);
@@ -87,7 +87,7 @@ export function computeRefreshingShares(
  * @throws {FrostError} If refresh fails
  */
 export function refreshShare(
-  ciphersuite: S,
+  ciphersuite: E,
   zeroShare: SecretShare,
   currentShare: KeyPackage,
 ): KeyPackage {
@@ -119,8 +119,8 @@ export function refreshShare(
  * @throws {FrostError} If parameters are invalid
  */
 export function refreshDkgPart1(
-  ciphersuite: S,
-  identifier: Identifier<S>,
+  ciphersuite: E,
+  identifier: Identifier<E>,
   maxSigners: number,
   minSigners: number,
   rng: RandomSource,
@@ -152,7 +152,7 @@ export function refreshDkgPart1(
  * @throws {FrostError} If validation fails
  */
 export function refreshDkgPart2(
-  ciphersuite: S,
+  ciphersuite: E,
   secretPackage: round1.SecretPackage,
   round1Packages: Map<string, round1.Package>,
 ): [round2.SecretPackage, Map<string, round2.Package>] {
@@ -193,7 +193,7 @@ export function refreshDkgPart2(
  * @throws {FrostError} If validation fails
  */
 export function refreshDkgShares(
-  ciphersuite: S,
+  ciphersuite: E,
   round2SecretPackage: round2.SecretPackage,
   round1Packages: Map<string, round1.Package>,
   round2Packages: Map<string, round2.Package>,

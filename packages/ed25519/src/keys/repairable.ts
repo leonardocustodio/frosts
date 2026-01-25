@@ -35,17 +35,17 @@ import {
 import type { KeyPackage, PublicKeyPackage } from "./index.js";
 
 // Re-use the ciphersuite type
-type S = Ed25519Sha512Impl;
+type E = Ed25519Sha512Impl;
 
 /**
  * A delta value which is the output of step 1 of RTS.
  */
-export type Delta = CoreDelta<S>;
+export type Delta = CoreDelta<E>;
 
 /**
  * A sigma value which is the output of step 2 of RTS.
  */
-export type Sigma = CoreSigma<S>;
+export type Sigma = CoreSigma<E>;
 
 /**
  * Step 1 of RTS.
@@ -65,11 +65,11 @@ export type Sigma = CoreSigma<S>;
  * @throws {FrostError} If parameters are invalid
  */
 export function repairShareStep1(
-  ciphersuite: S,
-  helpers: Identifier<S>[],
+  ciphersuite: E,
+  helpers: Identifier<E>[],
   keyPackageI: KeyPackage,
   rng: RandomSource,
-  participant: Identifier<S>,
+  participant: Identifier<E>,
 ): Map<string, Delta> {
   return coreRepairShareStep1(ciphersuite, helpers, keyPackageI, rng, participant);
 }
@@ -84,7 +84,7 @@ export function repairShareStep1(
  * @param deltas - Array of Delta values received from all helpers
  * @returns The computed Sigma value
  */
-export function repairShareStep2(ciphersuite: S, deltas: Delta[]): Sigma {
+export function repairShareStep2(ciphersuite: E, deltas: Delta[]): Sigma {
   return coreRepairShareStep2(ciphersuite, deltas);
 }
 
@@ -107,9 +107,9 @@ export function repairShareStep2(ciphersuite: S, deltas: Delta[]): Sigma {
  * @throws {FrostError} If recovery fails or minSigners is not set
  */
 export function repairShareStep3(
-  ciphersuite: S,
+  ciphersuite: E,
   sigmas: Sigma[],
-  identifier: Identifier<S>,
+  identifier: Identifier<E>,
   publicKeyPackage: PublicKeyPackage,
 ): KeyPackage {
   return coreRepairShareStep3(ciphersuite, sigmas, identifier, publicKeyPackage);

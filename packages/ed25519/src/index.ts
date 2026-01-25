@@ -9,7 +9,10 @@
  */
 
 import { sha512 } from "@noble/hashes/sha512";
-import { ed25519, ExtendedPoint } from "@noble/curves/ed25519";
+import { ed25519 } from "@noble/curves/ed25519";
+
+// Access ExtendedPoint from the ed25519 object
+const ExtendedPoint = ed25519.ExtendedPoint;
 
 import type {
   Ciphersuite,
