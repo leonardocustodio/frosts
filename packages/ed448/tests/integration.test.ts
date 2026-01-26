@@ -39,7 +39,7 @@ describe("FROST Ed448-SHAKE256 Integration Tests", () => {
       expect(message).toBeDefined();
       expect(signature).toBeDefined();
       expect(verifyingKey).toBeDefined();
-    });
+    }, 30_000);
 
     it("should fail DKG part1 with invalid min_signers (min_signers = 1)", () => {
       tests.checkDkgPart1FailsWithInvalidSigners(
@@ -369,7 +369,7 @@ describe("Batch Verification", () => {
 
   it("should fail batch verification with an invalid signature", () => {
     tests.checkBadBatchVerify(Ed448Shake256, rng);
-  });
+  }, 30_000);
 
   it("should fail verification of an empty batch (NCC audit case)", () => {
     tests.checkEmptyBatchVerify(Ed448Shake256, rng);

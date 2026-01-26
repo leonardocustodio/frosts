@@ -3,7 +3,10 @@
   "compilerOptions": {
     "lib": ["ES2022", "DOM"],
     "skipLibCheck": true,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+    "paths": {
+      "@frosts/ed25519": ["../ed25519/src/index.ts"]
+    }
   },
   "include": [
     "src/**/*.ts",

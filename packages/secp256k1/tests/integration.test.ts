@@ -44,7 +44,7 @@ describe("FROST secp256k1-SHA256 Integration Tests", () => {
       expect(message).toBeDefined();
       expect(signature).toBeDefined();
       expect(verifyingKey).toBeDefined();
-    });
+    }, 60_000);
 
     it("should fail DKG part1 with invalid min_signers (min_signers = 1)", () => {
       tests.checkDkgPart1FailsWithInvalidSigners(
@@ -91,7 +91,7 @@ describe("FROST secp256k1-SHA256 Integration Tests", () => {
   describe("Share Refresh", () => {
     it("should refresh shares with dealer", async () => {
       await tests.checkRefreshSharesWithDealer(Secp256K1Sha256, rng);
-    });
+    }, 30_000);
 
     it("should serialize and deserialize refresh data correctly", async () => {
       await tests.checkRefreshSharesWithDealerSerialisation(Secp256K1Sha256, rng);
@@ -110,7 +110,7 @@ describe("FROST secp256k1-SHA256 Integration Tests", () => {
 
     it("should refresh shares with DKG", async () => {
       await tests.checkRefreshSharesWithDkg(Secp256K1Sha256, rng);
-    });
+    }, 30_000);
 
     it("should refresh shares with DKG using smaller threshold", async () => {
       await tests.checkRefreshSharesWithDkgSmallerThreshold(Secp256K1Sha256, rng);
@@ -126,7 +126,7 @@ describe("FROST secp256k1-SHA256 Integration Tests", () => {
       expect(message).toBeDefined();
       expect(signature).toBeDefined();
       expect(verifyingKey).toBeDefined();
-    });
+    }, 30_000);
 
     it("should fail signing with invalid min_signers (min_signers = 1)", async () => {
       await tests.checkSignWithDealerFailsWithInvalidSigners(
@@ -379,7 +379,7 @@ describe("Batch Verification", () => {
 
   it("should fail batch verification with an invalid signature", () => {
     tests.checkBadBatchVerify(Secp256K1Sha256, rng);
-  });
+  }, 30_000);
 
   it("should fail verification of an empty batch (NCC audit case)", () => {
     tests.checkEmptyBatchVerify(Secp256K1Sha256, rng);

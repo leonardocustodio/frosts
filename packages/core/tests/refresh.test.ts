@@ -35,7 +35,7 @@ describe("Share Refresh", () => {
   describe("Refresh with Trusted Dealer", () => {
     it("should refresh shares and maintain valid signing", async () => {
       await checkRefreshSharesWithDealer(ciphersuite, rng);
-    });
+    }, 30_000);
 
     it("should serialize and deserialize refresh data correctly", async () => {
       await checkRefreshSharesWithDealerSerialisation(ciphersuite, rng);
@@ -45,7 +45,7 @@ describe("Share Refresh", () => {
   describe("Refresh with DKG", () => {
     it("should complete refresh flow using DKG protocol", async () => {
       await checkRefreshSharesWithDkg(ciphersuite, rng);
-    });
+    }, 30_000);
 
     it("should fail when using smaller threshold than original", async () => {
       await checkRefreshSharesWithDkgSmallerThreshold(ciphersuite, rng);

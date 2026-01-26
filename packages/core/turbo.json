@@ -7,7 +7,7 @@
       "outputs": ["dist/**"]
     },
     "test": {
-      "dependsOn": ["build"],
+      "dependsOn": ["build", "@frosts/ed25519#build"],
       "outputs": ["coverage/**"],
       "cache": false
     },

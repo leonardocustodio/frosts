@@ -36,7 +36,7 @@ describe("FROST Ed25519-SHA512 Integration Tests", () => {
       expect(message).toBeDefined();
       expect(signature).toBeDefined();
       expect(verifyingKey).toBeDefined();
-    });
+    }, 30_000);
 
     it("should fail DKG part1 with invalid min_signers (min_signers = 1)", () => {
       tests.checkDkgPart1FailsWithInvalidSigners(

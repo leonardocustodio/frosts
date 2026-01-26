@@ -1,6 +1,6 @@
 {
   "name": "frosts",
-  "version": "0.2.2-alpha.1",
+  "version": "0.2.2-alpha.2",
   "private": true,
   "description": "TypeScript implementation of FROST (Flexible Round-Optimized Schnorr Threshold) signatures for threshold cryptography",
   "author": "Leonardo Custodio <leonardo.custodio@parity.io> (https://github.com/leonardocustodio)",
@@ -32,8 +32,8 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\" --ignore-pattern \"packages/secp256k1-tr/**\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --ignore-pattern \"packages/secp256k1-tr/**\"",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
     "typecheck": "turbo run typecheck",
     "docs": "turbo run docs",
     "clean": "turbo run clean",
@@ -41,6 +41,7 @@
     "bump-version": "bun run scripts/bump-version.ts"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
     "prettier": "^3.8.1",
     "turbo": "^2.7.6",
     "typescript": "^5.9.3"

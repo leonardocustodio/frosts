@@ -11,7 +11,11 @@
  * @module serde
  */
 
-import { Secp256K1Sha256TR, type Secp256K1Sha256TRImpl, IdentifierImpl as Identifier } from "./index.js";
+import {
+  Secp256K1Sha256TR,
+  type Secp256K1Sha256TRImpl,
+  IdentifierImpl as Identifier,
+} from "./index.js";
 
 import {
   type SigningPackage,
@@ -150,7 +154,9 @@ export function signingCommitmentsToJson(
 /**
  * Deserialize SigningCommitments from JSON.
  */
-export function signingCommitmentsFromJson(json: unknown): SigningCommitments<Secp256K1Sha256TRImpl> {
+export function signingCommitmentsFromJson(
+  json: unknown,
+): SigningCommitments<Secp256K1Sha256TRImpl> {
   if (typeof json !== "object" || json === null) {
     throw new Error("Invalid JSON: expected object");
   }
@@ -185,7 +191,9 @@ export interface SigningPackageJson {
 /**
  * Serialize SigningPackage to JSON.
  */
-export function signingPackageToJson(pkg: SigningPackage<Secp256K1Sha256TRImpl>): SigningPackageJson {
+export function signingPackageToJson(
+  pkg: SigningPackage<Secp256K1Sha256TRImpl>,
+): SigningPackageJson {
   const commitmentsObj: Record<string, SigningCommitmentsJson> = {};
 
   for (const [id, commitment] of pkg.signingCommitments) {

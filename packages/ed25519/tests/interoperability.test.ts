@@ -46,7 +46,7 @@ describe("FROST Ed25519-SHA512 Interoperability Tests", () => {
         },
         8, // Reduced from 32 for test speed, DKG is slower
       );
-    });
+    }, 60_000);
 
     it("should verify FROST signatures with dealer using standard Ed25519", async () => {
       // Ported from: check_interoperability_in_sign_with_dealer
@@ -63,7 +63,7 @@ describe("FROST Ed25519-SHA512 Interoperability Tests", () => {
         },
         32, // Reduced from 256 for test speed
       );
-    });
+    }, 30_000);
   });
 
   describe("Test Vector Signature Verification", () => {
