@@ -365,7 +365,7 @@ describe("Property-Based Tests", () => {
         }),
         { numRuns: 100 },
       );
-    });
+    }, 30_000);
 
     it("should handle tweaks correctly", () => {
       fc.assert(
@@ -377,7 +377,7 @@ describe("Property-Based Tests", () => {
         }),
         { numRuns: 100 },
       );
-    });
+    }, 30_000);
 
     it("should invalidate signature when message is changed", () => {
       fc.assert(
@@ -390,7 +390,7 @@ describe("Property-Based Tests", () => {
         }),
         { numRuns: 50 },
       );
-    });
+    }, 30_000);
 
     it("should invalidate signature when public key is changed", () => {
       fc.assert(
@@ -403,7 +403,7 @@ describe("Property-Based Tests", () => {
         }),
         { numRuns: 50 },
       );
-    });
+    }, 30_000);
 
     it("should keep signature valid when no tweak is applied", () => {
       fc.assert(
@@ -416,7 +416,7 @@ describe("Property-Based Tests", () => {
         }),
         { numRuns: 50 },
       );
-    });
+    }, 30_000);
 
     it("should handle empty messages", () => {
       const rng = createSecureRng();

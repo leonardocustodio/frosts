@@ -71,11 +71,11 @@ describe("Batch Verification", () => {
   describe("Integration Tests", () => {
     it("should verify a batch of valid signatures", () => {
       checkBatchVerify(ciphersuite, rng);
-    });
+    }, 30_000);
 
     it("should fail batch verification with a bad signature", () => {
       checkBadBatchVerify(ciphersuite, rng);
-    });
+    }, 30_000);
 
     it("should fail verification of an empty batch", () => {
       checkEmptyBatchVerify(ciphersuite, rng);

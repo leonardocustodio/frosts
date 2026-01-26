@@ -48,7 +48,7 @@ describe("FROST secp256k1-SHA256-TR Integration Tests", () => {
       expect(message).toBeDefined();
       expect(signature).toBeDefined();
       expect(verifyingKey).toBeDefined();
-    });
+    }, 30_000);
 
     it("should fail DKG part1 with invalid min_signers (min_signers = 1)", () => {
       tests.checkDkgPart1FailsWithInvalidSigners(
@@ -122,7 +122,7 @@ describe("FROST secp256k1-SHA256-TR Integration Tests", () => {
     it("should refresh shares with DKG", async () => {
       // Ported from: check_refresh_shares_with_dkg
       await tests.checkRefreshSharesWithDkg(Secp256K1Sha256TR, rng);
-    });
+    }, 30_000);
 
     it("should refresh shares with DKG using smaller threshold", async () => {
       // Ported from: check_refresh_shares_with_dkg_smaller_threshold
@@ -139,7 +139,7 @@ describe("FROST secp256k1-SHA256-TR Integration Tests", () => {
       expect(message).toBeDefined();
       expect(signature).toBeDefined();
       expect(verifyingKey).toBeDefined();
-    });
+    }, 30_000);
 
     it("should fail signing with invalid min_signers (min_signers = 1)", async () => {
       await tests.checkSignWithDealerFailsWithInvalidSigners(

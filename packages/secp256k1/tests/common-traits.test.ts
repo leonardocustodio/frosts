@@ -68,9 +68,9 @@ function wrapInResult<T>(value: T): Result<T> {
  * 3. Usability in Result patterns
  *
  * @param value - The value to test
- * @param name - Name of the type for error messages
+ * @param _name
  */
-function checkCommonTraitsForType<T extends CommonTraits>(value: T, name: string): void {
+function checkCommonTraitsForType<T extends CommonTraits>(value: T, _name: string): void {
   // Test 1: Make sure it can be converted to string (Debug equivalent)
   // This also catches if the implementation has endless recursion
   const debugString = value.toString();

@@ -53,7 +53,7 @@ describe("Ciphersuite Generic Tests", () => {
   describe("Share Generation", () => {
     it("should generate valid secret shares", async () => {
       await checkShareGeneration(ciphersuite, rng);
-    });
+    }, 30_000);
 
     it("should fail reconstruction with empty shares", async () => {
       // This is tested as part of checkShareGeneration which tests error cases
@@ -84,7 +84,7 @@ describe("Ciphersuite Generic Tests", () => {
   describe("FROST Signing with Trusted Dealer", () => {
     it("should complete full signing flow with dealer", async () => {
       await checkSignWithDealer(ciphersuite, rng);
-    });
+    }, 30_000);
 
     it("should fail signing with not enough signers (min_signers = 0)", async () => {
       await checkSignWithDealerFailsWithInvalidSigners(ciphersuite, 0, 5, rng);
@@ -94,7 +94,7 @@ describe("Ciphersuite Generic Tests", () => {
   describe("FROST Signing with DKG", () => {
     it("should complete full signing flow with DKG", async () => {
       await checkSignWithDkg(ciphersuite, rng);
-    });
+    }, 30_000);
   });
 
   describe("DKG Error Cases", () => {

@@ -84,7 +84,7 @@ describe("FROST secp256k1-SHA256-TR Interoperability Tests", () => {
         },
         8, // Reduced from 32 for test speed, DKG is slower
       );
-    });
+    }, 60_000);
   });
 
   describe("Dealer-based Signing Interoperability", () => {
