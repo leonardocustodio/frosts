@@ -1,6 +1,6 @@
 {
   "name": "@frosts/ed448",
-  "version": "0.2.2-alpha.2",
+  "version": "0.2.2-alpha.3",
   "type": "module",
   "description": "FROST(Ed448, SHAKE256) - A Schnorr signature scheme over Ed448 that supports FROST threshold signatures",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "homepage": "https://github.com/leonardocustodio/frosts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/leonardocustodio/frosts",
+    "url": "git+https://github.com/leonardocustodio/frosts.git",
     "directory": "packages/ed448"
   },
   "bugs": {

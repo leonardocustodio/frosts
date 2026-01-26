@@ -1,6 +1,6 @@
 {
   "name": "@frosts/ed25519",
-  "version": "0.2.2-alpha.2",
+  "version": "0.2.2-alpha.3",
   "type": "module",
   "description": "FROST(Ed25519, SHA-512) - A Schnorr signature scheme over Ed25519 that supports FROST threshold signatures",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "homepage": "https://github.com/leonardocustodio/frosts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/leonardocustodio/frosts",
+    "url": "git+https://github.com/leonardocustodio/frosts.git",
     "directory": "packages/ed25519"
   },
   "bugs": {

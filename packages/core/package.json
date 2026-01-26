@@ -1,6 +1,6 @@
 {
   "name": "@frosts/core",
-  "version": "0.2.2-alpha.2",
+  "version": "0.2.2-alpha.3",
   "type": "module",
   "description": "Core types and traits for FROST (Flexible Round-Optimized Schnorr Threshold) signatures",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "homepage": "https://github.com/leonardocustodio/frosts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/leonardocustodio/frosts",
+    "url": "git+https://github.com/leonardocustodio/frosts.git",
     "directory": "packages/core"
   },
   "bugs": {
