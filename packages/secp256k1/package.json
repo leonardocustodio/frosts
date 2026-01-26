@@ -1,6 +1,6 @@
 {
   "name": "@frosts/secp256k1",
-  "version": "0.2.2-alpha.1",
+  "version": "0.2.2-alpha.2",
   "type": "module",
   "description": "FROST(secp256k1, SHA-256) - A Schnorr signature scheme over secp256k1 that supports FROST threshold signatures",
   "license": "MIT",

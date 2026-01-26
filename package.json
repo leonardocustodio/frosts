@@ -1,6 +1,6 @@
 {
   "name": "frosts",
-  "version": "0.2.2-alpha.1",
+  "version": "0.2.2-alpha.2",
   "private": true,
   "description": "TypeScript implementation of FROST (Flexible Round-Optimized Schnorr Threshold) signatures for threshold cryptography",
   "author": "Leonardo Custodio <leonardo.custodio@parity.io> (https://github.com/leonardocustodio)",
