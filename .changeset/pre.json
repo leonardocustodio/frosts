@@ -1,0 +1,17 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@frosts/core": "0.2.2-alpha.2",
+    "@frosts/ed448": "0.2.2-alpha.2",
+    "@frosts/ed25519": "0.2.2-alpha.2",
+    "@frosts/p256": "0.2.2-alpha.2",
+    "@frosts/rerandomized": "0.2.2-alpha.2",
+    "@frosts/ristretto255": "0.2.2-alpha.2",
+    "@frosts/secp256k1": "0.2.2-alpha.2",
+    "@frosts/secp256k1-tr": "0.2.2-alpha.2",
+    "@frosts/eslint": "0.2.2-alpha.2",
+    "@frosts/tsconfig": "0.2.2-alpha.2"
+  },
+  "changesets": []
+}
