@@ -1,0 +1,39 @@
+# GitHub Actions labeler configuration for FROST TypeScript monorepo
+# https://github.com/actions/labeler
+
+github-actions:
+  - changed-files:
+      - any-glob-to-any-file: '.github/**'
+
+"core":
+  - changed-files:
+      - any-glob-to-any-file: 'packages/core/**'
+
+"ed25519":
+  - changed-files:
+      - any-glob-to-any-file: 'packages/ed25519/**'
+
+"ed448":
+  - changed-files:
+      - any-glob-to-any-file: 'packages/ed448/**'
+
+"p256":
+  - changed-files:
+      - any-glob-to-any-file: 'packages/p256/**'
+
+"rerandomized":
+  - changed-files:
+      - any-glob-to-any-file: 'packages/rerandomized/**'
+
+"ristretto255":
+  - changed-files:
+      - any-glob-to-any-file: 'packages/ristretto255/**'
+
+"secp256k1":
+  - changed-files:
+      - any-glob-to-any-file: 'packages/secp256k1/**'
+
+"secp256k1-tr":
+  - changed-files:
+      - any-glob-to-any-file: 'packages/secp256k1-tr/**'
+

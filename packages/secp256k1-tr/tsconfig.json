@@ -1,0 +1,12 @@
+{
+  "extends": "@frosts/tsconfig/library.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": ".",
+    "skipLibCheck": true,
+    "declaration": false,
+    "declarationMap": false
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
