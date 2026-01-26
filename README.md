@@ -53,7 +53,7 @@ See [SECURITY-REVIEW.md](./SECURITY-REVIEW.md) for how to contribute a security 
 
 ## 🔐 Security Disclosure
 
-If you discover a security vulnerability, please report it privately via email to **security@snowpine.io**. Do **not** create public issues for security vulnerabilities.
+Found a vulnerability? We'd really appreciate you letting us know privately at **security@snowpine.io** - please avoid opening public issues for security concerns.
 
 | Contact | Fingerprint |
 |---------|-------------|
