@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FROST TypeScript - Threshold Signatures</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>@frosTS - FROST TypeScript</h1>
+    <p class="tagline">Flexible Round-Optimized Schnorr Threshold Signatures</p>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p>
+        TypeScript implementation of <a href="https://eprint.iacr.org/2020/852" target="_blank" rel="noopener">FROST</a>
+        threshold signatures for multi-party computation. Build secure threshold wallets,
+        distributed key management, and collaborative signing applications.
+      </p>
+    </section>
+
+    <section class="packages">
+      <h2>Packages</h2>
+
+      <div class="package-grid">
+        <a href="./core" class="package-card">
+          <h3>@frosts/core</h3>
+          <p>Core types and traits for FROST threshold signatures</p>
+          <span class="badge">Foundation</span>
+        </a>
+
+        <a href="./rerandomized" class="package-card">
+          <h3>@frosts/rerandomized</h3>
+          <p>Re-randomized FROST for threshold cryptography with re-randomizable keys</p>
+          <span class="badge">Foundation</span>
+        </a>
+
+        <a href="./ed25519" class="package-card">
+          <h3>@frosts/ed25519</h3>
+          <p>FROST(Ed25519, SHA-512) - Schnorr signatures over Ed25519</p>
+          <span class="badge curve">Ed25519</span>
+        </a>
+
+        <a href="./ed448" class="package-card">
+          <h3>@frosts/ed448</h3>
+          <p>FROST(Ed448, SHAKE256) - Schnorr signatures over Ed448</p>
+          <span class="badge curve">Ed448</span>
+        </a>
+
+        <a href="./ristretto255" class="package-card">
+          <h3>@frosts/ristretto255</h3>
+          <p>FROST(ristretto255, SHA-512) - Schnorr signatures over ristretto255</p>
+          <span class="badge curve">ristretto255</span>
+        </a>
+
+        <a href="./p256" class="package-card">
+          <h3>@frosts/p256</h3>
+          <p>FROST(P-256, SHA-256) - Schnorr signatures over NIST P-256</p>
+          <span class="badge curve">P-256</span>
+        </a>
+
+        <a href="./secp256k1" class="package-card">
+          <h3>@frosts/secp256k1</h3>
+          <p>FROST(secp256k1, SHA-256) - Schnorr signatures over secp256k1</p>
+          <span class="badge curve">secp256k1</span>
+        </a>
+
+        <a href="./secp256k1-tr" class="package-card">
+          <h3>@frosts/secp256k1-tr</h3>
+          <p>FROST(secp256k1, SHA-256) Taproot - BIP-340 compatible signatures</p>
+          <span class="badge bitcoin">Bitcoin Taproot</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="install">
+      <h2>Installation</h2>
+      <pre><code>npm install @frosts/ed25519
+# or
+bun add @frosts/secp256k1-tr</code></pre>
+    </section>
+
+    <section class="links">
+      <h2>Resources</h2>
+      <ul>
+        <li><a href="https://github.com/leonardocustodio/frosts" target="_blank" rel="noopener">GitHub Repository</a></li>
+        <li><a href="https://www.npmjs.com/org/frosts" target="_blank" rel="noopener">NPM Packages</a></li>
+        <li><a href="https://eprint.iacr.org/2020/852" target="_blank" rel="noopener">FROST Paper (ePrint)</a></li>
+        <li><a href="https://datatracker.ietf.org/doc/rfc9591/" target="_blank" rel="noopener">RFC 9591</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>MIT License</p>
+  </footer>
+</body>
+</html>
