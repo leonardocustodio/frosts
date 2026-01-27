@@ -48,6 +48,10 @@ jobs:
             fi
           done
 
+          # Copy landing page to root
+          cp apps/docs/index.html public/
+          cp apps/docs/style.css public/
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
