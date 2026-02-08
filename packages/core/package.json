@@ -56,11 +56,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@frosts/eslint": "workspace:*",
     "@frosts/tsconfig": "workspace:*",
     "@types/node": "^25.0.10",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.0",
     "fast-check": "^4.5.3",
     "prettier": "^3.8.1",
     "tsdown": "^0.20.1",
