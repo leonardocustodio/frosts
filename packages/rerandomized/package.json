@@ -61,11 +61,11 @@
   "devDependencies": {
     "@frosts/eslint": "workspace:*",
     "@frosts/tsconfig": "workspace:*",
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@types/node": "^25.0.10",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.3",
     "prettier": "^3.8.1",
-    "tsdown": "^0.20.1",
+    "tsdown": "^0.21.0",
     "typedoc": "^0.28.5",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
