@@ -882,7 +882,7 @@ class Ed25519Sha512Impl implements RandomizedCiphersuite {
       typeof verifyingKey === "object" &&
       verifyingKey !== null &&
       "serialize" in verifyingKey &&
-      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+      typeof verifyingKey.serialize === "function"
     ) {
       pkBytes = (verifyingKey as VerifyingKey<Ed25519Sha512Impl>).serialize();
     } else {
@@ -918,7 +918,7 @@ class Ed25519Sha512Impl implements RandomizedCiphersuite {
       typeof verifyingKey === "object" &&
       verifyingKey !== null &&
       "serialize" in verifyingKey &&
-      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+      typeof verifyingKey.serialize === "function"
     ) {
       vkBytes = (verifyingKey as VerifyingKey<Ed25519Sha512Impl>).serialize();
     } else {

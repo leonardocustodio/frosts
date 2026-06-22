@@ -210,10 +210,10 @@ export function publicKeyPackageIntoEvenY(
 ): PublicKeyPackage {
   const evenY = isEven ?? publicKeyPackageHasEvenY(pkg);
   if (!evenY) {
-    const verifyingKey = Secp256K1Group.negate(pkg.verifyingKey as Uint8Array);
+    const verifyingKey = Secp256K1Group.negate(pkg.verifyingKey);
     const verifyingShares = new Map<string, Uint8Array>();
     for (const [id, share] of pkg.verifyingShares) {
-      verifyingShares.set(id, Secp256K1Group.negate(share as Uint8Array));
+      verifyingShares.set(id, Secp256K1Group.negate(share));
     }
     return {
       ...pkg,
@@ -239,10 +239,10 @@ export function publicKeyPackageTweak(
   const tp = Secp256K1Group.basePointMul(t);
 
   // Apply tweak to verifying key and all shares
-  const verifyingKey = Secp256K1Group.add(evenPkg.verifyingKey as Uint8Array, tp);
+  const verifyingKey = Secp256K1Group.add(evenPkg.verifyingKey, tp);
   const verifyingShares = new Map<string, Uint8Array>();
   for (const [id, share] of evenPkg.verifyingShares) {
-    verifyingShares.set(id, Secp256K1Group.add(share as Uint8Array, tp));
+    verifyingShares.set(id, Secp256K1Group.add(share, tp));
   }
 
   return {
@@ -269,9 +269,9 @@ export function keyPackageHasEvenY(pkg: KeyPackage): boolean {
 export function keyPackageIntoEvenY(pkg: KeyPackage, isEven?: boolean): KeyPackage {
   const evenY = isEven ?? keyPackageHasEvenY(pkg);
   if (!evenY) {
-    const verifyingKey = Secp256K1Group.negate(pkg.verifyingKey as Uint8Array);
-    const signingShare = Secp256K1ScalarField.negate(pkg.signingShare as bigint);
-    const verifyingShare = Secp256K1Group.negate(pkg.verifyingShare as Uint8Array);
+    const verifyingKey = Secp256K1Group.negate(pkg.verifyingKey);
+    const signingShare = Secp256K1ScalarField.negate(pkg.signingShare);
+    const verifyingShare = Secp256K1Group.negate(pkg.verifyingShare);
     return {
       ...pkg,
       verifyingKey,
@@ -294,9 +294,9 @@ export function keyPackageTweak(pkg: KeyPackage, merkleRoot?: Uint8Array): KeyPa
   const tp = Secp256K1Group.basePointMul(t);
 
   // Apply tweak to all components
-  const verifyingKey = Secp256K1Group.add(evenPkg.verifyingKey as Uint8Array, tp);
-  const signingShare = Secp256K1ScalarField.add(evenPkg.signingShare as bigint, t);
-  const verifyingShare = Secp256K1Group.add(evenPkg.verifyingShare as Uint8Array, tp);
+  const verifyingKey = Secp256K1Group.add(evenPkg.verifyingKey, tp);
+  const signingShare = Secp256K1ScalarField.add(evenPkg.signingShare, t);
+  const verifyingShare = Secp256K1Group.add(evenPkg.verifyingShare, tp);
 
   return {
     ...evenPkg,

@@ -964,7 +964,7 @@ export const Secp256K1Sha256TR: Secp256K1Sha256TRImpl = {
       typeof verifyingKey === "object" &&
       verifyingKey !== null &&
       "serialize" in verifyingKey &&
-      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+      typeof verifyingKey.serialize === "function"
     ) {
       vkBytes = (verifyingKey as { serialize(): Uint8Array }).serialize();
     } else {
@@ -1100,10 +1100,7 @@ export const Secp256K1Sha256TR: Secp256K1Sha256TRImpl = {
     rng: RandomSource,
   ): SignatureClass<Secp256K1Sha256TRImpl> {
     // Extract scalar from SigningKey object or use directly if already a bigint
-    const scalar =
-      typeof signingKey === "bigint"
-        ? signingKey
-        : (signingKey as { toScalar(): bigint }).toScalar();
+    const scalar = typeof signingKey === "bigint" ? signingKey : signingKey.toScalar();
 
     // Ensure signing key produces even Y public key
     const publicKey = Secp256K1Group.basePointMul(scalar);
@@ -1212,12 +1209,12 @@ export const Secp256K1Sha256TR: Secp256K1Sha256TRImpl = {
       typeof verifyingKey === "object" &&
       verifyingKey !== null &&
       "serialize" in verifyingKey &&
-      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+      typeof verifyingKey.serialize === "function"
     ) {
       vkBytes = (verifyingKey as VerifyingKeyClass<Secp256K1Sha256TRImpl>).serialize();
     } else {
       // It's a raw element, serialize it directly
-      vkBytes = Secp256K1Group.serialize(verifyingKey as Uint8Array);
+      vkBytes = Secp256K1Group.serialize(verifyingKey);
     }
 
     // Compute message hash H4(message)
@@ -1450,7 +1447,7 @@ export const Secp256K1Sha256TR: Secp256K1Sha256TRImpl = {
     // Check if we need to negate the signing share (for even Y verifying key)
     let vkBytes: Uint8Array;
     if (typeof kp.verifyingKey === "object" && "serialize" in kp.verifyingKey) {
-      vkBytes = (kp.verifyingKey as { serialize(): Uint8Array }).serialize();
+      vkBytes = kp.verifyingKey.serialize();
     } else {
       vkBytes = kp.verifyingKey;
     }
@@ -1460,7 +1457,7 @@ export const Secp256K1Sha256TR: Secp256K1Sha256TRImpl = {
     if (typeof kp.signingShare === "bigint") {
       signingShare = kp.signingShare;
     } else if (typeof kp.signingShare === "object" && "toScalar" in kp.signingShare) {
-      signingShare = (kp.signingShare as { toScalar(): bigint }).toScalar();
+      signingShare = kp.signingShare.toScalar();
     } else {
       throw new Error("signingShare must be a bigint or object with toScalar()");
     }
@@ -1797,14 +1794,14 @@ export function intoEvenYKeyPackage<
       verifyingKey: Secp256K1Group.negate(vkBytes),
       signingShare: Secp256K1ScalarField.negate(signingScalar),
       verifyingShare: Secp256K1Group.negate(vsBytes),
-    } as T;
+    };
   }
   return {
     ...keyPackage,
     verifyingKey: vkBytes,
     signingShare: signingScalar,
     verifyingShare: vsBytes,
-  } as T;
+  };
 }
 
 /**
@@ -1842,7 +1839,7 @@ export function intoEvenYPublicKeyPackage<
       ...publicKeyPackage,
       verifyingKey: Secp256K1Group.negate(vkBytes),
       verifyingShares: newShares,
-    } as T;
+    };
   }
   // Convert shares to bytes even if not negating
   const newShares = new Map<string, Uint8Array>();
@@ -1853,7 +1850,7 @@ export function intoEvenYPublicKeyPackage<
     ...publicKeyPackage,
     verifyingKey: vkBytes,
     verifyingShares: newShares,
-  } as T;
+  };
 }
 
 /**
@@ -1882,7 +1879,7 @@ export function tweakKeyPackage<
     verifyingKey: Secp256K1Group.add(vkBytes, tp),
     signingShare: Secp256K1ScalarField.add(signingScalar, t),
     verifyingShare: Secp256K1Group.add(vsBytes, tp),
-  } as T;
+  };
 }
 
 /**
@@ -1905,14 +1902,14 @@ export function tweakPublicKeyPackage<
   // Apply tweak to all shares
   const newShares = new Map<string, Uint8Array>();
   for (const [id, share] of evenPackage.verifyingShares) {
-    newShares.set(id, Secp256K1Group.add(share as Uint8Array, tp));
+    newShares.set(id, Secp256K1Group.add(share, tp));
   }
 
   return {
     ...evenPackage,
     verifyingKey: Secp256K1Group.add(vkBytes, tp),
     verifyingShares: newShares,
-  } as T;
+  };
 }
 
 // ---------------------------------------------------------------------------

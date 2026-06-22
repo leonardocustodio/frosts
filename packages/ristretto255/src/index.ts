@@ -841,7 +841,7 @@ class Ristretto255Sha512Impl implements RandomizedCiphersuite {
       typeof verifyingKey === "object" &&
       verifyingKey !== null &&
       "serialize" in verifyingKey &&
-      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+      typeof verifyingKey.serialize === "function"
     ) {
       pkBytes = (verifyingKey as VerifyingKey<Ristretto255Sha512Impl>).serialize();
     } else {
@@ -875,7 +875,7 @@ class Ristretto255Sha512Impl implements RandomizedCiphersuite {
       typeof verifyingKey === "object" &&
       verifyingKey !== null &&
       "serialize" in verifyingKey &&
-      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+      typeof verifyingKey.serialize === "function"
     ) {
       vkBytes = (verifyingKey as VerifyingKey<Ristretto255Sha512Impl>).serialize();
     } else {

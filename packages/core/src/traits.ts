@@ -35,7 +35,7 @@ export function randomNonzero<F extends Field>(field: F, rng: CryptoRng): Scalar
   let scalar: ScalarOf<F>;
   do {
     scalar = field.random(rng) as ScalarOf<F>;
-  } while (field.isZero(scalar as never));
+  } while (field.isZero(scalar));
   return scalar;
 }
 
@@ -53,8 +53,8 @@ export function defaultGenerateNonce<C extends Ciphersuite>(
   const group = ciphersuite.group;
   const field = group.field;
   const k = randomNonzero(field, rng);
-  const R = group.scalarBaseMul(k as never);
-  return [k as Scalar<C>, R as Element<C>];
+  const R = group.scalarBaseMul(k);
+  return [k, R];
 }
 
 /**

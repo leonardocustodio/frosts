@@ -182,7 +182,7 @@ export class SigningKey<C extends Ciphersuite> {
    */
   zeroize(): void {
     const field = this._ciphersuite.group.field;
-    this._scalar = field.zero() as Scalar<C>;
+    this._scalar = field.zero();
   }
 
   /**

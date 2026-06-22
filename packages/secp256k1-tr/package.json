@@ -62,17 +62,17 @@
   "dependencies": {
     "@frosts/core": "workspace:*",
     "@frosts/rerandomized": "workspace:*",
-    "@noble/curves": "^2.0.1",
-    "@noble/hashes": "^2.0.1"
+    "@noble/curves": "^2.2.0",
+    "@noble/hashes": "^2.2.0"
   },
   "devDependencies": {
     "@frosts/eslint": "workspace:*",
     "@frosts/tsconfig": "workspace:*",
-    "@types/node": "^25.0.10",
-    "eslint": "^9.39.2",
-    "tsdown": "^0.20.1",
-    "typedoc": "^0.28.5",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
+    "@types/node": "^26.0.0",
+    "eslint": "^10.5.0",
+    "tsdown": "^0.22.3",
+    "typedoc": "^0.28.19",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
   }
 }

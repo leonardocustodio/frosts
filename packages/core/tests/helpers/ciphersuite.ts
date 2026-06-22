@@ -37,6 +37,7 @@ export async function getTestCiphersuite(): Promise<Ciphersuite> {
       "Failed to load @frosts/ed25519 for testing. " +
         "Make sure the ed25519 package is built before running core tests. " +
         `Original error: ${error}`,
+      { cause: error },
     );
   }
 }

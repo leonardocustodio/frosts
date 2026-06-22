@@ -46,7 +46,7 @@ export function checkBatchVerify<C extends Ciphersuite>(ciphersuite: C, rng: Cry
   batch.queue(item);
 
   // Create RNG function that generates random scalars for blinding
-  const rngFn = (): Scalar<C> => ciphersuite.group.field.random(rng) as Scalar<C>;
+  const rngFn = (): Scalar<C> => ciphersuite.group.field.random(rng);
 
   // Verify the batch - should not throw
   batch.verify(rngFn);
@@ -103,7 +103,7 @@ export function checkBadBatchVerify<C extends Ciphersuite>(ciphersuite: C, rng: 
   }
 
   // Create RNG function for batch verification
-  const rngFn = (): Scalar<C> => ciphersuite.group.field.random(rng) as Scalar<C>;
+  const rngFn = (): Scalar<C> => ciphersuite.group.field.random(rng);
 
   // Batch verification should fail due to the bad signature
   let batchFailed = false;
@@ -162,7 +162,7 @@ export function checkEmptyBatchVerify<C extends Ciphersuite>(ciphersuite: C, rng
   const batch = new Verifier(ciphersuite);
 
   // Create RNG function for batch verification
-  const rngFn = (): Scalar<C> => ciphersuite.group.field.random(rng) as Scalar<C>;
+  const rngFn = (): Scalar<C> => ciphersuite.group.field.random(rng);
 
   // Empty batch should fail
   let emptyFailed = false;

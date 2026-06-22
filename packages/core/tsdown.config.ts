@@ -40,7 +40,17 @@ export default defineConfig([
     minify: false,
     target: "es2022",
     outDir: "dist",
-    external: [...testDependencies, nodeBuiltins],
+    deps: {
+      neverBundle: [...testDependencies, nodeBuiltins],
+    },
+    // `keys.ts` dynamically imports `./identifier` to keep a few public
+    // functions async while sidestepping a historical circular dependency.
+    // Under code splitting that module is also statically pulled into the
+    // shared chunk, so rolldown flags the dynamic import as ineffective for
+    // chunking. That is expected and harmless here, so silence just that check.
+    checks: {
+      ineffectiveDynamicImport: false,
+    },
     platform: "neutral",
   },
   // Browser global (IIFE) build for the public entry only.
@@ -59,7 +69,9 @@ export default defineConfig([
     minify: false,
     target: "es2022",
     outDir: "dist",
-    external: [...testDependencies, nodeBuiltins],
+    deps: {
+      neverBundle: [...testDependencies, nodeBuiltins],
+    },
     platform: "neutral",
     globalName: "frostsCore",
     outputOptions: {

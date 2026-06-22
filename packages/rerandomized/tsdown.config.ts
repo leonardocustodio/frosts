@@ -11,7 +11,9 @@ export default defineConfig({
   minify: false,
   target: "es2022",
   outDir: "dist",
-  external: ["@frosts/core"],
+  deps: {
+    neverBundle: ["@frosts/core"],
+  },
   platform: "neutral",
   globalName: "frostsRerandomized",
   outputOptions: {
