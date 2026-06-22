@@ -24,7 +24,14 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "default": "./dist/index.js"
-    }
+    },
+    "./tests": {
+      "types": "./dist/tests/index.d.ts",
+      "import": "./dist/tests/index.js",
+      "require": "./dist/tests/index.cjs",
+      "default": "./dist/tests/index.js"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",

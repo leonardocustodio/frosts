@@ -88,6 +88,12 @@ export * from "./batch.js";
 // Signature aggregation
 export * from "./aggregate.js";
 
-// Generic test functions for ciphersuite packages
-// These are parameterized test functions that can be called with a specific ciphersuite
-export * as tests from "./tests/index.js";
+// NOTE: The generic, parameterized test functions for ciphersuite packages are
+// intentionally NOT exported from this entry point. They depend on `vitest`
+// (a dev-only dependency), so re-exporting them here would force every runtime
+// consumer of `@frosts/core` to have `vitest` installed. They are published
+// under the dedicated `@frosts/core/tests` subpath instead:
+//
+//   import * as tests from "@frosts/core/tests";
+//
+// See ./tests/index.ts.

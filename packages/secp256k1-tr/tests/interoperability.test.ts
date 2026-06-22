@@ -10,7 +10,8 @@
  */
 
 import { describe, it, expect, beforeEach } from "vitest";
-import { tests, VerifyingKey } from "@frosts/core";
+import * as tests from "@frosts/core/tests";
+import { VerifyingKey } from "@frosts/core";
 import {
   createSecureRng,
   verifySignature,

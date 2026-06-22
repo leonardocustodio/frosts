@@ -7,7 +7,7 @@
  */
 
 import { describe, it, expect, beforeEach } from "vitest";
-import { tests } from "@frosts/core";
+import * as tests from "@frosts/core/tests";
 import {
   createSecureRng,
   hexToBytes,

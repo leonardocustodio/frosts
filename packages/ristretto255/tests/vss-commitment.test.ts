@@ -8,7 +8,7 @@
  */
 
 import { describe, it, beforeEach } from "vitest";
-import { tests } from "@frosts/core";
+import * as tests from "@frosts/core/tests";
 import { Ristretto255Sha512 } from "../src/index.js";
 import { createSecureRng, type CryptoRng } from "./helpers/index.js";
 import elementsJson from "./helpers/elements.json";

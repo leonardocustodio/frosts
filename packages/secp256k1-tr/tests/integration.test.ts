@@ -13,7 +13,8 @@
  */
 
 import { describe, it, expect, beforeEach } from "vitest";
-import { tests, Identifier } from "@frosts/core";
+import * as tests from "@frosts/core/tests";
+import { Identifier } from "@frosts/core";
 import {
   createSecureRng,
   hexToBytes,
