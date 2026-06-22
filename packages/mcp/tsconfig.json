@@ -1,0 +1,12 @@
+{
+  "extends": "@frosts/tsconfig/library.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "outDir": "dist",
+    "rootDir": ".",
+    "noUncheckedIndexedAccess": true
+  },
+  "include": ["src/**/*.ts", "scripts/**/*.ts"],
+  "exclude": ["node_modules", "dist", "data"]
+}

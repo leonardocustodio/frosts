@@ -1,6 +1,6 @@
 # frosTS - FROST for TypeScript
 
-[![Version](https://img.shields.io/badge/version-0.2.2--alpha.4-green)](https://github.com/leonardocustodio/bcts/releases)
+[![Version](https://img.shields.io/badge/version-0.2.2--alpha.5-green)](https://github.com/leonardocustodio/frosts/releases)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-blue)](https://www.typescriptlang.org/)
 [![Monorepo](https://img.shields.io/badge/Monorepo-Turborepo-blueviolet)](https://turbo.build/)
 [![Package Manager](https://img.shields.io/badge/Package%20Manager-Bun-FFD700)](https://bun.sh/)
@@ -40,6 +40,56 @@ FROST (Flexible Round-Optimized Schnorr Threshold) is a threshold signature sche
 | [**@frosts/secp256k1**](packages/secp256k1) | FROST with secp256k1-SHA256. Bitcoin and Ethereum compatible curve for blockchain applications. [🦀 Rust](https://github.com/ZcashFoundation/frost/tree/main/frost-secp256k1) \| [📖 Docs](https://frost.bcts.dev/secp256k1)                           |
 | [**@frosts/secp256k1-tr**](packages/secp256k1-tr) | FROST with secp256k1 + Taproot (BIP-340). Bitcoin Taproot compatible with x-only public keys. [🦀 Rust](https://github.com/ZcashFoundation/frost/tree/main/frost-secp256k1-tr) \| [📖 Docs](https://frost.bcts.dev/secp256k1-tr)                       |
 | [**@frosts/rerandomized**](packages/rerandomized) | Re-randomized FROST variant with unlinkable signatures. Signatures cannot be correlated across signing sessions. [🦀 Rust](https://github.com/ZcashFoundation/frost/tree/main/frost-rerandomized) \| [📖 Docs](https://frost.bcts.dev/rerandomized)    |
+
+## 🤖 MCP Server
+
+`@frosts` ships an **[MCP](https://modelcontextprotocol.io) server** ([`@frosts/mcp`](packages/mcp)), so any MCP-aware AI tool (Claude Code, Cursor, Claude Desktop, Windsurf, etc.) can navigate the API surface of every package. It runs locally over **stdio** via `npx` — no account, hosted endpoint, or per-project setup required.
+
+**Tools exposed:**
+
+| Tool | Purpose |
+|------|---------|
+| `list_packages` | Enumerate all `@frosts` packages with descriptions and symbol counts |
+| `search_symbols` | Search exported symbols (functions, classes, types) globally or scoped to one package |
+| `get_symbol` | Fetch full details (kind, doc comment, members, source link) for a specific symbol |
+| `get_guide` | Read the README / hand-written guide for a package |
+| `find_examples` | Find code examples whose doc comments match a query |
+
+### Add it to your client
+
+**Claude Code** — one command:
+
+```bash
+claude mcp add frosts -- npx -y @frosts/mcp
+```
+
+**Cursor / Windsurf** — add to `.cursor/mcp.json` (or the equivalent project config):
+
+```json
+{
+  "mcpServers": {
+    "frosts": {
+      "command": "npx",
+      "args": ["-y", "@frosts/mcp"]
+    }
+  }
+}
+```
+
+**Claude Desktop** — `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "frosts": {
+      "command": "npx",
+      "args": ["-y", "@frosts/mcp"]
+    }
+  }
+}
+```
+
+See [`packages/mcp`](packages/mcp) for more, including how the index is built.
 
 ## 👥 Credits
 

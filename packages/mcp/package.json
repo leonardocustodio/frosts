@@ -1,0 +1,58 @@
+{
+  "name": "@frosts/mcp",
+  "version": "0.2.2-alpha.5",
+  "type": "module",
+  "description": "Model Context Protocol (MCP) server exposing the @frosts API surface to AI tools",
+  "license": "MIT",
+  "author": "Leonardo Custodio <leonardo.custodio@parity.io> (https://github.com/leonardocustodio)",
+  "homepage": "https://github.com/leonardocustodio/frosts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonardocustodio/frosts.git",
+    "directory": "packages/mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/leonardocustodio/frosts/issues"
+  },
+  "bin": {
+    "frosts-mcp": "./dist/index.mjs"
+  },
+  "main": "dist/index.mjs",
+  "files": [
+    "dist",
+    "data",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "build:data": "bun run scripts/build-mcp-data.ts",
+    "lint": "eslint 'src/**/*.ts'",
+    "lint:fix": "eslint 'src/**/*.ts' --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist data",
+    "prepublishOnly": "npm run build && npm run build:data"
+  },
+  "keywords": [
+    "frost",
+    "threshold-signatures",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "documentation",
+    "claude"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@frosts/eslint": "workspace:*",
+    "@frosts/tsconfig": "workspace:*",
+    "@types/node": "^26.0.0",
+    "eslint": "^10.5.0",
+    "tsdown": "^0.22.3",
+    "typedoc": "^0.28.19",
+    "typescript": "^6.0.3"
+  }
+}

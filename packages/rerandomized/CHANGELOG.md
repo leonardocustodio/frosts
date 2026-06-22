@@ -1,5 +1,11 @@
 # @frosts/rerandomized
 
+## 0.2.2-alpha.5
+
+### Patch Changes
+
+- Version-aligned release alongside the new `@frosts/mcp` documentation MCP server. No functional changes to this package.
+
 ## 0.2.2-alpha.4
 
 ### Patch Changes
