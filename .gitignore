@@ -55,3 +55,6 @@ playwright-report/
 
 # Package docs
 packages/**/docs
+
+# Generated MCP data index (built at publish time, shipped via the files field)
+packages/mcp/data

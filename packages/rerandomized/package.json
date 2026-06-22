@@ -1,6 +1,6 @@
 {
   "name": "@frosts/rerandomized",
-  "version": "0.2.2-alpha.4",
+  "version": "0.2.2-alpha.5",
   "type": "module",
   "description": "Re-randomized FROST signatures for threshold cryptography with re-randomizable keys",
   "license": "MIT",

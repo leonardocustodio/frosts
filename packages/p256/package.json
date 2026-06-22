@@ -1,6 +1,6 @@
 {
   "name": "@frosts/p256",
-  "version": "0.2.2-alpha.4",
+  "version": "0.2.2-alpha.5",
   "type": "module",
   "description": "FROST(P-256, SHA-256) - A Schnorr signature scheme over P-256 that supports FROST threshold signatures",
   "license": "MIT",
