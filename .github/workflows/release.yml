@@ -23,6 +23,11 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          # Check out the release tag ref explicitly. On `release`-triggered
+          # runs, checkout otherwise lands on a detached commit with no tag ref
+          # (actions/checkout#2280), which makes `npm publish --provenance` fail
+          # with "422 ... Missing SourceRepositoryRef in signing certificate".
+          ref: ${{ github.event.release.tag_name }}
 
       - name: Cache turbo build setup
         uses: actions/cache@v5
