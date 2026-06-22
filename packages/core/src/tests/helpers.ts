@@ -78,7 +78,7 @@ export function createSecureRng(): CryptoRng {
   return {
     fill(buffer: Uint8Array): void {
       if (globalThis.crypto?.getRandomValues !== undefined) {
-        globalThis.crypto.getRandomValues(buffer);
+        globalThis.crypto.getRandomValues(buffer as Uint8Array<ArrayBuffer>);
       } else {
         // Node.js environment - use crypto.getRandomValues which is available in modern Node
         throw new Error("No secure random source available - Web Crypto API required");

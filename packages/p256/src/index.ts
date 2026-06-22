@@ -1066,7 +1066,7 @@ class P256Sha256Impl implements RandomizedCiphersuite {
       typeof verifyingKey === "object" &&
       verifyingKey !== null &&
       "serialize" in verifyingKey &&
-      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+      typeof verifyingKey.serialize === "function"
     ) {
       pkBytes = (verifyingKey as VerifyingKey<P256Sha256Impl>).serialize();
     } else {
@@ -1100,7 +1100,7 @@ class P256Sha256Impl implements RandomizedCiphersuite {
       typeof verifyingKey === "object" &&
       verifyingKey !== null &&
       "serialize" in verifyingKey &&
-      typeof (verifyingKey as { serialize: unknown }).serialize === "function"
+      typeof verifyingKey.serialize === "function"
     ) {
       vkBytes = (verifyingKey as VerifyingKey<P256Sha256Impl>).serialize();
     } else {

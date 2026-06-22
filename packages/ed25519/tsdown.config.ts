@@ -11,12 +11,14 @@ export default defineConfig({
   minify: false,
   target: "es2022",
   outDir: "dist",
-  external: [
-    "@frosts/core",
-    "@frosts/rerandomized",
-    "@noble/hashes/sha2.js",
-    "@noble/curves/ed25519.js",
-  ],
+  deps: {
+    neverBundle: [
+      "@frosts/core",
+      "@frosts/rerandomized",
+      "@noble/hashes/sha2.js",
+      "@noble/curves/ed25519.js",
+    ],
+  },
   platform: "neutral",
   globalName: "frostsEd25519",
   outputOptions: {

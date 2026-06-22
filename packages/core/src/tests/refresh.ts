@@ -133,7 +133,7 @@ export async function checkRefreshSharesWithDealerFailsWithInvalidSigners<C exte
 
   expect(() => {
     computeRefreshingShares(ciphersuite, pubKeyPackage, identifiers, rng);
-  }).toThrow(expectedError as Error);
+  }).toThrow(expectedError);
 }
 
 /**

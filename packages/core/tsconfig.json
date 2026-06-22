@@ -4,6 +4,13 @@
     "lib": ["ES2022", "DOM"],
     "skipLibCheck": true,
     "types": ["vitest/globals"],
+    // The interop tests resolve @frosts/ed25519 to its source (below) so they
+    // can be type-checked without a prior build of that package. TypeScript 6
+    // enforces that every source file in the program lives under `rootDir`
+    // (TS6059), so widen it to the workspace `packages/` directory to admit the
+    // pulled-in ed25519 sources. This only affects type-checking — the build is
+    // produced by tsdown, which derives output paths from its own entries.
+    "rootDir": "..",
     "paths": {
       "@frosts/ed25519": ["../ed25519/src/index.ts"]
     }

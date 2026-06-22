@@ -1,6 +1,6 @@
 {
   "name": "@frosts/core",
-  "version": "0.2.2-alpha.3",
+  "version": "0.2.2-alpha.4",
   "type": "module",
   "description": "Core types and traits for FROST (Flexible Round-Optimized Schnorr Threshold) signatures",
   "license": "MIT",
@@ -24,12 +24,20 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "default": "./dist/index.js"
-    }
+    },
+    "./tests": {
+      "types": "./dist/tests/index.d.ts",
+      "import": "./dist/tests/index.js",
+      "require": "./dist/tests/index.cjs",
+      "default": "./dist/tests/index.js"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "src",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsdown",
@@ -56,16 +64,16 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@frosts/eslint": "workspace:*",
     "@frosts/tsconfig": "workspace:*",
-    "@types/node": "^25.0.10",
-    "eslint": "^9.39.2",
-    "fast-check": "^4.5.3",
-    "prettier": "^3.8.1",
-    "tsdown": "^0.20.1",
-    "typedoc": "^0.28.5",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
+    "@types/node": "^26.0.0",
+    "eslint": "^10.5.0",
+    "fast-check": "^4.8.0",
+    "prettier": "^3.8.4",
+    "tsdown": "^0.22.3",
+    "typedoc": "^0.28.19",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
   }
 }

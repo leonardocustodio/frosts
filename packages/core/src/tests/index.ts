@@ -8,7 +8,7 @@
  *
  * Usage in a ciphersuite package:
  * ```typescript
- * import { tests } from "@frosts/core";
+ * import * as tests from "@frosts/core/tests";
  * import { Ristretto255Sha512 } from "../src/index.js";
  *
  * describe("CoefficientCommitment", () => {

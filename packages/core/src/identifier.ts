@@ -76,7 +76,7 @@ export class Identifier<C extends Ciphersuite> {
     if (scalar === null || scalar === undefined) {
       throw FrostError.identifierDerivationNotSupported();
     }
-    return Identifier.create(ciphersuite, scalar as Scalar<C>);
+    return Identifier.create(ciphersuite, scalar);
   }
 
   /**
@@ -139,7 +139,7 @@ export class Identifier<C extends Ciphersuite> {
       }
     }
 
-    return Identifier.create(ciphersuite, sum as Scalar<C>);
+    return Identifier.create(ciphersuite, sum);
   }
 
   /**

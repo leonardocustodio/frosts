@@ -29,7 +29,7 @@ export interface RandomSource {
 export class WebCryptoRandomSource implements RandomSource {
   fill(array: Uint8Array): void {
     if (globalThis.crypto?.getRandomValues !== undefined) {
-      globalThis.crypto.getRandomValues(array);
+      globalThis.crypto.getRandomValues(array as Uint8Array<ArrayBuffer>);
     } else {
       throw new Error("Web Crypto API not available");
     }
