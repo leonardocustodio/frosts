@@ -1,6 +1,6 @@
 {
   "name": "@frosts/ristretto255",
-  "version": "0.2.2-alpha.3",
+  "version": "0.2.2-alpha.4",
   "type": "module",
   "description": "FROST(ristretto255, SHA-512) - A Schnorr signature scheme over ristretto255 that supports FROST threshold signatures",
   "license": "MIT",
@@ -29,7 +29,8 @@
   "files": [
     "dist",
     "src",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsdown",

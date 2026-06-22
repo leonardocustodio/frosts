@@ -1,6 +1,6 @@
 {
   "name": "@frosts/rerandomized",
-  "version": "0.2.2-alpha.3",
+  "version": "0.2.2-alpha.4",
   "type": "module",
   "description": "Re-randomized FROST signatures for threshold cryptography with re-randomizable keys",
   "license": "MIT",
@@ -29,7 +29,8 @@
   "files": [
     "dist",
     "src",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsdown",
