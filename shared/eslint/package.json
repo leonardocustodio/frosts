@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "eslint-config-turbo": "^2.9.18",
-    "typescript": "6.0.3"
+    "typescript": "7.0.2"
   },
   "peerDependencies": {
     "eslint": "^10.0.0",
